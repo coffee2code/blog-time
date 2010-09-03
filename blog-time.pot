@@ -1,0 +1,82 @@
+# Translation of the WordPress plugin Blog Time 1.1 by Scott Reilly.
+# Copyright (C) 2010 Scott Reilly
+# This file is distributed under the same license as the Blog Time package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blog Time 1.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/blog-time\n"
+"POT-Creation-Date: 2010-09-03 15:01-0400\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: blog-time.php:54
+msgid "g:i A"
+msgstr ""
+
+#: blog-time.php:124
+msgid "Click to refresh blog time"
+msgstr ""
+
+#. #-#-#-#-#  blog-time.pot (Blog Time 1.1)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: blog-time.widget.php:24
+msgid "Blog Time"
+msgstr ""
+
+#: blog-time.widget.php:31
+msgid "Title"
+msgstr ""
+
+#: blog-time.widget.php:33
+msgid "Time format"
+msgstr ""
+
+#: blog-time.widget.php:34
+#, php-format
+msgid "PHP-style time format string. See %s for more info."
+msgstr ""
+
+#: blog-time.widget.php:36
+msgid "Before text"
+msgstr ""
+
+#: blog-time.widget.php:37
+msgid "Text to display before the time."
+msgstr ""
+
+#: blog-time.widget.php:39
+msgid "After text"
+msgstr ""
+
+#: blog-time.widget.php:40
+msgid "Text to display after the time."
+msgstr ""
+
+#: blog-time.widget.php:45
+msgid "The time according to your blog."
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://coffee2code.com/wp-plugins/blog-time/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Show a timestamp of your blog's time via a widget, admin widget, and/or "
+"template tag."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Scott Reilly"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://coffee2code.com"
+msgstr ""
