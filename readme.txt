@@ -3,9 +3,9 @@ Contributors: coffee2code
 Donate link: http://coffee2code.com/donate
 Tags: server, blog, time, datetime, admin, widget, widgets, template tag, coffee2code
 Requires at least: 2.8
-Tested up to: 3.0.1
-Stable tag: 1.1
-Version: 1.1
+Tested up to: 3.1
+Stable tag: 1.2
+Version: 1.2
 
 Display the time according to your blog via a widget, admin widget, and/or template tag.
 
@@ -20,6 +20,8 @@ Also provided is a "Blog Time" widget providing the same functionality as the ad
 NOTE: This plugin generates a timestamp and NOT a clock.  The time being displayed is the time of the page load, or if clicked, the time when the widget last retrieved the time.  It does not actively increment time on the display.
 
 This is most useful to see the server/blog time to judge when a time sensitive post, comment, or action would be dated by the blog (i.e. such as monitoring for when to close comments on a contest post, or just accounting for the server being hosted in a different timezone).
+
+Links: [Plugin Homepage]:(http://coffee2code.com/wp-plugins/blog-time/) | [Author Homepage]:(http://coffee2code.com)
 
 
 == Installation ==
@@ -88,6 +90,17 @@ function change_blog_time_format( $format ) {
 
 == Changelog ==
 
+= 1.2 =
+* Fix UI compatibility issue introduced by WP 3.1
+* Use class variable to store ID for the admin widget (and change it from previous value)
+* Switch from object instantiation to direct class invocation
+* Explicitly declare all functions public and class variables private
+* Move template tag functions and class initialization call within primary if(class_exists())
+* Output CSS in a single line
+* Rename widget class from 'BlogTimeWidget' to 'c2c_BlogTimeWidget'
+* Note compatibility through WP 3.1+
+* Update copyright date (2011)
+
 = 1.1 =
 * Rename blog_time() template tag to c2c_blog_time()
 * Deprecate blog_time() template tag, but retain it for backwards compatibility
@@ -114,6 +127,9 @@ function change_blog_time_format( $format ) {
 
 
 == Upgrade Notice ==
+
+= 1.2 =
+Recommended update: fixed incompatibility introduced by WP 3.1; updated copyright date; other minor code changes.
 
 = 1.1 =
 Recommended minor update. Highlights: added hook for customization; minor fixes and tweaks; renamed blog_time() to c2c_blog_time(); renamed class; verified WP 3.0 compatibility; dropped compatbility with versions of WP older than 2.8.

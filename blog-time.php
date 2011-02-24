@@ -2,18 +2,18 @@
 /**
  * @package Blog_Time
  * @author Scott Reilly
- * @version 1.1
+ * @version 1.2
  */
 /*
 Plugin Name: Blog Time
-Version: 1.1
+Version: 1.2
 Plugin URI: http://coffee2code.com/wp-plugins/blog-time/
 Author: Scott Reilly
 Author URI: http://coffee2code.com
 Text Domain: blog-time
 Description: Display the time according to your blog via a widget, admin widget, and/or template tag.
 
-Compatible with WordPress 2.8+, 2.9+, 3.0+.
+Compatible with WordPress 2.8+, 2.9+, 3.0+, 3.1+.
 
 =>> Read the accompanying readme.txt file for instructions and documentation.
 =>> Also, visit the plugin's homepage for additional information and updates.
@@ -22,7 +22,7 @@ Compatible with WordPress 2.8+, 2.9+, 3.0+.
 */
 
 /*
-Copyright (c) 2009-2010 by Scott Reilly (aka coffee2code)
+Copyright (c) 2009-2011 by Scott Reilly (aka coffee2code)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
@@ -40,31 +40,35 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 require_once( dirname( __FILE__ ) . '/blog-time.widget.php' );
 
 if ( !class_exists( 'c2c_BlogTime' ) ) :
+
 class c2c_BlogTime {
-	var $config = array();
-	var $textdomain = 'blog-time';
-	var $textdomain_subdir = '';
+	private static $config            = array();
+	private static $textdomain        = 'blog-time';
+	private static $textdomain_subdir = '';
+	private static $span_id           = 'blog-time-admin-widget';
 
 	/**
 	 * Constructor
 	 *
 	 */
-	function c2c_BlogTime() {
-		$this->config = array(
-			'time_format' => __( 'g:i A', $this->textdomain )
+	public function init() {
+		self::$config = array(
+			'time_format' => __( 'g:i A', self::$textdomain )
 		);
 
-		add_action( 'plugins_loaded', array( &$this, 'report_time' ), 1 );
-		add_action( 'init', array( &$this, 'init' ) );
+		add_action( 'init', array( __CLASS__, 'do_init' ) );
 	}
 
 	/**
 	 * Handle initialization
 	 */
-	function init() {
-		$this->load_textdomain();
-		add_action( 'admin_head', array( &$this, 'add_css' ) );
-		add_action( 'admin_print_footer_scripts', array( &$this, 'add_widget' ) );
+	public function do_init() {
+		self::load_textdomain();
+		add_action( 'admin_head',                 array( __CLASS__, 'add_css' ) );
+		add_action( 'admin_print_footer_scripts', array( __CLASS__, 'add_widget' ) );
+		add_action( 'wp_ajax_report_time',        array( __CLASS__, 'report_time' ) );
+		add_action( 'wp_ajax_nopriv_report_time', array( __CLASS__, 'report_time' ) );
+		add_action( 'wp_head',                    array( __CLASS__, 'set_js_ajaxurl' ) );
 	}
 
 	/**
@@ -72,9 +76,9 @@ class c2c_BlogTime {
 	 *
 	 * @return void
 	 */
-	function load_textdomain() {
-		$subdir = empty( $this->textdomain_subdir ) ? '' : '/'.$this->textdomain_subdir;
-		load_plugin_textdomain( $this->textdomain, false, basename( dirname( __FILE__ ) ) . $subdir );
+	public function load_textdomain() {
+		$subdir = empty( self::$textdomain_subdir ) ? '' : ( '/' . self::$textdomain_subdir );
+		load_plugin_textdomain( self::$textdomain, false, basename( dirname( __FILE__ ) ) . $subdir );
 	}
 
 	/**
@@ -83,10 +87,21 @@ class c2c_BlogTime {
 	 * @param string $time_format (optional) The format for the time string, if not the default.
 	 * @return string The time string
 	 */
-	function display_time( $time_format = '' ) {
+	public function display_time( $time_format = '' ) {
 		if ( empty( $time_format ) )
-			$time_format = apply_filters( 'blog_time_format', $this->config['time_format'] );
+			$time_format = apply_filters( 'blog_time_format', self::$config['time_format'] );
 		return date_i18n( $time_format, strtotime( current_time( 'mysql' ) ) );
+	}
+
+	/**
+	 * Sets JS variables to paths useful for AJAX
+	 *
+	 * @since 1.2
+	 */
+	function set_js_ajaxurl() {
+		$ajaxurl = admin_url( 'admin-ajax.php' );
+		$wpcontenturl = get_stylesheet_directory_uri();
+		echo "<script type='text/javascript'>var ajaxurl = '$ajaxurl'; var wpcontenturl = '$wpcontenturl';</script>\n";
 	}
 
 	/**
@@ -95,10 +110,8 @@ class c2c_BlogTime {
 	 * @return void
 	 */
 	function report_time() {
-		if ( is_admin() && isset( $_GET['blog_time'] ) && $_GET['blog_time'] == '1' ) {
-			echo $this->display_time();
-			exit();
-		}
+		echo self::display_time();
+		exit();
 	}
 
 	/**
@@ -107,12 +120,7 @@ class c2c_BlogTime {
 	 * @return void (Text is echoed.)
 	 */
 	function add_css() {
-		echo <<<CSS
-		<style type="text/css">
-		#blog-time {display:none;}
-		</style>
-
-CSS;
+		echo '<style type="text/css">#' . self::$span_id . "{display:none;}</style>\n";
 	}
 
 	/**
@@ -121,14 +129,17 @@ CSS;
 	 * @return void (Text is echoed.)
 	 */
 	function add_widget() {
-		echo "<span id='blog-time'> | <a href='#' title='" . __( 'Click to refresh blog time', $this->textdomain ) . "'>" .
-			$this->display_time() . "</a></span>\n";
+		$span_id = self::$span_id;
+		echo "<span id='$span_id'> | <a href='#' title='" . __( 'Click to refresh blog time', self::$textdomain ) . "'>" .
+			self::display_time() . "</a></span>\n";
 		echo <<<JS
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
-			$('#blog-time').insertAfter($('#user_info p a:first')).show();
-			$('#blog-time a').click( function() {
-				$(this).load('/wp-admin/?blog_time=1');
+			$('#$span_id').insertAfter($('#user_info p a:first')).show();
+			$('#$span_id a').click(function() {
+				$.get(ajaxurl, {action: 'report_time'}, function(data) {
+					$('#$span_id a').html(data);
+				});
 				return false;
 			});
 		});
@@ -139,37 +150,37 @@ JS;
 
 } // end c2c_BlogTime
 
-endif; // end if !class_exists()
 
-if ( class_exists( 'c2c_BlogTime' ) ) {
-	$GLOBALS['c2c_blog_time'] = new c2c_BlogTime();
+c2c_BlogTime::init();
 
-	// Template tag
-	if ( !function_exists( 'c2c_blog_time' ) ) {
-		/**
-		 * Template tag to display the blog's time.
-		 *
-		 * @since 1.1
-		 * @param string $time_format PHP-style datetime format string. Uses plugin default if not specified.
-		 * @param boolean $echo Optional. Echo the time to the page?
-		 * @return string The formatted blog time.
-		 */
-		function c2c_blog_time( $time_format = '', $echo = true ) {
-			$val = $GLOBALS['c2c_blog_time'] ? $GLOBALS['c2c_blog_time']->display_time( $time_format ) : '';
-			if ( $echo ) echo $val;
-			return $val;
-		}
-		add_filter( 'c2c_blog_time', 'c2c_blog_time', 10, 2 );
+// Template tag
+if ( !function_exists( 'c2c_blog_time' ) ) {
+	/**
+	 * Template tag to display the blog's time.
+	 *
+	 * @since 1.1
+	 * @param string $time_format PHP-style datetime format string. Uses plugin default if not specified.
+	 * @param boolean $echo Optional. Echo the time to the page?
+	 * @return string The formatted blog time.
+	 */
+	function c2c_blog_time( $time_format = '', $echo = true ) {
+		$val = c2c_BlogTime::display_time( $time_format );
+		if ( $echo ) echo $val;
+		return $val;
 	}
-	// Deprecated
-	if ( !function_exists( 'blog_time' ) ) {
-		/**
-		 * @deprecated 1.1 Use c2c_blog_time() instead
-		 */
-		function blog_time( $time_format = '', $echo = true ) {
-			return c2c_blog_time( $time_format, $echo );
-		}
+	add_filter( 'c2c_blog_time', 'c2c_blog_time', 10, 2 );
+}
+
+// Deprecated
+if ( !function_exists( 'blog_time' ) ) {
+	/**
+	 * @deprecated 1.1 Use c2c_blog_time() instead
+	 */
+	function blog_time( $time_format = '', $echo = true ) {
+		_deprecated_function( __FUNCTION__, '1.1', 'c2c_blog_time()' );
+		return c2c_blog_time( $time_format, $echo );
 	}
 }
 
+endif; // end if !class_exists()
 ?>

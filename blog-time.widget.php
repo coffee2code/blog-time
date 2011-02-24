@@ -2,25 +2,26 @@
 /**
  * @package Blog_Time_Widget
  * @author Scott Reilly
- * @version 001
+ * @version 002
  */
 /*
  * Blog Time plugin widget code
  *
- * Copyright (c) 2009-2010 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2009-2011 by Scott Reilly (aka coffee2code)
  *
  */
 
-if ( class_exists( 'WP_Widget' ) && !class_exists( 'BlogTimeWidget' ) ) :
-class BlogTimeWidget extends WP_Widget {
-	var $widget_id = 'blog_time';
-	var $textdomain = 'blog-time';
-	var $title = '';
-	var $description = '';
-	var $config = array();
-	var $defaults = array();
+if ( class_exists( 'WP_Widget' ) && !class_exists( 'c2c_BlogTimeWidget' ) ) :
 
-	function BlogTimeWidget() {
+class c2c_BlogTimeWidget extends WP_Widget {
+	private $widget_id = 'blog_time';
+	private $textdomain = 'blog-time';
+	private $title = '';
+	private $description = '';
+	private $config = array();
+	private $defaults = array();
+
+	public function c2c_BlogTimeWidget() {
 		$this->title = __( 'Blog Time', $this->textdomain );
 
 		$this->config = array(
@@ -47,8 +48,8 @@ class BlogTimeWidget extends WP_Widget {
 		$this->WP_Widget( $this->widget_id, $this->title, $widget_ops, $control_ops );
 	}
 
-	function widget( $args, $instance ) {
-		extract($args);
+	public function widget( $args, $instance ) {
+		extract( $args );
 
 		/* Settings */
 		foreach ( array_keys( $this->config ) as $key )
@@ -67,7 +68,7 @@ class BlogTimeWidget extends WP_Widget {
 		echo $after_widget;
 	}
 
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		foreach ( $new_instance as $key => $value )
 			$instance[$key] = $value;
@@ -76,7 +77,7 @@ class BlogTimeWidget extends WP_Widget {
 		return $instance;
 	}
 
-	function form( $instance ) {
+	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, $this->defaults );
 		$i = $j = 0;
 		foreach ( $instance as $opt => $value ) {
@@ -165,9 +166,9 @@ class BlogTimeWidget extends WP_Widget {
 		for ( ; $j > 0; $j-- ) { echo '</div>'; }
 	}
 
-} // end class BlogTime
+} // end class c2c_BlogTimeWidget
 
-add_action( 'widgets_init', create_function('', 'register_widget(\'BlogTimeWidget\');') );
+add_action( 'widgets_init', create_function('', 'register_widget(\'c2c_BlogTimeWidget\');') );
 
 endif; // end if !class_exists()
 ?>
