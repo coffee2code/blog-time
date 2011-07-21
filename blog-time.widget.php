@@ -11,7 +11,7 @@
  *
  */
 
-if ( class_exists( 'WP_Widget' ) && !class_exists( 'c2c_BlogTimeWidget' ) ) :
+if ( class_exists( 'WP_Widget' ) && ! class_exists( 'c2c_BlogTimeWidget' ) ) :
 
 class c2c_BlogTimeWidget extends WP_Widget {
 	private $widget_id = 'blog_time';
@@ -62,7 +62,9 @@ class c2c_BlogTimeWidget extends WP_Widget {
 
 		// Widget content
 		if ( $before ) echo $before;
+		echo "<div id='user_info'>";
 		c2c_blog_time( $format );
+		echo "</div>";
 		if ( $after ) echo $after;
 
 		echo $after_widget;

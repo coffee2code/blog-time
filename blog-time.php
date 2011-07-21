@@ -2,11 +2,11 @@
 /**
  * @package Blog_Time
  * @author Scott Reilly
- * @version 1.3
+ * @version 2.0
  */
 /*
 Plugin Name: Blog Time
-Version: 1.3
+Version: 2.0
 Plugin URI: http://coffee2code.com/wp-plugins/blog-time/
 Author: Scott Reilly
 Author URI: http://coffee2code.com
@@ -18,6 +18,14 @@ Compatible with WordPress 3.1+, 3.2+.
 =>> Read the accompanying readme.txt file for instructions and documentation.
 =>> Also, visit the plugin's homepage for additional information and updates.
 =>> Or visit: http://wordpress.org/extend/plugins/blog-time/
+
+TODO:
+	* Update screenshots for WP 3.2
+	* Use C2C_Widget widget framework
+	* Time format string doesn't currently apply to dynamic clock. Make it work, or remove option to customize time format
+	* No need to bother AJAXifiying clock link when it is dynamic
+	* Add support for widget to have dynamic mode
+	* Since jqClock already supports it, facilitate displaying server date?
 
 */
 
@@ -64,6 +72,7 @@ class c2c_BlogTime {
 	 */
 	public function do_init() {
 		self::load_textdomain();
+		add_action( 'admin_enqueue_scripts',      array( __CLASS__, 'enqueue_js' ) );
 		add_action( 'admin_head',                 array( __CLASS__, 'add_css' ) );
 		add_action( 'admin_print_footer_scripts', array( __CLASS__, 'add_js' ) );
 		add_action( 'in_admin_header',            array( __CLASS__, 'add_widget' ) );
@@ -100,9 +109,23 @@ class c2c_BlogTime {
 	 * Only needed on front-end for widget since admin already sets this.
 	 *
 	 * @since 1.2
+	 *
+	 * @return void
 	 */
 	function set_js_ajaxurl() {
 		echo '<script type="text/javascript">var ajaxurl = \'' . admin_url( 'admin-ajax.php' ) . "';</script>\n";
+	}
+
+	/**
+	 * Enqueues JS
+	 *
+	 * @since 2.0
+	 *
+	 * @return void
+	 */
+	public function enqueue_js() {
+		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'jqclock' , plugins_url( '/js/jqClock.min.js' , __FILE__ ), array( 'jquery' ), '2.0.1', true );
 	}
 
 	/**
@@ -127,6 +150,7 @@ class c2c_BlogTime {
 			echo 'line-height:46px;height:46px;margin-top:0;';
 		echo "}\n";
 		echo '.no-js #' . self::$span_id . " {margin-top:2px;}\n";
+		echo '#' . self::$span_id . '-time, .clockdate {display:none;}';
 		echo "</style>\n";
 	}
 
@@ -137,6 +161,7 @@ class c2c_BlogTime {
 	 */
 	function add_widget() {
 		$span_id = self::$span_id;
+		echo "<span id='$span_id-time'>" . (date_i18n('U')+4*60*60) . '</span>';
 		echo "<span id='$span_id'><a href='' title='" . __( 'Click to refresh blog time', self::$textdomain ) . "'>" .
 			self::display_time() . "</a></span>\n";
 	}
@@ -144,24 +169,31 @@ class c2c_BlogTime {
 	/**
 	 * Outputs Javascript
 	 *
-	 * @since 1.3
+	 * @since 2.0
 	 *
 	 * @return void (Text is echoed.)
 	 */
 	function add_js() {
 		$span_id = self::$span_id;
-		$action = apply_filters( 'c2c_blog_time_js_insert_action', 'insertBefore' );
-		$target = apply_filters( 'c2c_blog_time_target', '#user_info' );
+		$action  = apply_filters( 'c2c_blog_time_js_insert_action', 'insertBefore' );
+		$target  = apply_filters( 'c2c_blog_time_target', '#user_info' );
+		$dynamic = apply_filters( 'c2c_blog_time_active_clock', true ) !== false ? 'true' : 'false';
 		echo <<<JS
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			$('#$span_id').{$action}($('{$target}')).show();
-			$('#$span_id a').click(function() {
-				$.get(ajaxurl, {action: 'report_time'}, function(data) {
-					$('#$span_id a').html(data);
+			if ($dynamic) {
+				$('#$span_id a').clock({"timestamp":parseFloat($('#$span_id-time').text() * 1000)});
+				$('#$span_id a').click(function() { return false; });
+			}
+			else {
+				$('#$span_id a').click(function() {
+					$.get(ajaxurl, {action: 'report_time'}, function(data) {
+						$('#$span_id a').html(data);
+					});
+					return false;
 				});
-				return false;
-			});
+			}
 		});
 		</script>
 
@@ -179,6 +211,7 @@ if ( ! function_exists( 'c2c_blog_time' ) ) {
 	 * Template tag to display the blog's time.
 	 *
 	 * @since 1.1
+	 *
 	 * @param string $time_format PHP-style datetime format string. Uses plugin default if not specified.
 	 * @param boolean $echo Optional. Echo the time to the page?
 	 * @return string The formatted blog time.
