@@ -1,17 +1,17 @@
 === Blog Time ===
 Contributors: coffee2code
 Donate link: http://coffee2code.com/donate
-Tags: server, blog, time, datetime, admin, widget, widgets, template tag, coffee2code
-Requires at least: 3.1
-Tested up to: 3.2
-Stable tag: 2.0
-Version: 2.0
+Tags: server, blog, time, clock, datetime, admin, widget, widgets, template tag, coffee2code
+Requires at least: 3.3
+Tested up to: 3.3.1
+Stable tag: 3.0
+Version: 3.0
 
-Display the time according to your blog via a widget, admin widget, and/or template tag.
+Display the time according to your blog via admin toolbar widget, a sidebar widget, and/or template tag.
 
 == Description ==
 
-Display the time according to your blog via a widget, admin widget, and/or template tag.
+Display the time according to your blog via admin toolbar widget, a sidebar widget, and/or template tag.
 
 This plugin adds a dynamic functional clock to the top of all admin pages to show the server time for the blog.  The clock automatically updates as time passes, as you would expect of a digital clock.
 
@@ -23,7 +23,7 @@ NOTE: For the front-end widget, this plugin generates a timestamp and NOT a cloc
 
 This is most useful to see the server/blog time to judge when a time sensitive post, comment, or action would be dated by the blog (i.e. such as monitoring for when to close comments on a contest post, or just accounting for the server being hosted in a different timezone).
 
-Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Author Homepage](http://coffee2code.com)
+Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Plugin Directory Page](http://wordpress.org/extend/plugins/blog-time/) | [Author Homepage](http://coffee2code.com)
 
 
 == Installation ==
@@ -39,11 +39,11 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Author
 
 The widget and template tag allow you specify a time format directly. The default value for the time format, and the one used by the display of the blog time in the static admin widget, can be overridden by adding a filter to 'blog_time_format' and returning the desired time format.  See http://php.net/date for more information regarding the time format.
 
-NOTE: The time string is currently only configurable for the static clock and the widget, not the dynamic clock enabled by default in the admin.
+NOTE: The time string is currently only configurable for the static clock and the widget, not the dynamic admin toolbar clock enabled by default.
 
 = Why is the time not changing in the sidebar widget? =
 
-This plugin does not (yet) provide an active clock that continues to update to reflect the current time as time passes for the sidebar widget.  It merely displays the current time, according to your server, at the time the page was created and sent to your browser.  You can click on the time itself to see it dynamically refresh (without a page reload) to the current time.  Or if the page gets manually reloaded you'll see a new current time.  The dynamic clock is currently only available to the admin widget.
+This plugin does not (yet) provide an active clock that continues to update to reflect the current time as time passes for the sidebar widget.  It merely displays the current time, according to your server, at the time the page was created and sent to your browser.  You can click on the time itself to see it dynamically refresh (without a page reload) to the current time.  Or if the page gets manually reloaded you'll see a new current time.  The dynamic clock is currently only available to the admin toolbar widget.
 
 = The time matches my computer's time; how do I know this thing is working? =
 
@@ -56,13 +56,13 @@ See the Filters section for the `c2c_blog_time_active_clock` filter, which inclu
 
 == Screenshots ==
 
-1. A screenshot of the 'Blog Time' widget.
-2. A screenshot of the blog time being displayed in the admin header.
+1. A screenshot of the blog time being displayed in the admin toolbar.
+2. A screenshot of the 'Blog Time' widget.
 
 
 == Filters ==
 
-The plugin exposes five filters for hooking.  Typically, customizations utilizing these hooks would be put into your active theme's functions.php file, or used by another plugin.
+The plugin exposes four filters for hooking.  Typically, customizations utilizing these hooks would be put into your active theme's functions.php file, or used by another plugin.
 
 = c2c_blog_time (filter) =
 
@@ -84,7 +84,7 @@ Do:
 
 = blog_time_format (filter) =
 
-The 'blog_time_format' hook allows you to customize the default format for the blog time.  By default this is 'g:i A' (though this may be different if modified by localization).
+The 'blog_time_format' hook allows you to customize the default format for the blog time.  By default this is 'g:i A' (though this may be different if modified by localization). *NOTE: This currently only applies to the static clock and not the dynamic clock.*
 
 Arguments:
 
@@ -100,44 +100,21 @@ function change_blog_time_format( $format ) {
 }
 `
 
-= c2c_blog_time_js_insert_action (filter) =
+= c2c_blog_time_toolbar_widget_for_user (filter) =
 
-The 'c2c_blog_time_js_insert_action' hook allows you to customize the default jQuery manipulation function used to insert the plugin's admin widget into the admin interface.  The insert method is performed relative to the DOM target (as filtered via 'c2c_blog_time_target').  By default this is 'insertBefore'.
+The 'c2c_blog_time_toolbar_widget_for_user' hook allows you to control if the admin toolbar clock widget should be shown, on a per-user basis. By default the admin toolbar clock is shown to everyone who can see the admin toolbar.
 
 Arguments:
 
-* $format (string): The default JS insert action for the blog time widget.
+* $shown (boolean): Whether the admin toolbar clock widget should be shown. Default of true.
 
 Example:
 
 `
-// Change the location of the blog time widget to *before* the "Howdy" in the upper-right of admin pages
-add_filter( 'c2c_blog_time_js_insert_action', 'change_blog_time_insert_action' );
-function change_blog_time_insert_action( $format ) {
-	return 'insertAfter';
-}
-`
-
-= c2c_blog_time_target (filter) =
-
-The 'c2c_blog_time_target' hook allows you to customize the DOM target relative to which the insertion action (as filtered via 'c2c_blog_time_js_insert_action') is performed.  By default this is '#user_info'. NOTE: More than likely you'll also probably want to override the CSS for '#blog-time-admin-widget' to at least change the float (see example).
-
-Arguments:
-
-* $target (string): The DOM target relative to which insertion action is performed for the blog time widget.
-
-Example:
-
-`
-// Insert the blog widget before the WP logo
-add_filter( 'c2c_blog_time_target', 'change_blog_time_target' );
-function change_blog_time_target( $target ) {
-	return '#site-heading';
-}
-// Need to override plugin's default CSS for the widget since it has float:right by default
-add_action( 'admin_head', 'change_blog_time_admin_css', 20 );
-function change_blog_time_admin_css() {
-	echo '<style type="text/css">#blog-time-admin-widget { float:left; }</style>';
+// Only show the admin toolbar clock for the 'boss' user.
+add_filter( 'c2c_blog_time_toolbar_widget_for_user', 'restrict_blog_time_widget_appearance' );
+function restrict_blog_time_widget_appearance( $show ) {
+	return 'boss' == get_current_user()->user_login;
 }
 `
 
@@ -157,12 +134,39 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 `
 
 
-== Credits ==
-
-Special thanks to John R. D'Orazio (Lwangaman) for [jqClock](https://github.com/Lwangaman/jQuery-Clock-Plugin) which was used to make the blog time timestamp an actual functioning clock.
-
-
 == Changelog ==
+
+= 3.0 =
+* Move admin widget into admin toolbar
+* Discontinue inclusion of jqClock jQuery plugin and instead use custom developed code
+* Fix bug with incorrect hour being shown for dynamic clock
+* Change JavaScript to detect if 'c2c-blog-time-dynamic' class is present on span to determine if clock should be dynamic
+* Add support for dynamic clock in sidebar widget
+* Support multiple occurrences of widget (admin and/or sidebar) on single page
+* Update widget to use C2C_Widget base class (v005)
+* Clear link title attribute when using dynamic clock since instructions for clicking to update don't apply
+* Enqueue JavaScript (which has been moved into new js/blog-time.js)
+* Enqueue JavaScript on front-end also if admin toolbar or widget are being shown
+* Add filter 'c2c_blog_time_toolbar_widget_for_user' for per-user control of admin toolbar widget (default is true)
+* Remove support for 'c2c_blog_time_js_insert_action' filter
+* Remove support for 'c2c_blog_time_target' filter
+* Add version() to return plugin version
+* Add admin_bar_menu(), is_wp_login(), show_in_toolbar_for_user()
+* Remove load_textdomain(), add_js()
+* Remove support for deprecated blog_time()
+* Code reformatting (function reorganization)
+* Note compatibility through WP 3.3+
+* Drop support for versions of WP older than 3.3
+* Create 'lang' subdirectory and move .pot file into it
+* Regenerate .pot
+* Change description
+* Add 'Domain Path' directive to top of main plugin file
+* Add link to plugin directory page to readme.txt
+* Update screenshots (now based on WP 3.3)
+* Update copyright date (2012)
+
+= 2.0.1 =
+* Fix bug relating to showing time in incorrect timezone
 
 = 2.0 =
 * Integrate jqClock to provide dynamic clock in admin section
@@ -218,6 +222,12 @@ Special thanks to John R. D'Orazio (Lwangaman) for [jqClock](https://github.com/
 
 
 == Upgrade Notice ==
+
+= 3.0 =
+Major update: Admin widget now appears in admin toolbar; new dynamic JS clock; fixed JS clock time bug; added support for WP 3.3+; dropped support for versions of WP older than 3.3; internationalization; and a lot more.
+
+= 2.0.1 =
+Recommended update: fixed bug relating to showing time in incorrect timezone.
 
 = 2.0 =
 Feature update: added dynamic clock capability (new default behavior; admin side only); added more hooks; display admin widget even if JS disabled; noted compatibility with WP 3.2; dropped compatibility with versions of WP older than 3.1; and more.

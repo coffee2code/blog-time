@@ -2,35 +2,32 @@
 /**
  * @package Blog_Time
  * @author Scott Reilly
- * @version 2.0
+ * @version 3.0
  */
 /*
 Plugin Name: Blog Time
-Version: 2.0
+Version: 3.0
 Plugin URI: http://coffee2code.com/wp-plugins/blog-time/
 Author: Scott Reilly
-Author URI: http://coffee2code.com
+Author URI: http://coffee2code.com/
 Text Domain: blog-time
-Description: Display the time according to your blog via a widget, admin widget, and/or template tag.
+Domain Path: /lang/
+Description: Display the time according to your blog via admin toolbar widget, a sidebar widget, and/or template tag.
 
-Compatible with WordPress 3.1+, 3.2+.
+Compatible with WordPress 3.3+.
 
 =>> Read the accompanying readme.txt file for instructions and documentation.
 =>> Also, visit the plugin's homepage for additional information and updates.
 =>> Or visit: http://wordpress.org/extend/plugins/blog-time/
 
 TODO:
-	* Update screenshots for WP 3.2
-	* Use C2C_Widget widget framework
+	* Document template tag
 	* Time format string doesn't currently apply to dynamic clock. Make it work, or remove option to customize time format
-	* No need to bother AJAXifiying clock link when it is dynamic
-	* Add support for widget to have dynamic mode
-	* Since jqClock already supports it, facilitate displaying server date?
-
+	* Add support for per-user setting for controlling admin toolbar widget (and if not shown, don't enqueue JS or CSS)
 */
 
 /*
-Copyright (c) 2009-2011 by Scott Reilly (aka coffee2code)
+Copyright (c) 2009-2012 by Scott Reilly (aka coffee2code)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
@@ -50,20 +47,23 @@ require_once( dirname( __FILE__ ) . '/blog-time.widget.php' );
 if ( ! class_exists( 'c2c_BlogTime' ) ) :
 
 class c2c_BlogTime {
-	private static $config            = array();
-	private static $textdomain        = 'blog-time';
-	private static $textdomain_subdir = '';
-	private static $span_id           = 'blog-time-admin-widget';
+	private static $config     = array();
+	private static $textdomain = 'blog-time';
+
+	/**
+	 * Returns version of the plugin.
+	 *
+	 * @since 3.0
+	 */
+	public static function version() {
+		return '3.0';
+	}
 
 	/**
 	 * Constructor
 	 *
 	 */
 	public function init() {
-		self::$config = array(
-			'time_format' => __( 'g:i A', self::$textdomain )
-		);
-
 		add_action( 'init', array( __CLASS__, 'do_init' ) );
 	}
 
@@ -71,24 +71,108 @@ class c2c_BlogTime {
 	 * Handle initialization
 	 */
 	public function do_init() {
-		self::load_textdomain();
+		load_plugin_textdomain( self::$textdomain, false, basename( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'lang' );
+
+		self::$config = array(
+			'time_format' => __( 'g:i A', self::$textdomain )
+		);
+
+		add_action( 'admin_bar_menu',             array( __CLASS__, 'admin_bar_menu' ), 500 );
 		add_action( 'admin_enqueue_scripts',      array( __CLASS__, 'enqueue_js' ) );
+		add_action( 'wp_enqueue_scripts',         array( __CLASS__, 'enqueue_js' ) );
 		add_action( 'admin_head',                 array( __CLASS__, 'add_css' ) );
-		add_action( 'admin_print_footer_scripts', array( __CLASS__, 'add_js' ) );
-		add_action( 'in_admin_header',            array( __CLASS__, 'add_widget' ) );
+		add_action( 'wp_head',                    array( __CLASS__, 'add_css' ) );
 		add_action( 'wp_ajax_report_time',        array( __CLASS__, 'report_time' ) );
 		add_action( 'wp_ajax_nopriv_report_time', array( __CLASS__, 'report_time' ) );
 		add_action( 'wp_head',                    array( __CLASS__, 'set_js_ajaxurl' ) );
 	}
 
 	/**
-	 * Loads the localization textdomain for the plugin.
+	 * Sets JS variable to path necessary for AJAX
+	 *
+	 * Only needed on front-end for widget since admin already sets this.
+	 *
+	 * @since 1.2
 	 *
 	 * @return void
 	 */
-	public function load_textdomain() {
-		$subdir = empty( self::$textdomain_subdir ) ? '' : ( '/' . self::$textdomain_subdir );
-		load_plugin_textdomain( self::$textdomain, false, basename( dirname( __FILE__ ) ) . $subdir );
+	public function set_js_ajaxurl() {
+		echo '<script type="text/javascript">var ajaxurl = \'' . admin_url( 'admin-ajax.php' ) . "';</script>\n";
+	}
+
+	/**
+	 * Are we on the wp-login.php page?
+	 *
+	 * We can get here while logged in and break the page as the admin bar
+	 * isn't shown and other things the js relies on aren't available.
+	 *
+	 * @since 3.0
+	 *
+	 * @return boolean
+	 */
+	protected function is_wp_login() {
+		return 'wp-login.php' == basename( $_SERVER['SCRIPT_NAME'] );
+	}
+
+	/**
+	 * Is the blog time admin toolbar widget enabled for the specified user?
+	 *
+	 * TODO: This is mostly a placeholder for future functionality whereby
+	 * the admin toolbar widget is controlled on a per-user basis via a
+	 * user option.
+	 *
+	 * @since 3.0
+	 *
+	 * @return boolean True if enabled, false if not
+	 */
+	public function show_in_toolbar_for_user() {
+		return is_admin_bar_showing() ?
+			apply_filters( 'c2c_blog_time_toolbar_widget_for_user', true ) :
+			false;
+	}
+
+	/**
+	 * Enqueues JS
+	 *
+	 * @since 2.0
+	 *
+	 * @param boolean $force (optional) Enqueue scripts regardless of admin toolbar check? (Typically when widget is displayed)
+	 * @return void
+	 */
+	public function enqueue_js( $force = false ) {
+		if ( ! $force && ( ! is_admin_bar_showing() || self::is_wp_login() || ! self::show_in_toolbar_for_user() ) )
+			return;
+
+		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( __CLASS__, plugins_url( 'js/blog-time.js', __FILE__ ), array( 'jquery' ), self::version(), true );
+	}
+
+	/**
+	 * Adds time to admin toolbar
+	 *
+	 * @since 3.0
+	 */
+	public function admin_bar_menu() {
+		global $wp_admin_bar;
+
+		$wp_admin_bar->add_menu( array(
+			'id'     => 'c2c-blog-time',
+			'parent' => 'top-secondary',
+			'title'  => self::add_widget(),
+			'meta'   => array( 'class' => '', 'title' => __( 'Current blog time', self::$textdomain ) )
+		) );
+	}
+
+	/**
+	 * Outputs CSS
+	 *
+	 * @return void (Text is echoed.)
+	 */
+	public function add_css() {
+		echo '<style type="text/css">';
+		echo '.c2c-blog-time-widget-time {display:none;}';
+		echo '#wpadminbar .c2c-blog-time-widget-display a {padding:0;}';
+		echo "</style>\n";
 	}
 
 	/**
@@ -104,100 +188,42 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Sets JS variable to path necessary for AJAX
-	 *
-	 * Only needed on front-end for widget since admin already sets this.
-	 *
-	 * @since 1.2
-	 *
-	 * @return void
-	 */
-	function set_js_ajaxurl() {
-		echo '<script type="text/javascript">var ajaxurl = \'' . admin_url( 'admin-ajax.php' ) . "';</script>\n";
-	}
-
-	/**
-	 * Enqueues JS
-	 *
-	 * @since 2.0
-	 *
-	 * @return void
-	 */
-	public function enqueue_js() {
-		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'jqclock' , plugins_url( '/js/jqClock.min.js' , __FILE__ ), array( 'jquery' ), '2.0.1', true );
-	}
-
-	/**
 	 * The AJAX responder to return the blog time.
 	 *
 	 * @return void
 	 */
-	function report_time() {
+	public function report_time() {
 		echo self::display_time();
 		exit();
 	}
 
 	/**
-	 * Outputs CSS
-	 *
-	 * @return void (Text is echoed.)
-	 */
-	function add_css() {
-		global $wp_version; // Only for WP3.1 support
-		echo '<style type="text/css">#' . self::$span_id . '{float:right;line-height:26px;height:25px;padding:0 2px 0 6px;margin-top:3px;font-size:12px;';
-		if ( version_compare( '3.1.99', $wp_version ) > 0 ) // Only for WP3.1 support
-			echo 'line-height:46px;height:46px;margin-top:0;';
-		echo "}\n";
-		echo '.no-js #' . self::$span_id . " {margin-top:2px;}\n";
-		echo '#' . self::$span_id . '-time, .clockdate {display:none;}';
-		echo "</style>\n";
-	}
-
-	/**
 	 * Outputs the admin widget
 	 *
+	 * @param $args array (optional) Configuration array. Currently supports:
+	 *   dynamic (boolean|null) Should the clock by dynamic? Default is possibly filter 'true'.
+	 *   format (string) PHP time string format for the time. (Doesn't apply for dynamic clock.)
 	 * @return void (Text is echoed.)
 	 */
-	function add_widget() {
-		$span_id = self::$span_id;
-		echo "<span id='$span_id-time'>" . (date_i18n('U')+4*60*60) . '</span>';
-		echo "<span id='$span_id'><a href='' title='" . __( 'Click to refresh blog time', self::$textdomain ) . "'>" .
-			self::display_time() . "</a></span>\n";
-	}
+	public function add_widget( $args = array() ) {
+		$defaults = array(
+			'dynamic' => null,
+			'format'  => ''
+		);
+		$args = wp_parse_args( $args, $defaults );
 
-	/**
-	 * Outputs Javascript
-	 *
-	 * @since 2.0
-	 *
-	 * @return void (Text is echoed.)
-	 */
-	function add_js() {
-		$span_id = self::$span_id;
-		$action  = apply_filters( 'c2c_blog_time_js_insert_action', 'insertBefore' );
-		$target  = apply_filters( 'c2c_blog_time_target', '#user_info' );
-		$dynamic = apply_filters( 'c2c_blog_time_active_clock', true ) !== false ? 'true' : 'false';
-		echo <<<JS
-		<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			$('#$span_id').{$action}($('{$target}')).show();
-			if ($dynamic) {
-				$('#$span_id a').clock({"timestamp":parseFloat($('#$span_id-time').text() * 1000)});
-				$('#$span_id a').click(function() { return false; });
-			}
-			else {
-				$('#$span_id a').click(function() {
-					$.get(ajaxurl, {action: 'report_time'}, function(data) {
-						$('#$span_id a').html(data);
-					});
-					return false;
-				});
-			}
-		});
-		</script>
+		$time = self::display_time( 'U' ) + ( 5*3600 );
+		if ( is_null( $args['dynamic'] ) )
+			$dynamic = apply_filters( 'c2c_blog_time_active_clock', true ) !== false ? 'c2c-blog-time-dynamic' : '';
+		else
+			$dynamic = $args['dynamic'] == true ? 'c2c-blog-time-dynamic' : '';
 
-JS;
+		$out  = "<span class='c2c-blog-time-widget'><span class='c2c-blog-time-widget-time'>$time</span>";
+		$out .= "<span class='c2c-blog-time-widget-display $dynamic'>" .
+			"<a href='' title='" . __( 'Click to refresh blog time', self::$textdomain ) . "'>" .
+			self::display_time( $args['format'] ) . "</a></span></span>\n";
+
+		return $out;
 	}
 
 } // end c2c_BlogTime
@@ -222,17 +248,6 @@ if ( ! function_exists( 'c2c_blog_time' ) ) {
 		return $val;
 	}
 	add_filter( 'c2c_blog_time', 'c2c_blog_time', 10, 2 );
-}
-
-// Deprecated
-if ( ! function_exists( 'blog_time' ) ) {
-	/**
-	 * @deprecated 1.1 Use c2c_blog_time() instead
-	 */
-	function blog_time( $time_format = '', $echo = true ) {
-		_deprecated_function( __FUNCTION__, '1.1', 'c2c_blog_time()' );
-		return c2c_blog_time( $time_format, $echo );
-	}
 }
 
 endif; // end if !class_exists()

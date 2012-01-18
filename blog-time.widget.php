@@ -2,175 +2,91 @@
 /**
  * @package Blog_Time_Widget
  * @author Scott Reilly
- * @version 002
+ * @version 003
  */
 /*
  * Blog Time plugin widget code
  *
- * Copyright (c) 2009-2011 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2009-2012 by Scott Reilly (aka coffee2code)
  *
  */
 
-if ( class_exists( 'WP_Widget' ) && ! class_exists( 'c2c_BlogTimeWidget' ) ) :
+if ( ! class_exists( 'c2c_BlogTimeWidget' ) ) :
 
-class c2c_BlogTimeWidget extends WP_Widget {
-	private $widget_id = 'blog_time';
-	private $textdomain = 'blog-time';
-	private $title = '';
-	private $description = '';
-	private $config = array();
-	private $defaults = array();
+require_once( 'c2c-widget.php' );
 
-	public function c2c_BlogTimeWidget() {
-		$this->title = __( 'Blog Time', $this->textdomain );
+class c2c_BlogTimeWidget extends C2C_Widget_005 {
+
+	/**
+	 * Constructor
+	 */
+	function c2c_BlogTimeWidget() {
+		$this->C2C_Widget_005( 'blog-time', __FILE__ );
+	}
+
+	/**
+	 * Initializes the plugin's configuration and localizable text variables.
+	 *
+	 * @return void
+	 */
+	function load_config() {
+		$this->title       = __( 'Blog Time', $this->textdomain );
+		$this->description = __( 'The current time according to your site.', $this->textdomain );
 
 		$this->config = array(
-			// input can be 'checkbox', 'multiselect', 'select', 'short_text', 'text', 'textarea', 'hidden', or 'none'
-			// datatype can be 'array' or 'hash'
-			// can also specify input_attributes
-			'title' => array( 'input' => 'text', 'default' => $this->title,
+			'title'   => array( 'input' => 'text', 'default' => $this->title,
 					'label' => __( 'Title', $this->textdomain ) ),
-			'format' => array( 'input' => 'text', 'default' => 'g:i A',
+			'format'  => array( 'input' => 'text', 'default' => 'g:i A',
 					'label' => __( 'Time format', $this->textdomain ),
-					'help' => sprintf( __( 'PHP-style time format string. See %s for more info.', $this->textdomain ), '<a href="http://php.net/date" title="">http://php.net/date</a>' ) ),
-			'before' => array( 'input' => 'text', 'default' => '',
+					'help'  => sprintf( __( 'PHP-style time format string. See %s for more info. <em>Does not apply to dynamic clock.</em>', $this->textdomain ),
+						'<a href="http://php.net/date" title="">http://php.net/date</a>' ) ),
+			'dynamic' => array( 'input' => 'checkbox', 'default' => true,
+					'label' => __( 'Use dynamic clock?', $this->textdomain ),
+					'help'  => __( 'If checked, the widget will function like a regular clock, updating itself every minute.', $this->textdomain ) ),
+			'before'  => array( 'input' => 'text', 'default' => '',
 					'label' => __( 'Before text', $this->textdomain ),
-					'help' => __( 'Text to display before the time.', $this->textdomain ) ),
-			'after' => 	array( 'input' => 'text', 'default' => '',
+					'help'  => __( 'Text to display before the time.', $this->textdomain ) ),
+			'after'   => array( 'input' => 'text', 'default' => '',
 					'label' => __( 'After text', $this->textdomain ),
-					'help' => __( 'Text to display after the time.', $this->textdomain ) )
+					'help'  => __( 'Text to display after the time.', $this->textdomain ) )
 		);
-
-		foreach ( $this->config as $key => $value )
-			$this->defaults[$key] = $value['default'];
-		$widget_ops = array( 'classname' => 'widget_' . $this->widget_id, 'description' => __( 'The time according to your blog.', $this->textdomain ) );
-		$control_ops = array(); //array( 'width' => 400, 'height' => 350, 'id_base' => $this->widget_id );
-		$this->WP_Widget( $this->widget_id, $this->title, $widget_ops, $control_ops );
 	}
 
-	public function widget( $args, $instance ) {
+	/**
+	 * Outputs the body of the widget
+	 *
+	 * @param array $args Widget args
+	 * @param array $instance Widget instance
+	 * @param array $settings Widget settings
+	 * @return void (Text is echoed.)
+	 */
+	function widget_body( $args, $instance, $settings ) {
 		extract( $args );
+		extract( $settings );
 
-		/* Settings */
-		foreach ( array_keys( $this->config ) as $key )
-			$$key = apply_filters( 'blog_time_'.$key, $instance[$key] );
-
-		echo $before_widget;
-
-		if ( $title )
-			echo $before_title . $title . $after_title;
+		// Ensure JS is enqueued
+		c2c_BlogTime::enqueue_js( true );
 
 		// Widget content
-		if ( $before ) echo $before;
+		if ( $before )
+			echo $before;
+
 		echo "<div id='user_info'>";
-		c2c_blog_time( $format );
+
+		echo c2c_BlogTime::add_widget( array( 'dynamic' => ! empty( $dynamic ), 'format' => $format ) );
+
 		echo "</div>";
-		if ( $after ) echo $after;
 
-		echo $after_widget;
-	}
-
-	public function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-		foreach ( $new_instance as $key => $value )
-			$instance[$key] = $value;
-		if ( !trim( $instance['format'] ) )
-			$instance['format'] = $this->defaults['format'];
-		return $instance;
-	}
-
-	public function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, $this->defaults );
-		$i = $j = 0;
-		foreach ( $instance as $opt => $value ) {
-			if ( $opt == 'submit' ) continue;
-//			if ( in_array( $opt, $exclude_options ) ) continue;
-
-			foreach ( array( 'datatype', 'default', 'help', 'input', 'input_attributes', 'label', 'no_wrap', 'options' ) as $attrib ) {
-				if ( !isset( $this->config[$opt][$attrib] ) )
-					$this->config[$opt][$attrib] = '';
-			}
-
-			$input = $this->config[$opt]['input'];
-			$label = $this->config[$opt]['label'];
-			if ( $input == 'none' ) {
-				if ( $opt == 'more' ) {
-					$i++; $j++;
-					echo "<p>$label</p>";
-					echo "<div class='widget-group widget-group-$i'>";
-				} elseif ( $opt == 'endmore' ) {
-					$j--;
-					echo '</div>';
-				}
-				continue;
-			}
-			if ( $input == 'checkbox' ) {
-				$checked = ( $value == 1 ) ? 'checked=checked ' : '';
-				$value = 1;
-			} else {
-				$checked = '';
-			};
-			if ( $input == 'multiselect' ) {
-				// Do nothing since it needs the values as an array
-			} elseif ( $this->config[$opt]['datatype'] == 'array' ) {
-				if ( !is_array( $value ) )
-					$value = '';
-				else 
-					$value = implode( ('textarea' == $input ? "\n" : ', '), $value );
-			} elseif ( $this->config[$opt]['datatype'] == 'hash' ) {
-				if ( !is_array( $value ) )
-					$value = '';
-				else {
-					$new_value = '';
-					foreach ( $value AS $shortcut => $replacement )
-						$new_value .= "$shortcut => $replacement\n";
-					$value = $new_value;
-				}
-			}
-			echo "<p>";
-			$input_id = $this->get_field_id( $opt );
-			$input_name = $this->get_field_name( $opt );
-			$value = esc_attr( $value );
-			if ( $label && ( $input != 'multiselect' ) ) echo "<label for='$input_id'>$label:</label> ";
-			if ( $input == 'textarea' ) {
-				echo "<textarea name='$input_name' id='$input_id' class='widefat' {$this->config[$opt]['input_attributes']}>" . $value . '</textarea>';
-			} elseif ( $input == 'select' ) {
-				echo "<select name='$input_name' id='$input_id'>";
-				foreach ( (array) $this->config[$opt]['options'] as $sopt ) {
-					$selected = $value == $sopt ? " selected='selected'" : '';
-					echo "<option value='$sopt'$selected>$sopt</option>";
-				}
-				echo "</select>";
-			} elseif ( $input == 'multiselect' ) {
-				echo '<fieldset style="border:1px solid #ccc; padding:2px 8px;">';
-				if ( $label ) echo "<legend>$label: </legend>";
-				foreach ( (array) $this->config[$opt]['options'] as $sopt ) {
-					$selected = in_array( $sopt, $value ) ? " checked='checked'" : '';
-					echo "<input type='checkbox' name='$input_name' id='$input_id' value='$sopt'$selected>$sopt</input><br />";
-				}
-				echo '</fieldset>';
-			} else {
-				if ( $input == 'short_text' ) {
-					$tclass = '';
-					$tstyle = 'width:25px;';
-					$input = 'text';
-				} else {
-					$tclass = 'widefat';
-					$tstyle = '';
-				}
-				echo "<input name='$input_name' type='$input' id='$input_id' value='$value' class='$tclass' style='$tstyle' $checked {$this->config[$opt]['input_attributes']} />";
-			}
-			if ( $this->config[$opt]['help'] )
-				echo "<br /><span style='color:#888; font-size:x-small;'>({$this->config[$opt]['help']})</span>";
-			echo "</p>\n";
-		}
-		// Close any open divs
-		for ( ; $j > 0; $j-- ) { echo '</div>'; }
+		if ( $after )
+			echo $after;
 	}
 
 } // end class c2c_BlogTimeWidget
 
-add_action( 'widgets_init', create_function('', 'register_widget(\'c2c_BlogTimeWidget\');') );
+function register_c2c_BlogTimeWidget() {
+	register_widget( 'c2c_BlogTimeWidget' );
+}
+add_action( 'widgets_init', 'register_c2c_BlogTimeWidget' );
 
 endif; // end if !class_exists()
 ?>
