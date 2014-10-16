@@ -2,26 +2,28 @@
 /**
  * @package Blog_Time_Widget
  * @author Scott Reilly
- * @version 003
+ * @version 004
  */
 /*
  * Blog Time plugin widget code
  *
- * Copyright (c) 2009-2012 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2009-2014 by Scott Reilly (aka coffee2code)
  *
  */
+
+defined( 'ABSPATH' ) or die();
 
 if ( ! class_exists( 'c2c_BlogTimeWidget' ) ) :
 
 require_once( 'c2c-widget.php' );
 
-class c2c_BlogTimeWidget extends C2C_Widget_005 {
+class c2c_BlogTimeWidget extends C2C_Widget_008 {
 
 	/**
 	 * Constructor
 	 */
-	function c2c_BlogTimeWidget() {
-		$this->C2C_Widget_005( 'blog-time', __FILE__ );
+	function __construct() {
+		parent::__construct( 'blog-time', __FILE__ );
 	}
 
 	/**
@@ -30,25 +32,25 @@ class c2c_BlogTimeWidget extends C2C_Widget_005 {
 	 * @return void
 	 */
 	function load_config() {
-		$this->title       = __( 'Blog Time', $this->textdomain );
-		$this->description = __( 'The current time according to your site.', $this->textdomain );
+		$this->title       = __( 'Blog Time', 'blog-time' );
+		$this->description = __( 'The current time according to your site.', 'blog-time' );
 
 		$this->config = array(
 			'title'   => array( 'input' => 'text', 'default' => $this->title,
-					'label' => __( 'Title', $this->textdomain ) ),
+					'label' => __( 'Title', 'blog-time' ) ),
 			'format'  => array( 'input' => 'text', 'default' => 'g:i A',
 					'label' => __( 'Time format', $this->textdomain ),
-					'help'  => sprintf( __( 'PHP-style time format string. See %s for more info. <em>Does not apply to dynamic clock.</em>', $this->textdomain ),
+					'help'  => sprintf( __( 'PHP-style time format string. See %s for more info. <em>Does not apply to dynamic clock.</em>', 'blog-time' ),
 						'<a href="http://php.net/date" title="">http://php.net/date</a>' ) ),
 			'dynamic' => array( 'input' => 'checkbox', 'default' => true,
-					'label' => __( 'Use dynamic clock?', $this->textdomain ),
-					'help'  => __( 'If checked, the widget will function like a regular clock, updating itself every minute.', $this->textdomain ) ),
+					'label' => __( 'Use dynamic clock?', 'blog-time' ),
+					'help'  => __( 'If checked, the widget will function like a regular clock, updating itself every minute.', 'blog-time' ) ),
 			'before'  => array( 'input' => 'text', 'default' => '',
-					'label' => __( 'Before text', $this->textdomain ),
-					'help'  => __( 'Text to display before the time.', $this->textdomain ) ),
+					'label' => __( 'Before text', 'blog-time' ),
+					'help'  => __( 'Text to display before the time.', 'blog-time' ) ),
 			'after'   => array( 'input' => 'text', 'default' => '',
-					'label' => __( 'After text', $this->textdomain ),
-					'help'  => __( 'Text to display after the time.', $this->textdomain ) )
+					'label' => __( 'After text', 'blog-time' ),
+					'help'  => __( 'Text to display after the time.', 'blog-time' ) )
 		);
 	}
 
@@ -68,8 +70,9 @@ class c2c_BlogTimeWidget extends C2C_Widget_005 {
 		c2c_BlogTime::enqueue_js( true );
 
 		// Widget content
-		if ( $before )
+		if ( $before ) {
 			echo $before;
+		}
 
 		echo "<div id='user_info'>";
 
@@ -77,8 +80,9 @@ class c2c_BlogTimeWidget extends C2C_Widget_005 {
 
 		echo "</div>";
 
-		if ( $after )
+		if ( $after ) {
 			echo $after;
+		}
 	}
 
 } // end class c2c_BlogTimeWidget

@@ -10,16 +10,17 @@ if (jQuery) {
 			// Existing time diff from local time may have been previously stored.
 			diff = $(c).data('c2c-server-time-diff');
 			if ( diff == undefined ) { // If not stored, ascertain it
-				raw_servertime = parseFloat($(c).find('.c2c-blog-time-widget-time').text()) * 1000;
-				servertime = new Date(raw_servertime + 5000); // Add 5 seconds to better sync w/ local time
+				d = $.map($(c).find('.c2c-blog-time-widget-time').text().split(','), function(v,i) { return parseInt(v); });
+				servertime = new Date(d[0], d[1], d[2], d[3], d[4], d[5]);
 				// Store time diff
-				diff = $(c).data('c2c-server-time-diff', raw_servertime - today.getTime());
+				diff = servertime.getTime() - today.getTime();
+				$(c).data('c2c-server-time-diff', diff);
 			} else {
 				servertime = new Date(today.getTime() + diff);
 			}
 
 			var h  = servertime.getHours(),
-			    m  = servertime.getMinutes(),
+				m  = servertime.getMinutes(),
 				s  = servertime.getSeconds(),
 				ap = " AM";
 			if ( h > 11 ) ap = " PM";
