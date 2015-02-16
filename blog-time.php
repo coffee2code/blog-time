@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Blog Time
- * Version:     3.2
+ * Version:     3.3
  * Plugin URI:  http://coffee2code.com/wp-plugins/blog-time/
  * Author:      Scott Reilly
  * Author URI:  http://coffee2code.com/
@@ -11,7 +11,7 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Description: Display the time according to your blog via admin toolbar widget, a sidebar widget, and/or template tag.
  *
- * Compatible with WordPress 3.3 - 4.0+.
+ * Compatible with WordPress 3.3 through 4.1+.
  *
  * =>> Read the accompanying readme.txt file for instructions and documentation.
  * =>> Also, visit the plugin's homepage for additional information and updates.
@@ -24,11 +24,11 @@
  *
  * @package Blog_Time
  * @author Scott Reilly
- * @version 3.2
+ * @version 3.3
 */
 
 /*
-	Copyright (c) 2009-2014 by Scott Reilly (aka coffee2code)
+	Copyright (c) 2009-2015 by Scott Reilly (aka coffee2code)
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -52,6 +52,11 @@ require_once( dirname( __FILE__ ) . '/blog-time.widget.php' );
 if ( ! class_exists( 'c2c_BlogTime' ) ) :
 
 class c2c_BlogTime {
+
+	/**
+	 * Internally stored configuration settings.
+	 * @var array
+	 */
 	private static $config = array();
 
 	/**
@@ -60,22 +65,22 @@ class c2c_BlogTime {
 	 * @since 3.0
 	 */
 	public static function version() {
-		return '3.2';
+		return '3.3';
 	}
 
 	/**
 	 * Constructor
 	 *
 	 */
-	public function init() {
+	public static function init() {
 		add_action( 'init', array( __CLASS__, 'do_init' ) );
 	}
 
 	/**
 	 * Handle initialization
 	 */
-	public function do_init() {
-		load_plugin_textdomain( 'blog-time', false, basename( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'lang' );
+	public static function do_init() {
+		load_plugin_textdomain( 'blog-time', false, basename( __DIR__ ) . DIRECTORY_SEPARATOR . 'lang' );
 
 		self::$config = array(
 			'time_format' => __( 'g:i A', 'blog-time' )
@@ -97,10 +102,8 @@ class c2c_BlogTime {
 	 * Only needed on front-end for widget since admin already sets this.
 	 *
 	 * @since 1.2
-	 *
-	 * @return void
 	 */
-	public function set_js_ajaxurl() {
+	public static function set_js_ajaxurl() {
 		echo '<script type="text/javascript">var ajaxurl = \'' . admin_url( 'admin-ajax.php' ) . "';</script>\n";
 	}
 
@@ -114,7 +117,7 @@ class c2c_BlogTime {
 	 *
 	 * @return boolean
 	 */
-	protected function is_wp_login() {
+	protected static function is_wp_login() {
 		return 'wp-login.php' == basename( $_SERVER['SCRIPT_NAME'] );
 	}
 
@@ -129,7 +132,7 @@ class c2c_BlogTime {
 	 *
 	 * @return boolean True if enabled, false if not
 	 */
-	public function show_in_toolbar_for_user() {
+	public static function show_in_toolbar_for_user() {
 		return is_admin_bar_showing() ?
 			apply_filters( 'c2c_blog_time_toolbar_widget_for_user', true ) :
 			false;
@@ -140,10 +143,9 @@ class c2c_BlogTime {
 	 *
 	 * @since 2.0
 	 *
-	 * @param boolean $force (optional) Enqueue scripts regardless of admin toolbar check? (Typically when widget is displayed)
-	 * @return void
+	 * @param boolean $force Optional. Enqueue scripts regardless of admin toolbar check? (Typically when widget is displayed)
 	 */
-	public function enqueue_js( $force = false ) {
+	public static function enqueue_js( $force = false ) {
 		if ( ! $force && ( ! is_admin_bar_showing() || self::is_wp_login() || ! self::show_in_toolbar_for_user() ) ) {
 			return;
 		}
@@ -157,7 +159,7 @@ class c2c_BlogTime {
 	 *
 	 * @since 3.0
 	 */
-	public function admin_bar_menu() {
+	public static function admin_bar_menu() {
 		global $wp_admin_bar;
 
 		$wp_admin_bar->add_menu( array(
@@ -171,7 +173,7 @@ class c2c_BlogTime {
 	/**
 	 * Outputs CSS
 	 */
-	public function add_css() {
+	public static function add_css() {
 		echo '<style type="text/css">';
 		echo '.c2c-blog-time-widget-time { display:none; }';
 		echo '#wpadminbar .c2c-blog-time-widget-display a { padding:0; }';
@@ -184,7 +186,7 @@ class c2c_BlogTime {
 	 * @param  string $time_format (optional) The format for the time string, if not the default.
 	 * @return string The time string
 	 */
-	public function display_time( $time_format = '' ) {
+	public static function display_time( $time_format = '' ) {
 		if ( empty( $time_format ) ) {
 			$time_format = apply_filters( 'blog_time_format', self::$config['time_format'] ); // deprecated as of v3.1
 			$time_format = apply_filters( 'c2c_blog_time_format', $time_format );
@@ -196,7 +198,7 @@ class c2c_BlogTime {
 	/**
 	 * The AJAX responder to return the blog time.
 	 */
-	public function report_time() {
+	public static function report_time() {
 		echo self::display_time();
 		exit();
 	}
@@ -207,12 +209,11 @@ class c2c_BlogTime {
 	 * @param  $args array (optional) Configuration array. Currently supports:
 	 *   dynamic (boolean|null) Should the clock by dynamic? Default is possibly filter 'true'.
 	 *   format (string) PHP time string format for the time. (Doesn't apply for dynamic clock.)
-	 * @return void (Text is echoed.)
 	 */
-	public function add_widget( $args = array() ) {
+	public static function add_widget( $args = array() ) {
 		$defaults = array(
 			'dynamic' => null,
-			'format'  => ''
+			'format'  => '',
 		);
 		$args = wp_parse_args( $args, $defaults );
 
@@ -223,14 +224,7 @@ class c2c_BlogTime {
 		}
 
 		$out  = "<span class='c2c-blog-time-widget'>";
-		$out .= "<span class='c2c-blog-time-widget-time'>"
-			. self::display_time( 'Y' ) . ','
-			. self::display_time( 'n' ) . ','
-			. self::display_time( 'j' ) . ','
-			. self::display_time( 'G' ) . ','
-			. self::display_time( 'i' ) . ','
-			. self::display_time( 's' )
-			. '</span>';
+		$out .= "<span class='c2c-blog-time-widget-time'>" . self::display_time( 'Y,n,j,G,i,s' ) . '</span>';
 		$out .= "<span class='c2c-blog-time-widget-display $dynamic'>" .
 			"<a href='' title='" . __( 'Click to refresh blog time', 'blog-time' ) . "'>" .
 			self::display_time( $args['format'] ) . "</a></span></span>\n";

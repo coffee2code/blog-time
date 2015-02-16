@@ -5,11 +5,11 @@ Tags: server, blog, time, clock, datetime, admin, widget, widgets, template tag,
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.3
-Tested up to: 4.0
-Stable tag: 3.2
-Version: 3.2
+Tested up to: 4.1
+Stable tag: 3.3
+Version: 3.3
 
-Display the time according to your blog via admin toolbar widget, a sidebar widget, and/or template tag.
+Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
 
 == Description ==
 
@@ -17,11 +17,11 @@ This plugin adds a dynamic, functional clock to the the admin bar (at top of all
 
 This plugin also supports a static mode which puts a timestamp string at the top of all admin pages instead of the dynamic clock. This static admin time widget is AJAX-ified so that if you click the timestamp, it updates in place (without a page reload) to show the new current server time.
 
-Also provided is a "Blog Time" widget providing the same functionality as the admin widget, but for your sidebars. You may also utilize the plugin's capabilities directly within a theme template via use of the template tag 'c2c_blog_time()'.
+Also provided is a "Blog Time" widget providing the same functionality as the admin widget, but for your sidebars. You may also utilize the plugin's functionality directly within a theme template via use of the template tag `c2c_blog_time()`.
 
-NOTE: For the front-end widget, if the "Use dynamic clock?" configuration option is unchecked, this plugin generates a timestamp and NOT a clock. The time being displayed is the time of the page load, or if clicked, the time when the widget last retrieved the time. It won't actively increment time on the display. By default the widget displays a dynamic clock.
+NOTE: For the front-end widget, if the "Use dynamic clock?" configuration option is unchecked, this plugin generates a timestamp and NOT a clock. The time being displayed is the time of the page load, or if clicked, the time when the widget last retrieved the time. It won't actively increment time on the display. By default the widget displays a dynamic clock that does increment time.
 
-This is most useful to see the server/blog time to judge when a time sensitive post, comment, or action would be dated by the blog (i.e. such as monitoring for when to close comments on a contest post, or just accounting for the server being hosted in a different timezone). Or, when used statically as a timestamp and not a clock, it can indicate when the page was loaded.
+This is most useful to see the server/blog time to judge when a time sensitive post, comment, or action would be dated by the blog (i.e. such as monitoring for when to close comments on a contest post, or just accounting for the server being hosted in a different timezone). Or, when used statically as a timestamp and not a clock, it can indicate/preserve when the page was loaded.
 
 Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Plugin Directory Page](https://wordpress.org/plugins/blog-time/) | [Author Homepage](http://coffee2code.com)
 
@@ -119,11 +119,16 @@ Arguments:
 Example:
 
 `
-// Change the default blog time string
-add_filter( 'c2c_blog_time_format', 'change_blog_time_format' );
+/**
+ * Change the default blog time string
+ *
+ * @param string $format The default time format.
+ * @return string
+ */
 function change_blog_time_format( $format ) {
 	return 'b, g:i A';
 }
+add_filter( 'c2c_blog_time_format', 'change_blog_time_format' );
 `
 
 = c2c_blog_time_toolbar_widget_for_user (filter) =
@@ -137,11 +142,16 @@ Arguments:
 Example:
 
 `
-// Only show the admin toolbar clock for the 'boss' user.
-add_filter( 'c2c_blog_time_toolbar_widget_for_user', 'restrict_blog_time_widget_appearance' );
+/**
+ * Only show the admin toolbar clock for the 'boss' user.
+ *
+ * @param $show bool Status of whether the admin toolbar clock should be shown.
+ * @return bool
+ */
 function restrict_blog_time_widget_appearance( $show ) {
 	return 'boss' == get_current_user()->user_login;
 }
+add_filter( 'c2c_blog_time_toolbar_widget_for_user', 'restrict_blog_time_widget_appearance' );
 `
 
 = c2c_blog_time_active_clock (filter) =
@@ -161,6 +171,17 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 
 == Changelog ==
+
+= 3.3 (2015-02-16) =
+* Add unit tests
+* Explicitly declare all class methods static
+* Output dynamic clock time components more efficiently
+* Use __DIR__ instead of `dirname(__FILE__)`
+* Various inline code documentation improvements (spacing, punctuation)
+* Use phpDoc formatting for example code in readme
+* Note compatibility through WP 4.1+
+* Update copyright date (2015)
+* Regenerate .pot
 
 = 3.2 (2014-10-15) =
 * Update widget to use C2C_Widget base class (v008)
@@ -276,6 +297,9 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 
 == Upgrade Notice ==
+
+= 3.3 =
+Recommended update: added unit tests; minor backend improvements; noted compatibility through WP 4.1+; updated copyright date (2015)
 
 = 3.2 =
 Recommended update: incorporated unreleased 3.1; noted compatibility through WP 4.0+; added plugin icon.
