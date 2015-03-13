@@ -44,7 +44,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 	function test_version() {
-		$this->assertEquals( '3.3', c2c_BlogTime::version() );
+		$this->assertEquals( '3.3.1', c2c_BlogTime::version() );
 	}
 
 	function test_widget_made_available() {

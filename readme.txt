@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.3
 Tested up to: 4.1
-Stable tag: 3.3
-Version: 3.3
+Stable tag: 3.3.1
+Version: 3.3.1
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
 
@@ -172,6 +172,9 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
+= 3.3.1 (2015-03-12) =
+* Revert back to using `dirname(__FILE__)`; __DIR__ is only PHP 5.3+
+
 = 3.3 (2015-02-16) =
 * Add unit tests
 * Explicitly declare all class methods static
@@ -297,6 +300,9 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 
 == Upgrade Notice ==
+
+= 3.3.1 =
+Minor bugfix release for users running PHP 5.2.x: revert use of a constant only defined in PHP 5.3+. You really should upgrade your PHP or your host if this affects you.
 
 = 3.3 =
 Recommended update: added unit tests; minor backend improvements; noted compatibility through WP 4.1+; updated copyright date (2015)

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Blog Time
- * Version:     3.3
+ * Version:     3.3.1
  * Plugin URI:  http://coffee2code.com/wp-plugins/blog-time/
  * Author:      Scott Reilly
  * Author URI:  http://coffee2code.com/
@@ -23,8 +23,8 @@
  * * Add support for per-user setting for controlling admin toolbar widget (and if not shown, don't enqueue JS or CSS)
  *
  * @package Blog_Time
- * @author Scott Reilly
- * @version 3.3
+ * @author  Scott Reilly
+ * @version 3.3.1
 */
 
 /*
@@ -65,7 +65,7 @@ class c2c_BlogTime {
 	 * @since 3.0
 	 */
 	public static function version() {
-		return '3.3';
+		return '3.3.1';
 	}
 
 	/**
@@ -80,7 +80,7 @@ class c2c_BlogTime {
 	 * Handle initialization
 	 */
 	public static function do_init() {
-		load_plugin_textdomain( 'blog-time', false, basename( __DIR__ ) . DIRECTORY_SEPARATOR . 'lang' );
+		load_plugin_textdomain( 'blog-time', false, basename( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'lang' );
 
 		self::$config = array(
 			'time_format' => __( 'g:i A', 'blog-time' )
