@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Blog Time
- * Version:     3.3.1
+ * Version:     3.3.2
  * Plugin URI:  http://coffee2code.com/wp-plugins/blog-time/
  * Author:      Scott Reilly
  * Author URI:  http://coffee2code.com/
@@ -11,21 +11,24 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Description: Display the time according to your blog via admin toolbar widget, a sidebar widget, and/or template tag.
  *
- * Compatible with WordPress 3.3 through 4.1+.
+ * Compatible with WordPress 3.3 through 4.3+.
  *
  * =>> Read the accompanying readme.txt file for instructions and documentation.
  * =>> Also, visit the plugin's homepage for additional information and updates.
  * =>> Or visit: https://wordpress.org/plugins/blog-time/
  *
- * TODO:
- * * Document template tag
- * * Time format string doesn't currently apply to dynamic clock. Make it work, or remove option to customize time format
- * * Add support for per-user setting for controlling admin toolbar widget (and if not shown, don't enqueue JS or CSS)
- *
  * @package Blog_Time
  * @author  Scott Reilly
- * @version 3.3.1
-*/
+ * @version 3.3.2
+ */
+
+/*
+ * TODO:
+ * - Document template tag
+ * - Time format string doesn't currently apply to dynamic clock. Make it work, or remove option to customize time format
+ * - Add support for per-user setting for controlling admin toolbar widget (and if not shown, don't enqueue JS or CSS)
+ *
+ */
 
 /*
 	Copyright (c) 2009-2015 by Scott Reilly (aka coffee2code)
@@ -47,7 +50,7 @@
 
 defined( 'ABSPATH' ) or die();
 
-require_once( dirname( __FILE__ ) . '/blog-time.widget.php' );
+require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'blog-time.widget.php' );
 
 if ( ! class_exists( 'c2c_BlogTime' ) ) :
 
@@ -65,7 +68,7 @@ class c2c_BlogTime {
 	 * @since 3.0
 	 */
 	public static function version() {
-		return '3.3.1';
+		return '3.3.2';
 	}
 
 	/**

@@ -5,9 +5,8 @@ Tags: server, blog, time, clock, datetime, admin, widget, widgets, template tag,
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.3
-Tested up to: 4.1
-Stable tag: 3.3.1
-Version: 3.3.1
+Tested up to: 4.3
+Stable tag: 3.3.2
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
 
@@ -172,6 +171,16 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
+= 3.3.2 (2015-08-22) =
+* Change: Discontinue use of PHP4-style constructor invocation of WP_Widget to prevent PHP notices in PHP7.
+* Use `DIRECTORY_SEPARATOR` in path for include files instead of hard-coded `/`.
+* Change: Update widget framework to version 010.
+* Change: Minor widget file header reformatting.
+* Change: Update widget to version 005.
+* Change: Note compatibility through WP 4.3+.
+* New: Add unit tests for widget class versions.
+* New: Add `c2c_BlogTimeWidget::version()` to get version of the widget class.
+
 = 3.3.1 (2015-03-12) =
 * Revert back to using `dirname(__FILE__)`; __DIR__ is only PHP 5.3+
 
@@ -300,6 +309,9 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 
 == Upgrade Notice ==
+
+= 3.3.2 =
+Minor bugfix update: Prevented PHP notice under PHP7+ for widget; added more unit tests; updated widget framework to 010; noted compatibility through WP 4.3+
 
 = 3.3.1 =
 Minor bugfix release for users running PHP 5.2.x: revert use of a constant only defined in PHP 5.3+. You really should upgrade your PHP or your host if this affects you.

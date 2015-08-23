@@ -1,37 +1,44 @@
 <?php
 /**
- * @package Blog_Time_Widget
- * @author Scott Reilly
- * @version 004
- */
-/*
  * Blog Time plugin widget code
  *
- * Copyright (c) 2009-2014 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2009-2015 by Scott Reilly (aka coffee2code)
  *
+ * @package c2c_Blog_Time_Widget
+ * @author  Scott Reilly
+ * @version 005
  */
 
 defined( 'ABSPATH' ) or die();
 
 if ( ! class_exists( 'c2c_BlogTimeWidget' ) ) :
 
-require_once( 'c2c-widget.php' );
+require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'c2c-widget.php' );
 
-class c2c_BlogTimeWidget extends C2C_Widget_008 {
+class c2c_BlogTimeWidget extends C2C_Widget_010 {
+
+	/**
+	 * Returns version of the widget.
+	 *
+	 * @since 005
+	 *
+	 * @return string
+	 */
+	public static function version() {
+		return '005';
+	}
 
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'blog-time', __FILE__ );
 	}
 
 	/**
 	 * Initializes the plugin's configuration and localizable text variables.
-	 *
-	 * @return void
 	 */
-	function load_config() {
+	public function load_config() {
 		$this->title       = __( 'Blog Time', 'blog-time' );
 		$this->description = __( 'The current time according to your site.', 'blog-time' );
 
@@ -57,12 +64,11 @@ class c2c_BlogTimeWidget extends C2C_Widget_008 {
 	/**
 	 * Outputs the body of the widget
 	 *
-	 * @param array $args Widget args
-	 * @param array $instance Widget instance
-	 * @param array $settings Widget settings
-	 * @return void (Text is echoed.)
+	 * @param array $args     Widget args.
+	 * @param array $instance Widget instance.
+	 * @param array $settings Widget settings.
 	 */
-	function widget_body( $args, $instance, $settings ) {
+	public function widget_body( $args, $instance, $settings ) {
 		extract( $args );
 		extract( $settings );
 
@@ -93,4 +99,3 @@ function register_c2c_BlogTimeWidget() {
 add_action( 'widgets_init', 'register_c2c_BlogTimeWidget' );
 
 endif; // end if !class_exists()
-?>

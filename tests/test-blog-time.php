@@ -11,7 +11,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		remove_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
 	}
 
-	/**
+	/*
 	 *
 	 * HELPER FUNCTIONS
 	 *
@@ -24,7 +24,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 
-	/**
+	/*
 	 *
 	 * TESTS
 	 *
@@ -35,16 +35,28 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertTrue( class_exists( 'c2c_BlogTime' ) );
 	}
 
+	function test_version() {
+		$this->assertEquals( '3.3.2', c2c_BlogTime::version() );
+	}
+
 	function test_widget_class_name() {
 		$this->assertTrue( class_exists( 'c2c_BlogTimeWidget' ) );
 	}
 
-	function test_widget_base_class_name() {
-		$this->assertTrue( class_exists( 'C2C_Widget_008' ) );
+	function test_widget_version() {
+		$this->assertEquals( '005', c2c_BlogTimeWidget::version() );
 	}
 
-	function test_version() {
-		$this->assertEquals( '3.3.1', c2c_BlogTime::version() );
+	function test_widget_base_class_name() {
+		$this->assertTrue( class_exists( 'C2C_Widget_010' ) );
+	}
+
+	function test_widget_framework_version() {
+		$this->assertEquals( '010', C2C_Widget_010::version() );
+	}
+
+	function test_widget_hooks_widgets_init() {
+		$this->assertEquals( 10, has_filter( 'widgets_init', 'register_c2c_BlogTimeWidget' ) );
 	}
 
 	function test_widget_made_available() {
