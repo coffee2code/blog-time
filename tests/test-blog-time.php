@@ -1,76 +1,79 @@
 <?php
 
+defined( 'ABSPATH' ) or die();
+
 class Blog_Time_Test extends WP_UnitTestCase {
 
 	protected $incoming_time_format = '';
 
-	function tearDown() {
+	public function tearDown() {
 		parent::tearDown();
 
 		$this->incoming_time_format = '';
 		remove_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
 	}
 
-	/*
-	 *
-	 * HELPER FUNCTIONS
-	 *
-	 */
+
+	//
+	//
+	// HELPER FUNCTIONS
+	//
+	//
 
 
-	function filter_c2c_blog_time_format( $format = '' ) {
+	public function filter_c2c_blog_time_format( $format = '' ) {
 		$this->incoming_time_format = $format;
 		return 'G:i Y ||| j n';
 	}
 
 
-	/*
-	 *
-	 * TESTS
-	 *
-	 */
+	//
+	//
+	// TESTS
+	//
+	//
 
 
-	function test_class_name() {
+	public function test_class_name() {
 		$this->assertTrue( class_exists( 'c2c_BlogTime' ) );
 	}
 
-	function test_version() {
-		$this->assertEquals( '3.3.2', c2c_BlogTime::version() );
+	public function test_version() {
+		$this->assertEquals( '3.4', c2c_BlogTime::version() );
 	}
 
-	function test_widget_class_name() {
+	public function test_widget_class_name() {
 		$this->assertTrue( class_exists( 'c2c_BlogTimeWidget' ) );
 	}
 
-	function test_widget_version() {
-		$this->assertEquals( '005', c2c_BlogTimeWidget::version() );
+	public function test_widget_version() {
+		$this->assertEquals( '006', c2c_BlogTimeWidget::version() );
 	}
 
-	function test_widget_base_class_name() {
-		$this->assertTrue( class_exists( 'C2C_Widget_010' ) );
+	public function test_widget_base_class_name() {
+		$this->assertTrue( class_exists( 'c2c_BlogTime_Widget_011' ) );
 	}
 
-	function test_widget_framework_version() {
-		$this->assertEquals( '010', C2C_Widget_010::version() );
+	public function test_widget_framework_version() {
+		$this->assertEquals( '011', c2c_BlogTime_Widget_011::version() );
 	}
 
-	function test_widget_hooks_widgets_init() {
+	public function test_widget_hooks_widgets_init() {
 		$this->assertEquals( 10, has_filter( 'widgets_init', 'register_c2c_BlogTimeWidget' ) );
 	}
 
-	function test_widget_made_available() {
+	public function test_widget_made_available() {
 		$this->assertContains( 'c2c_BlogTimeWidget', array_keys( $GLOBALS['wp_widget_factory']->widgets ) );
 	}
 
-	function test_return_value_of_c2c_blog_time() {
+	public function test_return_value_of_c2c_blog_time() {
 		$format = 'Y-n-j G:i';
 		$time   = date_i18n( $format, strtotime( current_time( 'mysql' ) ) );
 
 		$this->assertEquals( $time, c2c_blog_time( $format, false ) );
 	}
 
-	function test_c2c_blog_time_echoes_by_default() {
+	public function test_c2c_blog_time_echoes_by_default() {
 		$format = 'Y-n-j G:i';
 
 		ob_start();
@@ -82,7 +85,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertEquals( $time, $out );
 	}
 
-	function test_c2c_blog_time_explicit_echo() {
+	public function test_c2c_blog_time_explicit_echo() {
 		$format = 'Y-n-j G:i';
 
 		ob_start();
@@ -94,14 +97,14 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertEquals( $time, $out );
 	}
 
-	function test_invoking_c2c_blog_time_via_filter_approach() {
+	public function test_invoking_c2c_blog_time_via_filter_approach() {
 		$format = 'Y-n-j G:i';
 		$time   = date_i18n( $format, strtotime( current_time( 'mysql' ) ) );
 
 		$this->assertEquals( $time, apply_filters( 'c2c_blog_time', $format, false ) );
 	}
 
-	function test_c2c_blog_time_format_filter() {
+	public function test_c2c_blog_time_format_filter() {
 		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
 
 		$format = $this->filter_c2c_blog_time_format();
@@ -110,7 +113,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertEquals( $time, apply_filters( 'c2c_blog_time', '', false ) );
 	}
 
-	function test_c2c_blog_time_format_filter_does_not_override_explicit_arg_value() {
+	public function test_c2c_blog_time_format_filter_does_not_override_explicit_arg_value() {
 		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
 
 		$format = 'Y-n-j G:i';
@@ -119,7 +122,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertEquals( $time, apply_filters( 'c2c_blog_time', $format, false ) );
 	}
 
-	function test_default_time_format() {
+	public function test_default_time_format() {
 		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
 
 		c2c_blog_time( '', false );

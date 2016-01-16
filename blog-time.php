@@ -1,17 +1,16 @@
 <?php
 /**
  * Plugin Name: Blog Time
- * Version:     3.3.2
+ * Version:     3.4
  * Plugin URI:  http://coffee2code.com/wp-plugins/blog-time/
  * Author:      Scott Reilly
  * Author URI:  http://coffee2code.com/
  * Text Domain: blog-time
- * Domain Path: /lang/
  * License:     GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Description: Display the time according to your blog via admin toolbar widget, a sidebar widget, and/or template tag.
  *
- * Compatible with WordPress 3.3 through 4.3+.
+ * Compatible with WordPress 3.3 through 4.4+.
  *
  * =>> Read the accompanying readme.txt file for instructions and documentation.
  * =>> Also, visit the plugin's homepage for additional information and updates.
@@ -19,7 +18,7 @@
  *
  * @package Blog_Time
  * @author  Scott Reilly
- * @version 3.3.2
+ * @version 3.4
  */
 
 /*
@@ -31,7 +30,7 @@
  */
 
 /*
-	Copyright (c) 2009-2015 by Scott Reilly (aka coffee2code)
+	Copyright (c) 2009-2016 by Scott Reilly (aka coffee2code)
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -68,7 +67,7 @@ class c2c_BlogTime {
 	 * @since 3.0
 	 */
 	public static function version() {
-		return '3.3.2';
+		return '3.4';
 	}
 
 	/**
@@ -83,7 +82,8 @@ class c2c_BlogTime {
 	 * Handle initialization
 	 */
 	public static function do_init() {
-		load_plugin_textdomain( 'blog-time', false, basename( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'lang' );
+		// Load textdomain.
+		load_plugin_textdomain( 'blog-time' );
 
 		self::$config = array(
 			'time_format' => __( 'g:i A', 'blog-time' )

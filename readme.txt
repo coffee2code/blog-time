@@ -5,8 +5,8 @@ Tags: server, blog, time, clock, datetime, admin, widget, widgets, template tag,
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.3
-Tested up to: 4.3
-Stable tag: 3.3.2
+Tested up to: 4.4
+Stable tag: 3.4
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
 
@@ -171,6 +171,23 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
+= 3.4 (2016-01-15) =
+* Bugfix: Properly output markup around widget.
+* Change: Update widget framework to 011:
+    * Change class name to c2c_BlogTime_Widget_011 to be plugin-specific.
+    * Set textdomain using a string instead of a variable.
+    * Remove `load_textdomain()` and textdomain class variable.
+    * Formatting improvements to inline docs.
+* Change: Add support for language packs:
+    * Set textdomain using a string instead of a variable.
+    * Don't load textdomain from file.
+    * Remove .pot file and /lang subdirectory.
+* Change: Explicitly declare methods in unit tests as public or protected.
+* Change: Minor improvements to inline docs and test docs.
+* Add: Create empty index.php to prevent files from being listed if web server has enabled directory listings.
+* Change: Note compatibility through WP 4.4+.
+* Change: Update copyright date (2016).
+
 = 3.3.2 (2015-08-22) =
 * Change: Discontinue use of PHP4-style constructor invocation of WP_Widget to prevent PHP notices in PHP7.
 * Use `DIRECTORY_SEPARATOR` in path for include files instead of hard-coded `/`.
@@ -309,6 +326,9 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 
 == Upgrade Notice ==
+
+= 3.4 =
+Minor update: bugfix to add proper markup around widget; improved support for localization; verified compatibility through WP 4.4; updated widget framework; updated copyright date (2016)
 
 = 3.3.2 =
 Minor bugfix update: Prevented PHP notice under PHP7+ for widget; added more unit tests; updated widget framework to 010; noted compatibility through WP 4.3+

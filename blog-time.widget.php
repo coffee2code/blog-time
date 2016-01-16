@@ -2,11 +2,11 @@
 /**
  * Blog Time plugin widget code
  *
- * Copyright (c) 2009-2015 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2009-2016 by Scott Reilly (aka coffee2code)
  *
  * @package c2c_Blog_Time_Widget
  * @author  Scott Reilly
- * @version 005
+ * @version 006
  */
 
 defined( 'ABSPATH' ) or die();
@@ -15,7 +15,7 @@ if ( ! class_exists( 'c2c_BlogTimeWidget' ) ) :
 
 require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'c2c-widget.php' );
 
-class c2c_BlogTimeWidget extends C2C_Widget_010 {
+class c2c_BlogTimeWidget extends c2c_BlogTime_Widget_011 {
 
 	/**
 	 * Returns version of the widget.
@@ -25,11 +25,11 @@ class c2c_BlogTimeWidget extends C2C_Widget_010 {
 	 * @return string
 	 */
 	public static function version() {
-		return '005';
+		return '006';
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public function __construct() {
 		parent::__construct( 'blog-time', __FILE__ );
@@ -46,7 +46,7 @@ class c2c_BlogTimeWidget extends C2C_Widget_010 {
 			'title'   => array( 'input' => 'text', 'default' => $this->title,
 					'label' => __( 'Title', 'blog-time' ) ),
 			'format'  => array( 'input' => 'text', 'default' => 'g:i A',
-					'label' => __( 'Time format', $this->textdomain ),
+					'label' => __( 'Time format', 'blog-time' ),
 					'help'  => sprintf( __( 'PHP-style time format string. See %s for more info. <em>Does not apply to dynamic clock.</em>', 'blog-time' ),
 						'<a href="http://php.net/date" title="">http://php.net/date</a>' ) ),
 			'dynamic' => array( 'input' => 'checkbox', 'default' => true,
@@ -62,11 +62,12 @@ class c2c_BlogTimeWidget extends C2C_Widget_010 {
 	}
 
 	/**
-	 * Outputs the body of the widget
+	 * Outputs the body of the widget.
 	 *
 	 * @param array $args     Widget args.
 	 * @param array $instance Widget instance.
 	 * @param array $settings Widget settings.
+	 * @return string
 	 */
 	public function widget_body( $args, $instance, $settings ) {
 		extract( $args );
@@ -75,20 +76,24 @@ class c2c_BlogTimeWidget extends C2C_Widget_010 {
 		// Ensure JS is enqueued
 		c2c_BlogTime::enqueue_js( true );
 
+		$content = '';
+
 		// Widget content
 		if ( $before ) {
-			echo $before;
+			$content .= $before;
 		}
 
-		echo "<div id='user_info'>";
+		$content .= "<div id='user_info'>";
 
-		echo c2c_BlogTime::add_widget( array( 'dynamic' => ! empty( $dynamic ), 'format' => $format ) );
+		$content .= c2c_BlogTime::add_widget( array( 'dynamic' => ! empty( $dynamic ), 'format' => $format ) );
 
-		echo "</div>";
+		$content .= "</div>";
 
 		if ( $after ) {
-			echo $after;
+			$content .= $after;
 		}
+
+		return $content;
 	}
 
 } // end class c2c_BlogTimeWidget
