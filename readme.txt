@@ -171,6 +171,9 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
+= () =
+* Change: Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable.
+
 = 3.4 (2016-01-15) =
 * Bugfix: Properly output markup around widget.
 * Change: Update widget framework to 011:
