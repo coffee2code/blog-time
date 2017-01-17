@@ -190,7 +190,7 @@ class c2c_BlogTime {
 	 * @return string The time string
 	 */
 	public static function display_time( $time_format = '' ) {
-		if ( empty( $time_format ) ) {
+		if ( ! $time_format ) {
 			$time_format = apply_filters( 'blog_time_format', self::$config['time_format'] ); // deprecated as of v3.1
 			$time_format = apply_filters( 'c2c_blog_time_format', $time_format );
 		}
