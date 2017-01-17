@@ -229,7 +229,7 @@ class c2c_BlogTime {
 		$out  = "<span class='c2c-blog-time-widget'>";
 		$out .= "<span class='c2c-blog-time-widget-time'>" . self::display_time( 'Y,n,j,G,i,s' ) . '</span>';
 		$out .= "<span class='c2c-blog-time-widget-display $dynamic'>" .
-			"<a class='ab-item' href='' title='" . __( 'Click to refresh blog time', 'blog-time' ) . "'>" .
+			"<a class='ab-item' href='' title='" . esc_attr__( 'Click to refresh blog time', 'blog-time' ) . "'>" .
 			self::display_time( $args['format'] ) . "</a></span></span>\n";
 
 		return $out;
