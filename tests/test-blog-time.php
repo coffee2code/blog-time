@@ -130,6 +130,43 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertEquals( 'g:i A', $this->incoming_time_format );
 	}
 
+
+	/*
+	 * c2c_BlogTime::get_time_format()
+	 */
+
+
+	public function test_get_time_format() {
+		$this->assertEquals( 'g:i A', c2c_BlogTime::get_time_format() );
+	}
+
+	public function test_get_time_format_with_explicit_time_format() {
+		$time_formats = array(
+			'F js Y, H:i:s',
+			'c',
+			'Y-n-j G:i',
+		);
+
+		foreach ( $time_formats as $format ) {
+			$this->assertEquals( $format, c2c_BlogTime::get_time_format( $format ) );
+		}
+	}
+
+	public function test_get_time_format_filtered_via_c2c_blog_time_format() {
+		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
+
+		$this->assertEquals( 'G:i Y ||| j n', c2c_BlogTime::get_time_format() );
+	}
+
+	public function test_get_time_format_explicit_format_ignores_filter_c2c_blog_time_format() {
+		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
+
+		$format = 'F js Y, H:i:s';
+
+		$this->assertEquals( $format, c2c_BlogTime::get_time_format( $format ) );
+	}
+
+
 	/*
 	 * TEST TODO:
 	 * - JS is enqueued

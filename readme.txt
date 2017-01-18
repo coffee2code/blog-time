@@ -172,6 +172,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 == Changelog ==
 
 = () =
+* Change: Extract time format related code out of `display_time()` and into new `get_time_format()`.
 * Bugfix: Add '.ab-item' class to time link so it gets proper styles in adminbar when JS is disabled.
 * Change: Sanitize the translated string used in an attribute.
 * Change: Enable more error output for unit tests.

@@ -184,16 +184,30 @@ class c2c_BlogTime {
 	}
 
 	/**
+	 * Determines the time format string for the given context.
+	 *
+	 * @since 3.5
+	 *
+	 * @param  string $time_format Optional. The format for the time string, if being explicitly set. Default ''.
+	 * @return string The time string
+	 */
+	public static function get_time_format( $time_format = '' ) {
+		if ( ! $time_format ) {
+			$time_format = apply_filters( 'blog_time_format', self::$config['time_format'] ); // deprecated as of v3.1
+			$time_format = apply_filters( 'c2c_blog_time_format', $time_format );
+		}
+
+		return $time_format;
+	}
+
+	/**
 	 * Formats the current time (mysql) to the specified time format.
 	 *
 	 * @param  string $time_format (optional) The format for the time string, if not the default.
 	 * @return string The time string
 	 */
 	public static function display_time( $time_format = '' ) {
-		if ( ! $time_format ) {
-			$time_format = apply_filters( 'blog_time_format', self::$config['time_format'] ); // deprecated as of v3.1
-			$time_format = apply_filters( 'c2c_blog_time_format', $time_format );
-		}
+		$time_format = self::get_time_format( $time_format );
 
 		return date_i18n( $time_format, strtotime( current_time( 'mysql' ) ) );
 	}
