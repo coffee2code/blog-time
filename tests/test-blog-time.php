@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) or die();
 class Blog_Time_Test extends WP_UnitTestCase {
 
 	protected $incoming_time_format = '';
+	protected static $default_time_format  = 'g:i A';
 
 	public function tearDown() {
 		parent::tearDown();
@@ -127,7 +128,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 		c2c_blog_time( '', false );
 
-		$this->assertEquals( 'g:i A', $this->incoming_time_format );
+		$this->assertEquals( self::$default_time_format, $this->incoming_time_format );
 	}
 
 
@@ -137,7 +138,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 
 	public function test_get_time_format() {
-		$this->assertEquals( 'g:i A', c2c_BlogTime::get_time_format() );
+		$this->assertEquals( self::$default_time_format, c2c_BlogTime::get_time_format() );
 	}
 
 	public function test_get_time_format_with_explicit_time_format() {
