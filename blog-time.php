@@ -229,6 +229,99 @@ class c2c_BlogTime {
 	}
 
 	/**
+	 * Converts a PHP time format string into a Moment.js time format string.
+	 *
+	 * @since 3.5
+	 *
+	 * @todo Support supplying Moment-support time format string? Maybe if
+	 *.      $timeformatit starts w/ "Moment:" then strip that prefatory bit and
+	 *       return what's left.
+	 *
+	 * @param string $format PHP time format string.
+	 * @return string
+	 */
+	public static function map_php_time_format_to_momentjs( $format ) {
+		// Preprocess format string to handle exceptions.
+		$pre_mapping = array(
+			'js' => '~~', // Moment doesn't have ordinal suffix as a separate token
+		);
+		foreach ( $pre_mapping as $pre_map => $remap ) {
+			$format = str_replace( $pre_map, $remap, $format );
+		}
+
+		// Mappings for PHP time format tokens to Moment.js tokens.
+		$mapping = array(
+			// Day
+			'd' => 'DD',
+			'D' => 'ddd',
+			'j' => 'D',
+			'l' => 'dddd',
+			'N' => 'E',
+			'S' => '',
+			'w' => 'd',
+			'z' => 'DDD',
+			// Week
+			'W' => 'w',
+			// Month
+			'F' => 'MMMM',
+			'm' => 'MM',
+			'M' => 'MMM',
+			'n' => 'M',
+			't' => '',
+			// Year
+			'L' => '',
+			'o' => 'gggg',
+			'Y' => 'YYYY',
+			'y' => 'YY',
+			// Time
+			'a' => 'a',
+			'A' => 'A',
+			'B' => 'SSS',
+			'g' => 'h',
+			'G' => 'H',
+			'h' => 'hh',
+			'H' => 'HH',
+			'i' => 'mm',
+			's' => 'ss',
+			'u' => 'SSSSSS',
+			'v' => 'SSS',
+			// Timezone
+			'e' => 'z',
+			'I' => '',
+			'O' => 'ZZ',
+			'P' => 'Z',
+			'T' => '',
+			'Z' => '',
+			// Full date/time
+			'c' => 'YYYY-MM-DDTHH:mm:ssZ',
+			'r' => 'ddd, DD MMM YYYY HH:mm:ss ZZ',
+			'U' => 'x',
+		);
+
+		$parts = str_split( $format );
+
+		if ( ! $parts ) {
+			return $format;
+		}
+
+		$moment = array();
+		foreach ( $parts as $token ) {
+			$moment[] = isset( $mapping[ $token ] ) ? $mapping[ $token ] : $token;
+		}
+		$format = implode( '', $moment );
+
+		// Finish mapping exceptions.
+		$post_mapping = array(
+			'~~' => 'Do',
+		);
+		foreach ( $post_mapping as $post_map => $remap ) {
+			$format = str_replace( $post_map, $remap, $format );
+		}
+
+		return $format;
+	}
+
+	/**
 	 * Outputs the admin widget
 	 *
 	 * @param  $args array (optional) Configuration array. Currently supports:

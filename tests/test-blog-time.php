@@ -19,6 +19,22 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 	//
 	//
+	// DATA PROVIDERS
+	//
+	//
+
+
+	public static function php_to_momentjs_mappings() {
+		return array(
+			array( array( 'c', 'YYYY-MM-DDTHH:mm:ssZ' ) ),
+			array( array( 'r', 'ddd, DD MMM YYYY HH:mm:ss ZZ' ) ),
+			array( array( 'M js, Y', 'MMM Do, YYYY' ) ),
+		);
+	}
+
+
+	//
+	//
 	// HELPER FUNCTIONS
 	//
 	//
@@ -178,6 +194,30 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 		$this->assertEquals( 'Y,m,dTH:i:s A', c2c_BlogTime::get_time_format( '', 'widget' ) );
 		$this->assertEquals( 'widget', $this->incoming_context );
+	}
+
+
+	/*
+	 * c2c_BlogTime::map_php_time_format_to_momentjs()
+	 */
+
+
+	/**
+	 * @dataProvider php_to_momentjs_mappings
+	 */
+	public function test_map_php_time_format_to_momentjs( $mappings ) {
+		list( $php, $moment ) = $mappings;
+
+		$this->assertEquals( $moment, c2c_BlogTime::map_php_time_format_to_momentjs( $php ) );
+	}
+
+	public function test_map_php_time_format_to_momentjs_ignores_unknown_chars() {
+		$str = 'X? CpqQE[];,./0987654321!@#$%^&*()_+-=<>``""';
+		$this->assertEquals( $str, c2c_BlogTime::map_php_time_format_to_momentjs( $str ) );
+	}
+
+	public function test_map_php_time_format_to_momentjs_doesnt_error_with_blank_format() {
+		$this->assertEquals( '', c2c_BLogTime::map_php_time_format_to_momentjs( '' ) );
 	}
 
 

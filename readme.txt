@@ -174,6 +174,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 = () =
 * New: Add ability for dynamic clock to honor custom time format.
     * Package Moment.js (v2.17.1), a datatime library for JS.
+    * Add `map_php_time_format_to_momentjs()` to remap PHP time format tokens to Moment.js time format tokens.
 * Change: Extract time format related code out of `display_time()` and into new `get_time_format()`.
 * Chnage: Add context to handlers for time format and display.
     * Add `$context` arg to `get_format_time()` and `display_time()`.
