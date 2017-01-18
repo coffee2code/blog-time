@@ -172,6 +172,8 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 == Changelog ==
 
 = () =
+* New: Add ability for dynamic clock to honor custom time format.
+    * Package Moment.js (v2.17.1), a datatime library for JS.
 * Change: Extract time format related code out of `display_time()` and into new `get_time_format()`.
 * Bugfix: Add '.ab-item' class to time link so it gets proper styles in adminbar when JS is disabled.
 * Change: Ensure linked timestamp in static widget does not abide by a:visited styling.

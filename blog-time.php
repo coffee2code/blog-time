@@ -154,7 +154,8 @@ class c2c_BlogTime {
 		}
 
 		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( __CLASS__, plugins_url( 'js/blog-time.js', __FILE__ ), array( 'jquery' ), self::version(), true );
+		wp_enqueue_script( 'momentjs', plugins_url( 'js/moment.js', __FILE__ ), array(), '2.17.1', true );
+		wp_enqueue_script( __CLASS__, plugins_url( 'js/blog-time.js', __FILE__ ), array( 'jquery', 'momentjs' ), self::version(), true );
 	}
 
 	/**
