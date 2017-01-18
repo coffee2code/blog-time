@@ -180,6 +180,7 @@ class c2c_BlogTime {
 		echo '<style type="text/css">';
 		echo '.c2c-blog-time-widget-time { display:none; }';
 		echo '#wpadminbar .c2c-blog-time-widget-display a { padding:0; }';
+		echo '.c2c-blog-time-widget-display a:visited { color:inherit!important; }';
 		echo "</style>\n";
 	}
 
