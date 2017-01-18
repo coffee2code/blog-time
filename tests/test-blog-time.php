@@ -5,13 +5,15 @@ defined( 'ABSPATH' ) or die();
 class Blog_Time_Test extends WP_UnitTestCase {
 
 	protected $incoming_time_format = '';
+	protected $incoming_context = '';
 	protected static $default_time_format  = 'g:i A';
 
 	public function tearDown() {
 		parent::tearDown();
 
 		$this->incoming_time_format = '';
-		remove_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
+		$this->incoming_context = '';
+		remove_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
 	}
 
 
@@ -22,9 +24,11 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	//
 
 
-	public function filter_c2c_blog_time_format( $format = '' ) {
+	public function filter_c2c_blog_time_format( $format = '', $context = '' ) {
 		$this->incoming_time_format = $format;
-		return 'G:i Y ||| j n';
+		$this->incoming_context = $context;
+
+		return ( 'widget' === $context ) ? 'Y,m,dTH:i:s A' : 'G:i Y ||| j n';
 	}
 
 
@@ -106,7 +110,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 	public function test_c2c_blog_time_format_filter() {
-		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
+		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
 
 		$format = $this->filter_c2c_blog_time_format();
 		$time   = date_i18n( $format, strtotime( current_time( 'mysql' ) ) );
@@ -115,7 +119,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 	public function test_c2c_blog_time_format_filter_does_not_override_explicit_arg_value() {
-		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
+		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
 
 		$format = 'Y-n-j G:i';
 		$time   = date_i18n( $format, strtotime( current_time( 'mysql' ) ) );
@@ -124,11 +128,12 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 	public function test_default_time_format() {
-		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
+		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
 
 		c2c_blog_time( '', false );
 
 		$this->assertEquals( self::$default_time_format, $this->incoming_time_format );
+		$this->assertEquals( 'template-tag', $this->incoming_context );
 	}
 
 
@@ -154,17 +159,25 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 	public function test_get_time_format_filtered_via_c2c_blog_time_format() {
-		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
+		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
 
 		$this->assertEquals( 'G:i Y ||| j n', c2c_BlogTime::get_time_format() );
+		$this->assertEquals( 'default', $this->incoming_context );
 	}
 
 	public function test_get_time_format_explicit_format_ignores_filter_c2c_blog_time_format() {
-		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ) );
+		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
 
 		$format = 'F js Y, H:i:s';
 
 		$this->assertEquals( $format, c2c_BlogTime::get_time_format( $format ) );
+	}
+
+	public function test_get_time_format_with_context_for_filter_c2c_blog_time_format() {
+		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
+
+		$this->assertEquals( 'Y,m,dTH:i:s A', c2c_BlogTime::get_time_format( '', 'widget' ) );
+		$this->assertEquals( 'widget', $this->incoming_context );
 	}
 
 

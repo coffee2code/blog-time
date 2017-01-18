@@ -175,6 +175,11 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * New: Add ability for dynamic clock to honor custom time format.
     * Package Moment.js (v2.17.1), a datatime library for JS.
 * Change: Extract time format related code out of `display_time()` and into new `get_time_format()`.
+* Chnage: Add context to handlers for time format and display.
+    * Add `$context` arg to `get_format_time()` and `display_time()`.
+    * Add `$context` arg to 'c2c_blog_time_format' filter.
+    * Add 'context' as configuration parameter for `add_widget()`.
+    * Set context everywhere context can be set.
 * Bugfix: Add '.ab-item' class to time link so it gets proper styles in adminbar when JS is disabled.
 * Change: Ensure linked timestamp in static widget does not abide by a:visited styling.
 * Change: Sanitize the translated string used in an attribute.

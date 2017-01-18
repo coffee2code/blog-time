@@ -191,12 +191,17 @@ class c2c_BlogTime {
 	 * @since 3.5
 	 *
 	 * @param  string $time_format Optional. The format for the time string, if being explicitly set. Default ''.
+	 * @param  string $context.    Optional. The context for the time being displayed. Default 'default'.
 	 * @return string The time string
 	 */
-	public static function get_time_format( $time_format = '' ) {
+	public static function get_time_format( $time_format = '', $context = 'default' ) {
+		if ( ! $context ) {
+			$context = 'default';
+		}
+
 		if ( ! $time_format ) {
 			$time_format = apply_filters( 'blog_time_format', self::$config['time_format'] ); // deprecated as of v3.1
-			$time_format = apply_filters( 'c2c_blog_time_format', $time_format );
+			$time_format = apply_filters( 'c2c_blog_time_format', $time_format, $context );
 		}
 
 		return $time_format;
@@ -206,10 +211,11 @@ class c2c_BlogTime {
 	 * Formats the current time (mysql) to the specified time format.
 	 *
 	 * @param  string $time_format (optional) The format for the time string, if not the default.
+	 * @param  string $context.    Optional. The context for the time being displayed. Default ''.
 	 * @return string The time string
 	 */
-	public static function display_time( $time_format = '' ) {
-		$time_format = self::get_time_format( $time_format );
+	public static function display_time( $time_format = '', $context = '' ) {
+		$time_format = self::get_time_format( $time_format, $context );
 
 		return date_i18n( $time_format, strtotime( current_time( 'mysql' ) ) );
 	}
@@ -218,7 +224,7 @@ class c2c_BlogTime {
 	 * The AJAX responder to return the blog time.
 	 */
 	public static function report_time() {
-		echo self::display_time();
+		echo self::display_time( '', 'ajax' );
 		exit();
 	}
 
@@ -231,6 +237,7 @@ class c2c_BlogTime {
 	 */
 	public static function add_widget( $args = array() ) {
 		$defaults = array(
+			'context' => 'admin-widget',
 			'dynamic' => null,
 			'format'  => '',
 		);
@@ -243,10 +250,10 @@ class c2c_BlogTime {
 		}
 
 		$out  = "<span class='c2c-blog-time-widget'>";
-		$out .= "<span class='c2c-blog-time-widget-time'>" . self::display_time( 'Y,n,j,G,i,s' ) . '</span>';
+		$out .= "<span class='c2c-blog-time-widget-time'>" . self::display_time( 'Y,n,j,G,i,s', $args['context'] ) . '</span>';
 		$out .= "<span class='c2c-blog-time-widget-display $dynamic'>" .
 			"<a class='ab-item' href='' title='" . esc_attr__( 'Click to refresh blog time', 'blog-time' ) . "'>" .
-			self::display_time( $args['format'] ) . "</a></span></span>\n";
+			self::display_time( $args['format'], $args['context'] ) . "</a></span></span>\n";
 
 		return $out;
 	}
@@ -268,7 +275,7 @@ if ( ! function_exists( 'c2c_blog_time' ) ) {
 	 * @return string The formatted blog time.
 	 */
 	function c2c_blog_time( $time_format = '', $echo = true ) {
-		$val = c2c_BlogTime::display_time( $time_format );
+		$val = c2c_BlogTime::display_time( $time_format, 'template-tag' );
 		if ( $echo ) { echo $val; }
 		return $val;
 	}

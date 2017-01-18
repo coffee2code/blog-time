@@ -85,7 +85,11 @@ class c2c_BlogTimeWidget extends c2c_BlogTime_Widget_011 {
 
 		$content .= "<div id='user_info'>";
 
-		$content .= c2c_BlogTime::add_widget( array( 'dynamic' => ! empty( $dynamic ), 'format' => $format ) );
+		$content .= c2c_BlogTime::add_widget( array(
+			'context' => 'widget',
+			'dynamic' => ! empty( $dynamic ),
+			'format'  => $format
+		) );
 
 		$content .= "</div>";
 
