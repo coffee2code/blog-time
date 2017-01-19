@@ -185,6 +185,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
     * Add `$context` arg to 'c2c_blog_time_format' filter.
     * Add 'context' as configuration parameter for `add_widget()`.
     * Set context everywhere context can be set.
+* Change: Update widget framework to 012, bumping c2c_BlogTimeWidget to 007.
 * Bugfix: Add '.ab-item' class to time link so it gets proper styles in adminbar when JS is disabled.
 * Change: Ensure linked timestamp in static widget does not abide by a:visited styling.
 * Change: Sanitize the translated string used in an attribute.

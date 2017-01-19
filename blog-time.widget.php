@@ -2,11 +2,11 @@
 /**
  * Blog Time plugin widget code
  *
- * Copyright (c) 2009-2016 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2009-2017 by Scott Reilly (aka coffee2code)
  *
  * @package c2c_Blog_Time_Widget
  * @author  Scott Reilly
- * @version 006
+ * @version 007
  */
 
 defined( 'ABSPATH' ) or die();
@@ -15,7 +15,7 @@ if ( ! class_exists( 'c2c_BlogTimeWidget' ) ) :
 
 require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'c2c-widget.php' );
 
-class c2c_BlogTimeWidget extends c2c_BlogTime_Widget_011 {
+class c2c_BlogTimeWidget extends c2c_Widget_012 {
 
 	/**
 	 * Returns version of the widget.
@@ -25,7 +25,7 @@ class c2c_BlogTimeWidget extends c2c_BlogTime_Widget_011 {
 	 * @return string
 	 */
 	public static function version() {
-		return '006';
+		return '007';
 	}
 
 	/**

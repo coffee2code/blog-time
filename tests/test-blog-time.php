@@ -68,15 +68,19 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 	public function test_widget_version() {
-		$this->assertEquals( '006', c2c_BlogTimeWidget::version() );
+		$this->assertEquals( '007', c2c_BlogTimeWidget::version() );
 	}
 
 	public function test_widget_base_class_name() {
-		$this->assertTrue( class_exists( 'c2c_BlogTime_Widget_011' ) );
+		$this->assertTrue( class_exists( 'c2c_Widget_012' ) );
+	}
+
+	public function test_widget_parent_class() {
+		$this->assertEquals( 'c2c_Widget_012', get_parent_class( 'c2c_BlogTimeWidget' ) );
 	}
 
 	public function test_widget_framework_version() {
-		$this->assertEquals( '011', c2c_BlogTime_Widget_011::version() );
+		$this->assertEquals( '012', c2c_Widget_012::version() );
 	}
 
 	public function test_widget_hooks_widgets_init() {
