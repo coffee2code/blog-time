@@ -337,16 +337,24 @@ class c2c_BlogTime {
 		$args = wp_parse_args( $args, $defaults );
 
 		if ( is_null( $args['dynamic'] ) ) {
-			$dynamic = apply_filters( 'c2c_blog_time_active_clock', true ) !== false ? 'c2c-blog-time-dynamic' : '';
+			$is_dynamic = apply_filters( 'c2c_blog_time_active_clock', true );
 		} else {
-			$dynamic = $args['dynamic'] == true ? 'c2c-blog-time-dynamic' : '';
+			$is_dynamic = true == $args['dynamic'];
 		}
+
+		$dynamic_class = $is_dynamic ? 'c2c-blog-time-dynamic' : '';
+
+		$time = self::display_time( $args['format'], $args['context'] );
 
 		$out  = "<span class='c2c-blog-time-widget'>";
 		$out .= "<span class='c2c-blog-time-widget-time'>" . self::display_time( 'Y,n,j,G,i,s', $args['context'] ) . '</span>';
-		$out .= "<span class='c2c-blog-time-widget-display $dynamic'>" .
-			"<a class='ab-item' href='' title='" . esc_attr__( 'Click to refresh blog time', 'blog-time' ) . "'>" .
-			self::display_time( $args['format'], $args['context'] ) . "</a></span></span>\n";
+		$out .= "<span class='c2c-blog-time-widget-display $dynamic_class'>";
+		$out .= sprintf(
+			'<a class="ab-item" href="" title="%s">%s</a>',
+			esc_attr__( 'Click to refresh blog time', 'blog-time' ),
+			$time
+		);
+		$out .= "</span></span>\n";
 
 		return $out;
 	}
