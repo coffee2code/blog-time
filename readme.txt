@@ -4,8 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: server, blog, time, clock, datetime, admin, widget, widgets, template tag, coffee2code
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Requires at least: 3.3
-Tested up to: 4.4
+Requires at least: 4.6
+Tested up to: 4.7
 Stable tag: 3.4
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
@@ -191,6 +191,8 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * Change: Sanitize the translated string used in an attribute.
 * Change: Enable more error output for unit tests.
 * Change: Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable.
+* Change: Note compatibility through WP 4.7+.
+* Change: Remove support for WordPress older than 4.6 (should still work for earlier versions though).
 * Change: Update copyright date (2017).
 
 = 3.4 (2016-01-15) =

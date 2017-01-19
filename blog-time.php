@@ -10,7 +10,7 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Description: Display the time according to your blog via admin toolbar widget, a sidebar widget, and/or template tag.
  *
- * Compatible with WordPress 3.3 through 4.4+.
+ * Compatible with WordPress 4.6 through 4.7+.
  *
  * =>> Read the accompanying readme.txt file for instructions and documentation.
  * =>> Also, visit the plugin's homepage for additional information and updates.
