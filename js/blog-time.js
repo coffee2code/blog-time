@@ -6,7 +6,8 @@ if (jQuery) {
 			// use configured value.
 			var embedded_time_format = $(c).find('.c2c-blog-time-widget-format').text();
 			var time_format = embedded_time_format ? embedded_time_format : c2c_BlogTime.time_format;
-			var now = moment().format(time_format);
+			var utc_offset = $(c).find('.c2c-blog-time-widget-utc').text();
+			var now = moment().utcOffset(utc_offset).format(time_format);
 			$(c).find('.c2c-blog-time-widget-display').html("<span class='clocktime'>"+now+"</span>"); //+":"+s
 
 			// Update timestamp in one second intervals.

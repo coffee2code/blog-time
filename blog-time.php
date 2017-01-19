@@ -184,7 +184,7 @@ class c2c_BlogTime {
 	 */
 	public static function add_css() {
 		echo '<style type="text/css">';
-		echo '.c2c-blog-time-widget-time, .c2c-blog-time-widget-format { display:none; }';
+		echo '.c2c-blog-time-widget-time, .c2c-blog-time-widget-format, .c2c-blog-time-widget-utc { display:none; }';
 		echo '#wpadminbar .c2c-blog-time-widget-display a { padding:0; }';
 		echo '#wpadminbar .c2c-blog-time-widget .ab-icon:before { content:\'\\f469\'; top:2px; }';
 		echo '.c2c-blog-time-widget-display a:visited { color:inherit!important; }';
@@ -363,6 +363,8 @@ class c2c_BlogTime {
 		if ( $args['format'] ) {
 			$out .= "<span class='c2c-blog-time-widget-format'>" . self::get_time_format( $args['format'], 'momentjs' ) . '</span>';
 		}
+
+		$out .= '<span class="c2c-blog-time-widget-utc">' . self::display_time( 'O', 'utc' ) . '</span>';
 
 		$out .= "<span class='c2c-blog-time-widget-display ab-label $dynamic_class'>";
 		$out .= sprintf(
