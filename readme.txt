@@ -179,6 +179,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
     * Localize time format for JS.
     * Output time format when customized (such as via widget or template tag) in markup for use by JS.
     * Remove documentation indicating dynamic clock does not honor custom time format.
+* New: Add clock dashicon before adminbar time widget.
 * Change: Extract time format related code out of `display_time()` and into new `get_time_format()`.
 * Chnage: Add context to handlers for time format and display.
     * Add `$context` arg to `get_format_time()` and `display_time()`.

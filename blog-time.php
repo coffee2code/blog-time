@@ -186,6 +186,7 @@ class c2c_BlogTime {
 		echo '<style type="text/css">';
 		echo '.c2c-blog-time-widget-time, .c2c-blog-time-widget-format { display:none; }';
 		echo '#wpadminbar .c2c-blog-time-widget-display a { padding:0; }';
+		echo '#wpadminbar .c2c-blog-time-widget .ab-icon:before { content:\'\\f469\'; top:2px; }';
 		echo '.c2c-blog-time-widget-display a:visited { color:inherit!important; }';
 		echo "</style>\n";
 	}
@@ -357,11 +358,13 @@ class c2c_BlogTime {
 
 		$out  = "<span class='c2c-blog-time-widget'>";
 
+		$out .= '<span class="ab-icon"></span>';
+
 		if ( $args['format'] ) {
 			$out .= "<span class='c2c-blog-time-widget-format'>" . self::get_time_format( $args['format'], 'momentjs' ) . '</span>';
 		}
 
-		$out .= "<span class='c2c-blog-time-widget-display $dynamic_class'>";
+		$out .= "<span class='c2c-blog-time-widget-display ab-label $dynamic_class'>";
 		$out .= sprintf(
 			'<a class="ab-item" href="" title="%s">%s</a>',
 			esc_attr__( 'Click to refresh blog time', 'blog-time' ),
