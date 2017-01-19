@@ -156,6 +156,11 @@ class c2c_BlogTime {
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'momentjs', plugins_url( 'js/moment.js', __FILE__ ), array(), '2.17.1', true );
 		wp_enqueue_script( __CLASS__, plugins_url( 'js/blog-time.js', __FILE__ ), array( 'jquery', 'momentjs' ), self::version(), true );
+
+		$text = array(
+			'time_format' => self::get_time_format( '', 'momentjs' ),
+		);
+		wp_localize_script( __CLASS__, __CLASS__, $text );
 	}
 
 	/**
@@ -179,7 +184,7 @@ class c2c_BlogTime {
 	 */
 	public static function add_css() {
 		echo '<style type="text/css">';
-		echo '.c2c-blog-time-widget-time { display:none; }';
+		echo '.c2c-blog-time-widget-time, .c2c-blog-time-widget-format { display:none; }';
 		echo '#wpadminbar .c2c-blog-time-widget-display a { padding:0; }';
 		echo '.c2c-blog-time-widget-display a:visited { color:inherit!important; }';
 		echo "</style>\n";
@@ -202,6 +207,10 @@ class c2c_BlogTime {
 		if ( ! $time_format ) {
 			$time_format = apply_filters( 'blog_time_format', self::$config['time_format'] ); // deprecated as of v3.1
 			$time_format = apply_filters( 'c2c_blog_time_format', $time_format, $context );
+		}
+
+		if ( 'momentjs' === $context ) {
+			$time_format = self::map_php_time_format_to_momentjs( $time_format );
 		}
 
 		return $time_format;
@@ -347,7 +356,11 @@ class c2c_BlogTime {
 		$time = self::display_time( $args['format'], $args['context'] );
 
 		$out  = "<span class='c2c-blog-time-widget'>";
-		$out .= "<span class='c2c-blog-time-widget-time'>" . self::display_time( 'Y,n,j,G,i,s', $args['context'] ) . '</span>';
+
+		if ( $args['format'] ) {
+			$out .= "<span class='c2c-blog-time-widget-format'>" . self::get_time_format( $args['format'], 'momentjs' ) . '</span>';
+		}
+
 		$out .= "<span class='c2c-blog-time-widget-display $dynamic_class'>";
 		$out .= sprintf(
 			'<a class="ab-item" href="" title="%s">%s</a>',

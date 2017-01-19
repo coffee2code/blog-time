@@ -22,6 +22,8 @@ NOTE: For the front-end widget, if the "Use dynamic clock?" configuration option
 
 This is most useful to see the server/blog time to judge when a time sensitive post, comment, or action would be dated by the blog (i.e. such as monitoring for when to close comments on a contest post, or just accounting for the server being hosted in a different timezone). Or, when used statically as a timestamp and not a clock, it can indicate/preserve when the page was loaded.
 
+Thanks to <a href="https://momentjs.com/">Moment.js</a> for the JavaScript date handling library.
+
 Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Plugin Directory Page](https://wordpress.org/plugins/blog-time/) | [Author Homepage](http://coffee2code.com)
 
 
@@ -37,8 +39,6 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Plugin
 = How do I customize the format of the time string? =
 
 The widget and template tag allow you specify a time format directly. The default value for the time format, and the one used by the display of the blog time in the static admin widget, can be overridden by adding a filter to 'c2c_blog_time_format' and returning the desired time format. See http://php.net/date for more information regarding the time format.
-
-NOTE: The time string is currently only configurable for the static clock and the widget, not the dynamic admin toolbar clock enabled by default.
 
 = Why is the time not changing in the sidebar widget? =
 
@@ -109,7 +109,7 @@ Do:
 
 = c2c_blog_time_format (filter) =
 
-The 'c2c_blog_time_format' hook allows you to customize the default format for the blog time. By default this is 'g:i A' (though this may be different if modified by localization). *NOTE: This currently only applies to the static clock and not the dynamic clock.*
+The 'c2c_blog_time_format' hook allows you to customize the default format for the blog time. By default this is 'g:i A' (though this may be different if modified by localization).
 
 Arguments:
 
@@ -175,6 +175,10 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * New: Add ability for dynamic clock to honor custom time format.
     * Package Moment.js (v2.17.1), a datatime library for JS.
     * Add `map_php_time_format_to_momentjs()` to remap PHP time format tokens to Moment.js time format tokens.
+    * Simplify blog-time.js to defer time handling to Moment.js.
+    * Localize time format for JS.
+    * Output time format when customized (such as via widget or template tag) in markup for use by JS.
+    * Remove documentation indicating dynamic clock does not honor custom time format.
 * Change: Extract time format related code out of `display_time()` and into new `get_time_format()`.
 * Chnage: Add context to handlers for time format and display.
     * Add `$context` arg to `get_format_time()` and `display_time()`.
