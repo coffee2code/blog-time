@@ -4,9 +4,9 @@ if (jQuery) {
 		var c2c_blog_time_update_clock = function(c) {
 			// If time format is not embedded in markup (as the case for a widget), then
 			// use configured value.
-			var embedded_time_format = $(c).find('.c2c-blog-time-widget-format').text();
+			var embedded_time_format = $(c).data('time-format');
 			var time_format = embedded_time_format ? embedded_time_format : c2c_BlogTime.time_format;
-			var utc_offset = $(c).find('.c2c-blog-time-widget-utc').text();
+			var utc_offset = c2c_BlogTime.utc_offset;
 			var now = moment().utcOffset(utc_offset).format(time_format);
 			$(c).find('.c2c-blog-time-widget-display').html("<span class='clocktime'>"+now+"</span>"); //+":"+s
 

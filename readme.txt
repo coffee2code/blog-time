@@ -171,12 +171,12 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
-= () =
+= 3.5 (2017-01-19) =
 * New: Add ability for dynamic clock to honor custom time format.
     * Package Moment.js (v2.17.1), a datatime library for JS.
     * Add `map_php_time_format_to_momentjs()` to remap PHP time format tokens to Moment.js time format tokens.
     * Simplify blog-time.js to defer time handling to Moment.js.
-    * Localize time format for JS.
+    * Make time format and UTC offset available for JS usage.
     * Output time format when customized (such as via widget or template tag) in markup for use by JS.
     * Remove documentation indicating dynamic clock does not honor custom time format.
 * New: Add clock dashicon before adminbar time widget.
