@@ -10,8 +10,22 @@ if (jQuery) {
 			var now = moment().utcOffset(utc_offset).format(time_format);
 			$(c).find('.c2c-blog-time-widget-display').html("<span class='clocktime'>"+now+"</span>"); //+":"+s
 
-			// Update timestamp in one second intervals.
-			setTimeout(function() { c2c_blog_time_update_clock( $(c) ) }, 1000);
+			// Determine update interval.
+			if ( time_format.indexOf('s') > -1 ) {
+				// Seconds are being displayed, so must update every second.
+				interval_seconds = 1;
+			} else if ( time_format.indexOf('m') > -1 ) {
+				// Minutes are being displayed, so update every 10 seconds.
+				interval_seconds = 10;
+			} else {
+				// Any longer time period is fine with an update once a minute.
+				// While the interval could be made even longer, when the page is
+				// loaded on the cusp of a time/date change, we don't want the
+				// time display to be wrong for too long.
+				interval_seconds = 60;
+			}
+			// Update timestamp in the determined intervals.
+			setTimeout(function() { c2c_blog_time_update_clock( $(c) ) }, interval_seconds * 1000);
 		}
 
 		$.each($('.c2c-blog-time-widget'), function(){
