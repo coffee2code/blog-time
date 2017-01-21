@@ -217,6 +217,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * Change: Update widget framework to 012, bumping c2c_BlogTimeWidget to 007.
 * Bugfix: Add '.ab-item' class to time link so it gets proper styles in adminbar when JS is disabled.
 * Change: Ensure linked timestamp in static widget does not abide by a:visited styling.
+* Change: Widget: Move `register_c2c_BlogTimeWidget()` to 'c2c_BlogTimeWidget::register_widget()`.
 * Change: Sanitize the translated string used in an attribute.
 * Change: Enable more error output for unit tests.
 * Change: Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable.

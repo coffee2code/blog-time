@@ -29,6 +29,15 @@ class c2c_BlogTimeWidget extends c2c_Widget_012 {
 	}
 
 	/**
+	 * Registers the widget.
+	 *
+	 * @since 007
+	 */
+	public static function register_widget() {
+		register_widget( __CLASS__ );
+	}
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -117,9 +126,6 @@ class c2c_BlogTimeWidget extends c2c_Widget_012 {
 
 } // end class c2c_BlogTimeWidget
 
-function register_c2c_BlogTimeWidget() {
-	register_widget( 'c2c_BlogTimeWidget' );
-}
-add_action( 'widgets_init', 'register_c2c_BlogTimeWidget' );
+add_action( 'widgets_init', array( 'c2c_BlogTimeWidget', 'register_widget' ) );
 
 endif; // end if !class_exists()
