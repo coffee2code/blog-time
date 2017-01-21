@@ -85,6 +85,34 @@ function my_blog_time_format( $format ) {
 2. A screenshot of the 'Blog Time' widget.
 
 
+== Template Tags ==
+
+The plugin provides one template tag for use in your theme templates, functions.php, or plugins.
+
+= Functions =
+
+* `<?php function c2c_blog_time( $time_format = '', $echo = true ) ?>`
+Gets the formatted time for the site.
+
+= Arguments =
+
+* `$time_format` (string)
+Optional. PHP-style time format string. See https://php.net/date for more info. Default is '' (which, unless otherwise modified, uses the default time forat: 'g:i A').
+
+* `$echo` (bool)
+Optional. Echo the template info? Default is true.
+
+= Examples =
+
+* `<?php // Output the site's current time.
+c2c_blog_time();
+?>`
+
+* `<?php // Retrieve the value for use in code, so don't display/echo it.
+$site_date = c2c_blog_time( 'M d, Y', false );
+?>`
+
+
 == Filters ==
 
 The plugin exposes four filters for hooking. Typically, customizations utilizing these hooks would be put into your active theme's functions.php file, or used by another plugin.
@@ -194,6 +222,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * Change: Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable.
 * Change: Note compatibility through WP 4.7+.
 * Change: Remove support for WordPress older than 4.6 (should still work for earlier versions though).
+* Change: Add 'Template Tags' section to FAQ.
 * Change: Minor inline documentation improvements and reformatting.
 * Change: Update copyright date (2017).
 
