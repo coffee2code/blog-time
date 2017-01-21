@@ -1,0 +1,18 @@
+#wpadminbar .c2c-blog-time-widget-display a {
+	padding: 0;
+}
+
+#wpadminbar .c2c-blog-time-widget .ab-icon:before {
+	content: '\f469';
+	top: 2px;
+}
+
+#wpadminbar:not(.mobile) .ab-top-menu>li:hover>.c2c-blog-time-dynamic.ab-item,
+#wpadminbar:not(.mobile)>#wp-toolbar li:hover .c2c-blog-time-dynamic span.ab-label,
+#wpadminbar li .c2c-blog-time-dynamic .ab-icon:before {
+	color: inherit;
+}
+
+.c2c-blog-time-widget-display a:visited {
+	color: inherit !important;
+}

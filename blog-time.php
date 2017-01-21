@@ -92,8 +92,6 @@ class c2c_BlogTime {
 		add_action( 'admin_bar_menu',             array( __CLASS__, 'admin_bar_menu' ), 500 );
 		add_action( 'admin_enqueue_scripts',      array( __CLASS__, 'enqueue_js' ) );
 		add_action( 'wp_enqueue_scripts',         array( __CLASS__, 'enqueue_js' ) );
-		add_action( 'admin_head',                 array( __CLASS__, 'add_css' ) );
-		add_action( 'wp_head',                    array( __CLASS__, 'add_css' ) );
 		add_action( 'wp_ajax_report_time',        array( __CLASS__, 'report_time' ) );
 		add_action( 'wp_ajax_nopriv_report_time', array( __CLASS__, 'report_time' ) );
 		add_action( 'wp_head',                    array( __CLASS__, 'set_js_ajaxurl' ) );
@@ -154,6 +152,8 @@ class c2c_BlogTime {
 			return;
 		}
 
+		wp_enqueue_style( __CLASS__, plugins_url( 'css/blog-time.css', __FILE__ ), array(), self::version() );
+
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'momentjs', plugins_url( 'js/moment.js', __FILE__ ), array(), '2.17.1', true );
 		wp_enqueue_script( __CLASS__, plugins_url( 'js/blog-time.js', __FILE__ ), array( 'jquery', 'momentjs' ), self::version(), true );
@@ -179,20 +179,6 @@ class c2c_BlogTime {
 			'title'  => self::add_widget(),
 			'meta'   => array( 'class' => '', 'title' => __( 'Current blog time', 'blog-time' ) )
 		) );
-	}
-
-	/**
-	 * Outputs CSS.
-	 */
-	public static function add_css() {
-		echo '<style type="text/css">';
-		echo '#wpadminbar .c2c-blog-time-widget-display a { padding:0; }';
-		echo '#wpadminbar .c2c-blog-time-widget .ab-icon:before { content:\'\\f469\'; top:2px; }';
-		echo '#wpadminbar:not(.mobile) .ab-top-menu>li:hover>.c2c-blog-time-dynamic.ab-item,';
-		echo '#wpadminbar:not(.mobile)>#wp-toolbar li:hover .c2c-blog-time-dynamic span.ab-label,';
-		echo '#wpadminbar li .c2c-blog-time-dynamic .ab-icon:before { color:inherit; }';
-		echo '.c2c-blog-time-widget-display a:visited { color:inherit!important; }';
-		echo "</style>\n";
 	}
 
 	/**
