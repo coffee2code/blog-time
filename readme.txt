@@ -194,6 +194,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * Change: Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable.
 * Change: Note compatibility through WP 4.7+.
 * Change: Remove support for WordPress older than 4.6 (should still work for earlier versions though).
+* Change: Minor inline documentation improvements and reformatting.
 * Change: Update copyright date (2017).
 
 = 3.4 (2016-01-15) =

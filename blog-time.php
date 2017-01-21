@@ -71,7 +71,7 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Constructor
+	 * Initialization.
 	 *
 	 */
 	public static function init() {
@@ -79,7 +79,7 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Handle initialization
+	 * Handle initialization.
 	 */
 	public static function do_init() {
 		// Load textdomain.
@@ -100,7 +100,7 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Sets JS variable to path necessary for AJAX
+	 * Sets JS variable to path necessary for AJAX.
 	 *
 	 * Only needed on front-end for widget since admin already sets this.
 	 *
@@ -118,7 +118,7 @@ class c2c_BlogTime {
 	 *
 	 * @since 3.0
 	 *
-	 * @return boolean
+	 * @return bool True if the current page is the login page, false if not.
 	 */
 	protected static function is_wp_login() {
 		return 'wp-login.php' == basename( $_SERVER['SCRIPT_NAME'] );
@@ -133,7 +133,7 @@ class c2c_BlogTime {
 	 *
 	 * @since 3.0
 	 *
-	 * @return boolean True if enabled, false if not
+	 * @return bool True if enabled, false if not.
 	 */
 	public static function show_in_toolbar_for_user() {
 		return is_admin_bar_showing() ?
@@ -142,11 +142,12 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Enqueues JS
+	 * Enqueues JavaScript.
 	 *
 	 * @since 2.0
 	 *
-	 * @param boolean $force Optional. Enqueue scripts regardless of admin toolbar check? (Typically when widget is displayed)
+	 * @param bool $force Optional. Should scripts get enqueued regardless of
+	 *                    admin toolbar check? (e.g. when widget is displayed)
 	 */
 	public static function enqueue_js( $force = false ) {
 		if ( ! $force && ( ! is_admin_bar_showing() || self::is_wp_login() || ! self::show_in_toolbar_for_user() ) ) {
@@ -165,7 +166,7 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Adds time to admin toolbar
+	 * Adds time to admin toolbar.
 	 *
 	 * @since 3.0
 	 */
@@ -181,7 +182,7 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Outputs CSS
+	 * Outputs CSS.
 	 */
 	public static function add_css() {
 		echo '<style type="text/css">';
@@ -198,7 +199,7 @@ class c2c_BlogTime {
 	 *
 	 * @param  string $time_format Optional. The format for the time string, if being explicitly set. Default ''.
 	 * @param  string $context.    Optional. The context for the time being displayed. Default 'default'.
-	 * @return string The time string
+	 * @return string The time string.
 	 */
 	public static function get_time_format( $time_format = '', $context = 'default' ) {
 		if ( ! $context ) {
@@ -220,9 +221,9 @@ class c2c_BlogTime {
 	/**
 	 * Formats the current time (mysql) to the specified time format.
 	 *
-	 * @param  string $time_format (optional) The format for the time string, if not the default.
+	 * @param  string $time_format Otional. The format for the time string, if not the default.
 	 * @param  string $context.    Optional. The context for the time being displayed. Default ''.
-	 * @return string The time string
+	 * @return string The time string.
 	 */
 	public static function display_time( $time_format = '', $context = '' ) {
 		$time_format = self::get_time_format( $time_format, $context );
@@ -231,7 +232,7 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * The AJAX responder to return the blog time.
+	 * Echoes the blog time and exists (for use as AJAX responder).
 	 */
 	public static function report_time() {
 		echo self::display_time( '', 'ajax' );
@@ -243,11 +244,7 @@ class c2c_BlogTime {
 	 *
 	 * @since 3.5
 	 *
-	 * @todo Support supplying Moment-support time format string? Maybe if
-	 *.      $timeformatit starts w/ "Moment:" then strip that prefatory bit and
-	 *       return what's left.
-	 *
-	 * @param string $format PHP time format string.
+	 * @param  string $format PHP time format string.
 	 * @return string
 	 */
 	public static function map_php_time_format_to_momentjs( $format ) {
@@ -332,11 +329,16 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Outputs the admin widget
+	 * Outputs the admin widget.
 	 *
-	 * @param  $args array (optional) Configuration array. Currently supports:
-	 *   dynamic (boolean|null) Should the clock by dynamic? Default is possibly filter 'true'.
-	 *   format (string) PHP time string format for the time. (Doesn't apply for dynamic clock.)
+	 * @param array $args {
+	 *     Optional. Configuration array. Default empty array.
+	 *
+	 *.    @type string.   $context Context for the widget, e.g. "widget". Default "admin-widget".
+	 *     @type bool|null $dynamic Should the clock by dynamic? Default true, unless filtered via
+	 *                              the 'c2c_blog_time_active_clock' filter.
+	 *.    @type string.   $format  An explicit PHP time format string. Default ''.
+	 * }
 	 */
 	public static function add_widget( $args = array() ) {
 		$defaults = array(
@@ -389,8 +391,8 @@ if ( ! function_exists( 'c2c_blog_time' ) ) {
 	 *
 	 * @since 1.1
 	 *
-	 * @param string $time_format PHP-style datetime format string. Uses plugin default if not specified.
-	 * @param boolean $echo Optional. Echo the time to the page?
+	 * @param  string $time_format PHP-style datetime format string. Uses plugin default if not specified.
+	 * @param  bool   $echo        Optional. Echo the time to the page?
 	 * @return string The formatted blog time.
 	 */
 	function c2c_blog_time( $time_format = '', $echo = true ) {
