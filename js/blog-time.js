@@ -18,6 +18,8 @@ if (jQuery) {
 			var dynamic_clock = $(this).find('.c2c-blog-time-dynamic');
 			var display = $(this).find('.c2c-blog-time-widget-display');
 			if (dynamic_clock.length > 0) { // If c2c-blog-time-dynamic is present, clock should be dynamic
+				// Set a CSS class for container to denote dynamic clock.
+				$(this).parent().addClass('c2c-blog-time-dynamic');
 				display.find('a')
 					.attr('title', '')
 					.click(function() { return false; });

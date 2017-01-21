@@ -188,6 +188,9 @@ class c2c_BlogTime {
 		echo '<style type="text/css">';
 		echo '#wpadminbar .c2c-blog-time-widget-display a { padding:0; }';
 		echo '#wpadminbar .c2c-blog-time-widget .ab-icon:before { content:\'\\f469\'; top:2px; }';
+		echo '#wpadminbar:not(.mobile) .ab-top-menu>li:hover>.c2c-blog-time-dynamic.ab-item,';
+		echo '#wpadminbar:not(.mobile)>#wp-toolbar li:hover .c2c-blog-time-dynamic span.ab-label,';
+		echo '#wpadminbar li .c2c-blog-time-dynamic .ab-icon:before { color:inherit; }';
 		echo '.c2c-blog-time-widget-display a:visited { color:inherit!important; }';
 		echo "</style>\n";
 	}
