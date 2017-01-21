@@ -43,21 +43,36 @@ class c2c_BlogTimeWidget extends c2c_Widget_012 {
 		$this->description = __( 'The current time according to your site.', 'blog-time' );
 
 		$this->config = array(
-			'title'   => array( 'input' => 'text', 'default' => $this->title,
-					'label' => __( 'Title', 'blog-time' ) ),
-			'format'  => array( 'input' => 'text', 'default' => 'g:i A',
-					'label' => __( 'Time format', 'blog-time' ),
-					'help'  => sprintf( __( 'PHP-style time format string. See %s for more info.', 'blog-time' ),
-						'<a href="https://php.net/date" title="">https://php.net/date</a>' ) ),
-			'dynamic' => array( 'input' => 'checkbox', 'default' => true,
-					'label' => __( 'Use dynamic clock?', 'blog-time' ),
-					'help'  => __( 'If checked, the widget will function like a regular clock, updating itself every minute.', 'blog-time' ) ),
-			'before'  => array( 'input' => 'text', 'default' => '',
-					'label' => __( 'Before text', 'blog-time' ),
-					'help'  => __( 'Text to display before the time.', 'blog-time' ) ),
-			'after'   => array( 'input' => 'text', 'default' => '',
-					'label' => __( 'After text', 'blog-time' ),
-					'help'  => __( 'Text to display after the time.', 'blog-time' ) )
+			'title'   => array(
+				'input'   => 'text',
+				'default' => $this->title,
+				'label'   => __( 'Title', 'blog-time' ),
+			),
+			'format'  => array(
+				'input'   => 'text',
+				'default' => 'g:i A',
+				'label'   => __( 'Time format', 'blog-time' ),
+				'help'    => sprintf( __( 'PHP-style time format string. See %s for more info.', 'blog-time' ),
+							'<a href="https://php.net/date" title="">https://php.net/date</a>' ),
+			),
+			'dynamic' => array(
+				'input'   => 'checkbox',
+				'default' => true,
+				'label'   => __( 'Use dynamic clock?', 'blog-time' ),
+				'help'    => __( 'If checked, the widget will function like a regular clock, updating itself every minute.', 'blog-time' ),
+			),
+			'before'  => array(
+				'input'   => 'text',
+				'default' => '',
+				'label'   => __( 'Before text', 'blog-time' ),
+				'help'    => __( 'Text to display before the time.', 'blog-time' ),
+			),
+			'after'   => array(
+				'input'   => 'text',
+				'default' => '',
+				'label'   => __( 'After text', 'blog-time' ),
+				'help'    => __( 'Text to display after the time.', 'blog-time' ),
+			),
 		);
 	}
 
