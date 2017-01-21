@@ -38,7 +38,7 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Plugin
 
 = How do I customize the format of the time string? =
 
-The widget and template tag allow you specify a time format directly. The default value for the time format, and the one used by the display of the blog time in the static admin widget, can be overridden by adding a filter to 'c2c_blog_time_format' and returning the desired time format. See http://php.net/date for more information regarding the time format.
+The widget and template tag allow you specify a time format directly. The default value for the time format, and the one used by the display of the blog time in the static admin widget, can be overridden by adding a filter to 'c2c_blog_time_format' and returning the desired time format. See https://php.net/date for more information regarding the time format.
 
 = Why is the time not changing in the sidebar widget? =
 
@@ -69,7 +69,7 @@ add_filter( 'c2c_blog_time_format', 'my_blog_time_format' );
  * Returns a custom datetime format string for default use
  * by the Blog Time plugin.
  *
- * See http://php.net/date for more information regarding the time format.
+ * See https://php.net/date for more information regarding the time format.
  *
  * @param string $format Original format string (ignored)
  * @return string New format string

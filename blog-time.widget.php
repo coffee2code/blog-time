@@ -48,7 +48,7 @@ class c2c_BlogTimeWidget extends c2c_Widget_012 {
 			'format'  => array( 'input' => 'text', 'default' => 'g:i A',
 					'label' => __( 'Time format', 'blog-time' ),
 					'help'  => sprintf( __( 'PHP-style time format string. See %s for more info.', 'blog-time' ),
-						'<a href="http://php.net/date" title="">http://php.net/date</a>' ) ),
+						'<a href="https://php.net/date" title="">https://php.net/date</a>' ) ),
 			'dynamic' => array( 'input' => 'checkbox', 'default' => true,
 					'label' => __( 'Use dynamic clock?', 'blog-time' ),
 					'help'  => __( 'If checked, the widget will function like a regular clock, updating itself every minute.', 'blog-time' ) ),
