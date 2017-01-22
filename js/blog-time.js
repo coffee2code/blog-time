@@ -8,7 +8,7 @@ if (jQuery) {
 			var time_format = embedded_time_format ? embedded_time_format : c2c_BlogTime.time_format;
 			var utc_offset = c2c_BlogTime.utc_offset;
 			var now = moment().utcOffset(utc_offset).format(time_format);
-			$(c).find('.c2c-blog-time-widget-display').html("<span class='clocktime'>"+now+"</span>"); //+":"+s
+			$(c).find('.c2c-blog-time-widget-display').html(now); //+":"+s
 
 			// Determine update interval.
 			if ( time_format.indexOf('s') > -1 ) {
