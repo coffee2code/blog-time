@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Blog Time
- * Version:     3.4
+ * Version:     3.5
  * Plugin URI:  http://coffee2code.com/wp-plugins/blog-time/
  * Author:      Scott Reilly
  * Author URI:  http://coffee2code.com/
@@ -18,15 +18,14 @@
  *
  * @package Blog_Time
  * @author  Scott Reilly
- * @version 3.4
+ * @version 3.5
  */
 
 /*
  * TODO:
- * - Document template tag
- * - Time format string doesn't currently apply to dynamic clock. Make it work, or remove option to customize time format
  * - Add support for per-user setting for controlling admin toolbar widget (and if not shown, don't enqueue JS or CSS)
- *
+ * - Allow user to specify Moment.js-style time format string. (Perhaps by prepending "momentjs:" to it.)
+ * - Expose REST API endpoint for blog time and use it instead of admin-ajax.
  */
 
 /*
@@ -67,7 +66,7 @@ class c2c_BlogTime {
 	 * @since 3.0
 	 */
 	public static function version() {
-		return '3.4';
+		return '3.5';
 	}
 
 	/**
