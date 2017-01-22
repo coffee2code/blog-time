@@ -10,6 +10,7 @@
 #wpadminbar:not(.mobile) .ab-top-menu>li:hover>.c2c-blog-time-dynamic.ab-item,
 #wpadminbar:not(.mobile)>#wp-toolbar li:hover .c2c-blog-time-dynamic span.ab-label,
 #wpadminbar li .c2c-blog-time-dynamic .ab-icon:before {
+	background-color: inherit;
 	color: inherit;
 }
 
