@@ -199,6 +199,9 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
+= () =
+* Change: Update copyright date (2018)
+
 = 3.5 (2017-01-21) =
 * New: Add ability for dynamic clock to honor custom time format.
     * Package Moment.js (v2.17.1), a datatime library for JS.
