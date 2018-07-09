@@ -113,7 +113,7 @@ $site_date = c2c_blog_time( 'M d, Y', false );
 ?>`
 
 
-== Filters ==
+== Hooks ==
 
 The plugin exposes four filters for hooking. Typically, customizations utilizing these hooks would be put into your active theme's functions.php file, or used by another plugin.
 
@@ -200,6 +200,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 == Changelog ==
 
 = () =
+* Change: Rename readme.txt section from 'Filters' to 'Hooks'
 * Change: Note compatibility through WP 4.9+
 * Change: Update copyright date (2018)
 
