@@ -24,7 +24,7 @@ This is most useful to see the server/blog time to judge when a time sensitive p
 
 Thanks to <a href="https://momentjs.com/">Moment.js</a> for the JavaScript date handling library.
 
-Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Plugin Directory Page](https://wordpress.org/plugins/blog-time/) | [Author Homepage](http://coffee2code.com)
+Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Plugin Directory Page](https://wordpress.org/plugins/blog-time/) | [GitHub](https://github.com/coffee2code/blog-time/) | [Author Homepage](http://coffee2code.com)
 
 
 == Installation ==
@@ -200,6 +200,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 == Changelog ==
 
 = () =
+* New: Add GitHub link to readme
 * Change: Rename readme.txt section from 'Filters' to 'Hooks'
 * Change: Modify formatting of hook name in readme to prevent being uppercased when shown in the Plugin Directory
 * Change: Note compatibility through WP 4.9+
