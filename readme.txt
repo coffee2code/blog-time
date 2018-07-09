@@ -115,7 +115,7 @@ $site_date = c2c_blog_time( 'M d, Y', false );
 
 == Hooks ==
 
-The plugin exposes four filters for hooking. Typically, customizations utilizing these hooks would be put into your active theme's functions.php file, or used by another plugin.
+The plugin exposes four filters for hooking. Code using these filters should ideally be put into a mu-plugin or site-specific plugin (which is beyond the scope of this readme to explain). Less ideally, you could put them in your active theme's functions.php file.
 
 **c2c_blog_time (filter)**
 
