@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 4.9
-Stable tag: 3.5
+Stable tag: 3.5.1
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
 
@@ -199,7 +199,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
-= () =
+= 3.5.1 (2018-07-09) =
 * Change: Update Moment.js to v2.22.2
 * New: Add README.md
 * New: Add GitHub link to readme
@@ -400,6 +400,9 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 
 == Upgrade Notice ==
+
+= 3.5.1 =
+Minor update: updated Moment.js to v2.22.2, noted compatibility through WP 4.9+, added README.md for GitHub, updated copyright date (2018), and other minor changes
 
 = 3.5 =
 Recommended update: major refactoring of dynamic clock (which now honors custom time format), added clock dashicon, compatibility is now WP 4.6 through 4.7+ (though it should continue to work for earlier versions of WP), and other improvements.
