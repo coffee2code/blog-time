@@ -117,7 +117,7 @@ $site_date = c2c_blog_time( 'M d, Y', false );
 
 The plugin exposes four filters for hooking. Typically, customizations utilizing these hooks would be put into your active theme's functions.php file, or used by another plugin.
 
-= c2c_blog_time (filter) =
+**c2c_blog_time (filter)**
 
 The 'c2c_blog_time' hook allows you to use an alternative approach to safely invoke `c2c_blog_time()` in such a way that if the plugin were deactivated or deleted, then your calls to the function won't cause errors in your site.
 
@@ -135,7 +135,7 @@ Do:
 
 `<?php echo apply_filters( 'c2c_blog_time', '' ); ?>`
 
-= c2c_blog_time_format (filter) =
+**c2c_blog_time_format (filter)**
 
 The 'c2c_blog_time_format' hook allows you to customize the default format for the blog time. By default this is 'g:i A' (though this may be different if modified by localization).
 
@@ -158,7 +158,7 @@ function change_blog_time_format( $format ) {
 add_filter( 'c2c_blog_time_format', 'change_blog_time_format' );
 `
 
-= c2c_blog_time_toolbar_widget_for_user (filter) =
+**c2c_blog_time_toolbar_widget_for_user (filter)**
 
 The 'c2c_blog_time_toolbar_widget_for_user' hook allows you to control if the admin toolbar clock widget should be shown, on a per-user basis. By default the admin toolbar clock is shown to everyone who can see the admin toolbar.
 
@@ -181,7 +181,7 @@ function restrict_blog_time_widget_appearance( $show ) {
 add_filter( 'c2c_blog_time_toolbar_widget_for_user', 'restrict_blog_time_widget_appearance' );
 `
 
-= c2c_blog_time_active_clock (filter) =
+**c2c_blog_time_active_clock (filter)**
 
 The 'c2c_blog_time_active_clock' hook returns the boolean value indicating if the Javascript-powered dynamic clock introduced in v2.0 should be enabled or if instead the v1.x era behavior of a static timestamp that can be clicked to update the timestamp via AJAX should be enabled. By default the dynamic clock is enabled.
 
@@ -201,6 +201,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 = () =
 * Change: Rename readme.txt section from 'Filters' to 'Hooks'
+* Change: Modify formatting of hook name in readme to prevent being uppercased when shown in the Plugin Directory
 * Change: Note compatibility through WP 4.9+
 * Change: Update copyright date (2018)
 
