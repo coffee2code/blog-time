@@ -203,6 +203,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * Change: Update Moment.js to v2.22.2
 * New: Add README.md
 * New: Add GitHub link to readme
+* New: Add LICENSE file
 * Change: Minor whitespace tweaks to unit test bootstrap
 * Change: Rename readme.txt section from 'Filters' to 'Hooks'
 * Change: Modify formatting of hook name in readme to prevent being uppercased when shown in the Plugin Directory
