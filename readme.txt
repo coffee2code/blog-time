@@ -5,7 +5,7 @@ Tags: server, blog, time, clock, datetime, admin, widget, widgets, template tag,
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
-Tested up to: 4.7
+Tested up to: 4.9
 Stable tag: 3.5
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
@@ -200,6 +200,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 == Changelog ==
 
 = () =
+* Change: Note compatibility through WP 4.9+
 * Change: Update copyright date (2018)
 
 = 3.5 (2017-01-21) =
