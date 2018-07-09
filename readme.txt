@@ -29,7 +29,7 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Plugin
 
 == Installation ==
 
-1. Unzip `blog-time.zip` inside the `/wp-content/plugins/` directory for your site (or install via the built-in WordPress plugin installer)
+1. Install via the built-in WordPress plugin installer or download and unzip `blog-time.zip` inside the plugins directory for your site (typically `wp-content/plugins/`)
 1. Activate the plugin through the 'Plugins' admin menu in WordPress
 1. Optionally use the 'Blog Time' widget or the template tag `c2c_blog_time()` in a theme template file to display the blog's time at the time of the page's rendering.
 
@@ -204,6 +204,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * Change: Minor whitespace tweaks to unit test bootstrap
 * Change: Rename readme.txt section from 'Filters' to 'Hooks'
 * Change: Modify formatting of hook name in readme to prevent being uppercased when shown in the Plugin Directory
+* Change: Update installation instruction to prefer built-in installer over .zip file
 * Change: Note compatibility through WP 4.9+
 * Change: Update copyright date (2018)
 
