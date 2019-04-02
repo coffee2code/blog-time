@@ -41,7 +41,7 @@ if (jQuery) {
 			}
 			else {
 				display.click(function() {
-					$.get(ajaxurl, {action: 'report_time'}, function(data) {
+					$.get(c2c_BlogTime.ajaxurl, {action: 'report_time'}, function(data) {
 						display.find('a').html(data);
 					});
 					return false;

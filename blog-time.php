@@ -86,18 +86,6 @@ class c2c_BlogTime {
 		add_action( 'wp_enqueue_scripts',         array( __CLASS__, 'enqueue_js' ) );
 		add_action( 'wp_ajax_report_time',        array( __CLASS__, 'report_time' ) );
 		add_action( 'wp_ajax_nopriv_report_time', array( __CLASS__, 'report_time' ) );
-		add_action( 'wp_head',                    array( __CLASS__, 'set_js_ajaxurl' ) );
-	}
-
-	/**
-	 * Sets JS variable to path necessary for AJAX.
-	 *
-	 * Only needed on front-end for widget since admin already sets this.
-	 *
-	 * @since 1.2
-	 */
-	public static function set_js_ajaxurl() {
-		echo '<script type="text/javascript">var ajaxurl = \'' . admin_url( 'admin-ajax.php' ) . "';</script>\n";
 	}
 
 	/**
@@ -157,6 +145,7 @@ class c2c_BlogTime {
 		wp_enqueue_script( __CLASS__, plugins_url( 'js/blog-time.js', __FILE__ ), array( 'jquery', 'moment' ), self::version(), true );
 
 		$text = array(
+			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
 			'time_format' => self::get_time_format( '', 'momentjs' ),
 			'utc_offset'  => self::display_time( 'O', 'utc-offset' ),
 		);
