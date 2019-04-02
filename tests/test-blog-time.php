@@ -68,7 +68,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 	public function test_widget_version() {
-		$this->assertEquals( '007', c2c_BlogTimeWidget::version() );
+		$this->assertEquals( '008', c2c_BlogTimeWidget::version() );
 	}
 
 	public function test_widget_base_class_name() {

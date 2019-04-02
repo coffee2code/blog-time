@@ -6,7 +6,7 @@
  *
  * @package c2c_Blog_Time_Widget
  * @author  Scott Reilly
- * @version 007
+ * @version 008
  */
 
 defined( 'ABSPATH' ) or die();
@@ -25,7 +25,7 @@ class c2c_BlogTimeWidget extends c2c_Widget_013 {
 	 * @return string
 	 */
 	public static function version() {
-		return '007';
+		return '008';
 	}
 
 	/**
