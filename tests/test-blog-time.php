@@ -239,6 +239,16 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertRegExp( $expected, c2c_BlogTime::add_widget() );
 	}
 
+	public function test_filter_c2c_blog_time_active_clock() {
+		add_filter( 'c2c_blog_time_active_clock', '__return_false' );
+
+		$expected = '/<span class="c2c-blog-time-widget"><span class="ab-icon"><\/span><span class="c2c-blog-time-widget-display ab-label "><a class="ab-item" href="" title="Click to refresh blog time">';
+		$expected .= '(1?[0-9]:[0-5][0-9] [AP]M)';
+		$expected .= '<\/a><\/span><\/span>' . "\\n/";
+
+		$this->assertRegExp( $expected, c2c_BlogTime::add_widget() );
+	}
+
 
 	/*
 	 * TEST TODO:
