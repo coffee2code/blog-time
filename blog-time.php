@@ -318,7 +318,7 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Outputs the admin widget.
+	 * Returns the markup for the admin widget.
 	 *
 	 * @param array $args {
 	 *     Optional. Configuration array. Default empty array.
@@ -363,11 +363,11 @@ class c2c_BlogTime {
 			$data_atts .= ' data-time-format="' . esc_attr( self::get_time_format( $args['format'], 'momentjs' ) ) . '"';
 		}
 
-		$out  = "<span class='c2c-blog-time-widget'$data_atts>";
+		$out  = '<span class="c2c-blog-time-widget"' . $data_atts . '>';
 
 		$out .= '<span class="ab-icon"></span>';
 
-		$out .= "<span class='c2c-blog-time-widget-display ab-label $dynamic_class'>";
+		$out .= '<span class="c2c-blog-time-widget-display ab-label ' . $dynamic_class . '">';
 		$out .= sprintf(
 			'<a class="ab-item" href="" title="%s">%s</a>',
 			esc_attr__( 'Click to refresh blog time', 'blog-time' ),
