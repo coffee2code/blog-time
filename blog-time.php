@@ -188,7 +188,12 @@ class c2c_BlogTime {
 		}
 
 		if ( ! $time_format ) {
-			$time_format = apply_filters( 'blog_time_format', self::$config['time_format'] ); // deprecated as of v3.1
+			$time_format = apply_filters_deprecated(
+				'blog_time_format',
+				array( self::$config['time_format'] ),
+				'3.2',
+				'c2c_blog_time_format'
+			 );
 			$time_format = apply_filters( 'c2c_blog_time_format', $time_format, $context );
 		}
 
