@@ -74,13 +74,6 @@ class c2c_BlogTime {
 	 *
 	 */
 	public static function init() {
-		add_action( 'init', array( __CLASS__, 'do_init' ) );
-	}
-
-	/**
-	 * Handle initialization.
-	 */
-	public static function do_init() {
 		// Load textdomain.
 		load_plugin_textdomain( 'blog-time' );
 
