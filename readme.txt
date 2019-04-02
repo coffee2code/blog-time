@@ -202,6 +202,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 = () =
 * Change: Use minimized version of Moment JS library to reduce resource usage
 * Change: Update Moment.js to v2.24.0
+* Change: Change handle for enqueuing Moment JS to allow only one copy of the library being enqueued now that WP packages the library
 * Change: Initialize plugin on `plugins_loaded` action instead of on load
 * Change: Merge `do_init()` into `init()`
 * Change: Update widget framework to 013
