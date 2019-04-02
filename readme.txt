@@ -214,6 +214,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * Change: Ensure widget markup uses double-quotes rather than single-quotes for class attribute values
 * Unit tests:
     * Add unit test for `add_widget()`
+    * Add unit tests for `show_in_toolbar_for_user()`
     * Add unit test for `c2c_blog_time_active_clock` filter
 * New: Add CHANGELOG.md file and move all but most recent changelog entries into it
 * New: Add inline documentation for hooks
