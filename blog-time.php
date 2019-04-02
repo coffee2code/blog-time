@@ -369,8 +369,8 @@ class c2c_BlogTime {
 
 } // end c2c_BlogTime
 
+add_action( 'plugins_loaded', array( 'c2c_BlogTime', 'init' ) );
 
-c2c_BlogTime::init();
 
 // Template tag
 if ( ! function_exists( 'c2c_blog_time' ) ) {
