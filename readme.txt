@@ -206,6 +206,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
     * Add `get_config()` as a getter for config array
 * Change: Update widget to 008
     * Update to use v013 of the widget framework
+* Change: Cast return value of `c2c_blog_time_toolbar_widget_for_user` and `c2c_blog_time_active_clock` filters as boolean
 * New: Add CHANGELOG.md file and move all but most recent changelog entries into it
 * New: Add inline documentation for hooks
 * Change: Use `apply_filters_deprecated()` when using the deprecated filter

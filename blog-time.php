@@ -134,7 +134,7 @@ class c2c_BlogTime {
 		 * @param bool $enabled_for_user Is the blog time admin toolbar widget
 		 *                               enabled for user? Default true.
 		 */
-		return is_admin_bar_showing() ? apply_filters( 'c2c_blog_time_toolbar_widget_for_user', true ) : false;
+		return is_admin_bar_showing() ? (bool) apply_filters( 'c2c_blog_time_toolbar_widget_for_user', true ) : false;
 	}
 
 	/**
@@ -356,7 +356,7 @@ class c2c_BlogTime {
 			 *
 			 * @param bool $active_clock Is the blog time clock active? Default true.
 			 */
-			$is_dynamic = apply_filters( 'c2c_blog_time_active_clock', true );
+			$is_dynamic = (bool) apply_filters( 'c2c_blog_time_active_clock', true );
 		} else {
 			$is_dynamic = true == $args['dynamic'];
 		}
