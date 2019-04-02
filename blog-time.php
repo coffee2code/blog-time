@@ -126,9 +126,15 @@ class c2c_BlogTime {
 	 * @return bool True if enabled, false if not.
 	 */
 	public static function show_in_toolbar_for_user() {
-		return is_admin_bar_showing() ?
-			apply_filters( 'c2c_blog_time_toolbar_widget_for_user', true ) :
-			false;
+		/**
+		 * Filters if the blog time admin toolbar widget should be enabled for user.
+		 *
+		 * @since 3.0
+		 *
+		 * @param bool $enabled_for_user Is the blog time admin toolbar widget
+		 *                               enabled for user? Default true.
+		 */
+		return is_admin_bar_showing() ? apply_filters( 'c2c_blog_time_toolbar_widget_for_user', true ) : false;
 	}
 
 	/**
@@ -193,7 +199,15 @@ class c2c_BlogTime {
 				array( self::$config['time_format'] ),
 				'3.2',
 				'c2c_blog_time_format'
-			 );
+			);
+			/**
+			 * Filters the time format string for a given context.
+			 *
+			 * @since 3.1
+			 *
+			 * @param string $time_format The format for the time string.
+			 * @param string $context     The context.
+			 */
 			$time_format = apply_filters( 'c2c_blog_time_format', $time_format, $context );
 		}
 
@@ -335,6 +349,13 @@ class c2c_BlogTime {
 		$args = wp_parse_args( $args, $defaults );
 
 		if ( is_null( $args['dynamic'] ) ) {
+			/**
+			 * Filters if the blog time clock should be active/dynamic.
+			 *
+			 * @since 2.0
+			 *
+			 * @param bool $active_clock Is the blog time clock active? Default true.
+			 */
 			$is_dynamic = apply_filters( 'c2c_blog_time_active_clock', true );
 		} else {
 			$is_dynamic = true == $args['dynamic'];
