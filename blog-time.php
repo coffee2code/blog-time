@@ -350,7 +350,10 @@ class c2c_BlogTime {
 
 		if ( is_null( $args['dynamic'] ) ) {
 			/**
-			 * Filters if the blog time clock should be active/dynamic.
+			 * Filters if the Javascript-powered dynamic clock introduced in v2.0 should
+			 * be enabled or if instead the v1.x era behavior of a static timestamp that
+			 * can be clicked to update the timestamp via AJAX should be enabled. By
+			 * default the dynamic clock is enabled.
 			 *
 			 * @since 2.0
 			 *
