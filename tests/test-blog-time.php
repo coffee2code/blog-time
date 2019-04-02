@@ -68,6 +68,12 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertEquals( '3.5.1', c2c_BlogTime::version() );
 	}
 
+
+	/*
+	 * Widget
+	 */
+
+
 	public function test_widget_class_name() {
 		$this->assertTrue( class_exists( 'c2c_BlogTimeWidget' ) );
 	}
@@ -95,6 +101,12 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	public function test_widget_made_available() {
 		$this->assertContains( 'c2c_BlogTimeWidget', array_keys( $GLOBALS['wp_widget_factory']->widgets ) );
 	}
+
+
+	/*
+	 * c2c_blog_time()
+	 */
+
 
 	public function test_return_value_of_c2c_blog_time() {
 		$format = 'Y-n-j G:i';
