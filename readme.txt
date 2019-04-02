@@ -202,6 +202,8 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 = () =
 * Change: Initialize plugin on `plugins_loaded` action instead of on load
 * Change: Merge `do_init()` into `init()`
+* Change: Update widget framework to 013
+    * Add `get_config()` as a getter for config array
 * New: Add CHANGELOG.md file and move all but most recent changelog entries into it
 * Change: Note compatibility through WP 5.1+
 * Change: Update copyright date (2019)
