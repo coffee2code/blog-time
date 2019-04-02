@@ -14,6 +14,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->incoming_time_format = '';
 		$this->incoming_context = '';
 		remove_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
+		remove_filter( 'c2c_blog_time_active_clock', '__return_false' );
 	}
 
 
@@ -222,6 +223,20 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 	public function test_map_php_time_format_to_momentjs_doesnt_error_with_blank_format() {
 		$this->assertEquals( '', c2c_BLogTime::map_php_time_format_to_momentjs( '' ) );
+	}
+
+
+	/*
+	 * c2c_BlogTime::add_widget()
+	 */
+
+
+	public function tests_add_widget() {
+		$expected = '/<span class="c2c-blog-time-widget"><span class="ab-icon"><\/span><span class="c2c-blog-time-widget-display ab-label c2c-blog-time-dynamic"><a class="ab-item" href="" title="Click to refresh blog time">';
+		$expected .= '(1?[0-9]:[0-5][0-9] [AP]M)';
+		$expected .= '<\/a><\/span><\/span>' . "\\n/";
+
+		$this->assertRegExp( $expected, c2c_BlogTime::add_widget() );
 	}
 
 

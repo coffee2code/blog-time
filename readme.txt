@@ -212,6 +212,8 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
     * Update to use v013 of the widget framework
 * Change: Cast return value of `c2c_blog_time_toolbar_widget_for_user` and `c2c_blog_time_active_clock` filters as boolean
 * Change: Ensure widget markup uses double-quotes rather than single-quotes for class attribute values
+* Unit tests:
+    * Add unit test for `add_widget()`
 * New: Add CHANGELOG.md file and move all but most recent changelog entries into it
 * New: Add inline documentation for hooks
 * Change: Use `apply_filters_deprecated()` when using the deprecated filter
