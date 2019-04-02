@@ -15,6 +15,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->incoming_context = '';
 		remove_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
 		remove_filter( 'c2c_blog_time_active_clock', '__return_false' );
+		remove_filter( 'c2c_blog_time_toolbar_widget_for_user', '__return_false' );
 		remove_filter( 'show_admin_bar', '__return_true' );
 		remove_filter( 'show_admin_bar', '__return_false' );
 
@@ -266,6 +267,14 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 	public function test_show_in_toolbar_for_user_when_admin_bar_not_showing() {
 		add_filter( 'show_admin_bar', '__return_false' );
+
+		$this->assertFalse( c2c_BlogTime::show_in_toolbar_for_user() );
+	}
+
+
+	public function test_filter_c2c_blog_time_toolbar_widget_for_user() {
+		add_filter( 'show_admin_bar', '__return_true' );
+		add_filter( 'c2c_blog_time_toolbar_widget_for_user', '__return_false' );
 
 		$this->assertFalse( c2c_BlogTime::show_in_toolbar_for_user() );
 	}
