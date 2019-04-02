@@ -200,6 +200,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 == Changelog ==
 
 = () =
+* Change: Update copyright date (2019)
 * Change: Update License URI to be HTTPS
 
 = 3.5.1 (2018-07-09) =

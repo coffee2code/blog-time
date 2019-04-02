@@ -2,7 +2,7 @@
 /**
  * Blog Time plugin widget code
  *
- * Copyright (c) 2009-2017 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2009-2019 by Scott Reilly (aka coffee2code)
  *
  * @package c2c_Blog_Time_Widget
  * @author  Scott Reilly
