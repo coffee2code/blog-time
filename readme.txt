@@ -200,6 +200,7 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 == Changelog ==
 
 = () =
+* Change: Update Moment.js to v2.24.0
 * Change: Initialize plugin on `plugins_loaded` action instead of on load
 * Change: Merge `do_init()` into `init()`
 * Change: Update widget framework to 013
