@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 5.1
-Stable tag: 3.5.1
+Stable tag: 3.6
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
 
@@ -276,6 +276,9 @@ _Full changelog is available in [CHANGELOG.md](https://github.com/coffee2code/bl
 
 
 == Upgrade Notice ==
+
+= 3.6 =
+Recommended update: updated packaged Moment.js to v2.24.0, defer to using Moment.js now enqueued by WP, tweaked plugin initialization, added more unit tests, noted compatibility through WP 5.1+, updated copyright date (2019), more.
 
 = 3.5.1 =
 Minor update: updated Moment.js to v2.22.2, noted compatibility through WP 4.9+, added README.md for GitHub, updated copyright date (2018), and other minor changes

@@ -1,5 +1,32 @@
 # Changelog
 
+## 3.6 _(2019-04-02)_
+* Change: Use minimized version of Moment.js library to reduce resource usage
+* Change: Update Moment.js to v2.24.0
+* Change: Change handle for enqueuing Moment.js to allow only one copy of the library being enqueued now that WP packages the library
+* Change: Remove `set_js_ajaxurl()` and localize `ajaxurl` alongside other variables instead of outputting it directly
+* Change: Initialize plugin on `plugins_loaded` action instead of on load
+* Change: Merge `do_init()` into `init()`
+* Change: Update widget framework to 013
+    * Add `get_config()` as a getter for config array
+* Change: Update widget to 008
+    * Update to use v013 of the widget framework
+* Change: Cast return value of `c2c_blog_time_toolbar_widget_for_user` and `c2c_blog_time_active_clock` filters as boolean
+* Change: Ensure widget markup uses double-quotes rather than single-quotes for class attribute values
+* Unit tests:
+    * Add unit test for `add_widget()`
+    * Add unit tests for `show_in_toolbar_for_user()`
+    * Add unit test for `c2c_blog_time_active_clock` filter
+    * Add unit test for `c2c_blog_time_toolbar_widget_for_user` filter
+    * Add unit tests for hooking of various actions
+* New: Add CHANGELOG.md file and move all but most recent changelog entries into it
+* New: Add inline documentation for hooks
+* Change: Use `apply_filters_deprecated()` when using the deprecated filter
+* Change: Note compatibility through WP 5.1+
+* Change: Update copyright date (2019)
+* Change: Update License URI to be HTTPS
+* Change: Split paragraph in README.md's "Support" section into two
+
 ## 3.5.1 _(2018-07-09)_
 * Change: Update Moment.js to v2.22.2
 * New: Add README.md

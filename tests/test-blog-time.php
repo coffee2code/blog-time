@@ -65,7 +65,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 	public function test_version() {
-		$this->assertEquals( '3.5.1', c2c_BlogTime::version() );
+		$this->assertEquals( '3.6', c2c_BlogTime::version() );
 	}
 
 	public function test_hooks_plugins_loaded() {
@@ -271,7 +271,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	 */
 
 
-	public function tests_add_widget() {
+	public function test_add_widget() {
 		$expected = '/<span class="c2c-blog-time-widget"><span class="ab-icon"><\/span><span class="c2c-blog-time-widget-display ab-label c2c-blog-time-dynamic"><a class="ab-item" href="" title="Click to refresh blog time">';
 		$expected .= '(1?[0-9]:[0-5][0-9] [AP]M)';
 		$expected .= '<\/a><\/span><\/span>' . "\\n/";
