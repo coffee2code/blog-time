@@ -68,6 +68,30 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertEquals( '3.5.1', c2c_BlogTime::version() );
 	}
 
+	public function test_hooks_plugins_loaded() {
+		$this->assertEquals( 10, has_action( 'plugins_loaded', array( 'c2c_BlogTime', 'init' ) ) );
+	}
+
+	public function test_hooks_admin_bar_menu() {
+		$this->assertEquals( 500, has_action( 'admin_bar_menu', array( 'c2c_BlogTime', 'admin_bar_menu' ) ) );
+	}
+
+	public function test_hooks_admin_enqueue_scripts() {
+		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', array( 'c2c_BlogTime', 'enqueue_js' ) ) );
+	}
+
+	public function test_hooks_wp_enqueue_scripts() {
+		$this->assertEquals( 10, has_action( 'wp_enqueue_scripts', array( 'c2c_BlogTime', 'enqueue_js' ) ) );
+	}
+
+	public function test_hooks_wp_ajax_report_time() {
+		$this->assertEquals( 10, has_action( 'wp_ajax_report_time', array( 'c2c_BlogTime', 'report_time' ) ) );
+	}
+
+	public function test_hooks_wp_ajax_nopriv_report_time() {
+		$this->assertEquals( 10, has_action( 'wp_ajax_nopriv_report_time', array( 'c2c_BlogTime', 'report_time' ) ) );
+	}
+
 
 	/*
 	 * Widget
