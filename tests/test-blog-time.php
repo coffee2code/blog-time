@@ -65,7 +65,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 	public function test_version() {
-		$this->assertEquals( '3.6', c2c_BlogTime::version() );
+		$this->assertEquals( '3.6.1', c2c_BlogTime::version() );
 	}
 
 	public function test_hooks_plugins_loaded() {

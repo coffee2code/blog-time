@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 3.6
+Stable tag: 3.6.1
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
 
@@ -199,6 +199,11 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
+= 3.6.1 (2019-12-01) =
+* Change: Update unit test install script and bootstrap to use latest WP unit test repo
+* Change: Note compatibility through WP 5.3+
+* Change: Update copyright date (2020)
+
 = 3.6 (2019-04-02) =
 * Change: Use minimized version of Moment.js library to reduce resource usage
 * Change: Update Moment.js to v2.24.0
@@ -238,44 +243,13 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * Change: Note compatibility through WP 4.9+
 * Change: Update copyright date (2018)
 
-= 3.5 (2017-01-21) =
-* New: Add ability for dynamic clock to honor custom time format.
-    * Package Moment.js (v2.17.1), a datatime library for JS.
-    * Add `map_php_time_format_to_momentjs()` to remap PHP time format tokens to Moment.js time format tokens.
-    * Simplify blog-time.js to defer time handling to Moment.js.
-    * Make time format and UTC offset available for JS usage.
-    * Output time format when customized (such as via widget or template tag) in markup for use by JS.
-    * Remove documentation indicating dynamic clock does not honor custom time format.
-* New: Add clock dashicon before adminbar time widget.
-* Change: Determine the dynamic clock update time interval based on time format string to reduce update frequency when possible.
-* Change: Move CSS into enqueued file.
-    * CSS is now in file `css/blog-time.css`.
-    * Remove `add_css()`.
-* Change: Extract time format related code out of `display_time()` and into new `get_time_format()`.
-* Chnage: Add context to handlers for time format and display.
-    * Add `$context` arg to `get_format_time()` and `display_time()`.
-    * Add `$context` arg to 'c2c_blog_time_format' filter.
-    * Add 'context' as configuration parameter for `add_widget()`.
-    * Set context everywhere context can be set.
-* Change: Update widget framework to 012, bumping c2c_BlogTimeWidget to 007.
-* Bugfix: Add '.ab-item' class to time link so it gets proper styles in adminbar when JS is disabled.
-* Change: Prevent dynamic adminbar clock from getting hover styling as if it were a link.
-* Change: Ensure linked timestamp in static widget does not abide by a:visited styling.
-* Change: Widget: Move `register_c2c_BlogTimeWidget()` to 'c2c_BlogTimeWidget::register_widget()`.
-* Change: Sanitize the translated string used in an attribute.
-* Change: Enable more error output for unit tests.
-* Change: Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable.
-* Change: Note compatibility through WP 4.7+.
-* Change: Remove support for WordPress older than 4.6 (should still work for earlier versions though).
-* Change: Add 'Template Tags' section to FAQ.
-* Change: Minor inline documentation improvements and reformatting.
-* Change: Update copyright date (2017).
-* Change: Update both screenshots.
-
 _Full changelog is available in [CHANGELOG.md](https://github.com/coffee2code/blog-time/blob/master/CHANGELOG.md)._
 
 
 == Upgrade Notice ==
+
+= 3.6.1 =
+Trivial update: modernized unit tests, noted compatibility through WP 5.3+, and updated copyright date (2020)
 
 = 3.6 =
 Recommended update: updated packaged Moment.js to v2.24.0, defer to using Moment.js now enqueued by WP, tweaked plugin initialization, added more unit tests, noted compatibility through WP 5.1+, updated copyright date (2019), more.
