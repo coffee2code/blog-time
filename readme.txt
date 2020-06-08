@@ -24,7 +24,7 @@ This is most useful to see the server/blog time to judge when a time sensitive p
 
 Thanks to <a href="https://momentjs.com/">Moment.js</a> for the JavaScript date handling library.
 
-Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/blog-time/) | [Plugin Directory Page](https://wordpress.org/plugins/blog-time/) | [GitHub](https://github.com/coffee2code/blog-time/) | [Author Homepage](http://coffee2code.com)
+Links: [Plugin Homepage](https://coffee2code.com/wp-plugins/blog-time/) | [Plugin Directory Page](https://wordpress.org/plugins/blog-time/) | [GitHub](https://github.com/coffee2code/blog-time/) | [Author Homepage](https://coffee2code.com)
 
 
 == Installation ==

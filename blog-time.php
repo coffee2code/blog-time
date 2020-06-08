@@ -2,9 +2,9 @@
 /**
  * Plugin Name: Blog Time
  * Version:     3.6.1
- * Plugin URI:  http://coffee2code.com/wp-plugins/blog-time/
+ * Plugin URI:  https://coffee2code.com/wp-plugins/blog-time/
  * Author:      Scott Reilly
- * Author URI:  http://coffee2code.com/
+ * Author URI:  https://coffee2code.com/
  * Text Domain: blog-time
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
