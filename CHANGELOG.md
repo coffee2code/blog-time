@@ -4,7 +4,9 @@
 * New: Add TODO.md and move existing TODO list from top of main plugin file into it
 * Change: Note compatibility through WP 5.4+
 * Change: Update links to coffee2code.com to be HTTPS
-* Change: Unit tests: Use HTTPS for link to WP SVN repository in bin script for configuring unit tests (and delete commented-out code)
+* Unit tests:
+    * Change: Use HTTPS for link to WP SVN repository in bin script for configuring unit tests (and delete commented-out code)
+    * Change: Remove unnecessary unregistering of hooks in `tearDown()`
 
 ## 3.6.1 _(2019-12-01)_
 * Change: Update unit test install script and bootstrap to use latest WP unit test repo

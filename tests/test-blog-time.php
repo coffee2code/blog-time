@@ -13,12 +13,6 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 		$this->incoming_time_format = '';
 		$this->incoming_context = '';
-		remove_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
-		remove_filter( 'c2c_blog_time_active_clock', '__return_false' );
-		remove_filter( 'c2c_blog_time_toolbar_widget_for_user', '__return_false' );
-		remove_filter( 'show_admin_bar', '__return_true' );
-		remove_filter( 'show_admin_bar', '__return_false' );
-
 	}
 
 
