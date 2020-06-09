@@ -22,13 +22,6 @@
  */
 
 /*
- * TODO:
- * - Add support for per-user setting for controlling admin toolbar widget (and if not shown, don't enqueue JS or CSS)
- * - Allow user to specify Moment.js-style time format string. (Perhaps by prepending "momentjs:" to it.)
- * - Expose REST API endpoint for blog time and use it instead of admin-ajax.
- */
-
-/*
 	Copyright (c) 2009-2020 by Scott Reilly (aka coffee2code)
 
 	This program is free software; you can redistribute it and/or
