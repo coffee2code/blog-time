@@ -82,20 +82,6 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Are we on the wp-login.php page?
-	 *
-	 * We can get here while logged in and break the page as the admin bar
-	 * isn't shown and other things the js relies on aren't available.
-	 *
-	 * @since 3.0
-	 *
-	 * @return bool True if the current page is the login page, false if not.
-	 */
-	protected static function is_wp_login() {
-		return 'wp-login.php' == basename( $_SERVER['SCRIPT_NAME'] );
-	}
-
-	/**
 	 * Is the blog time admin toolbar widget enabled for the specified user?
 	 *
 	 * TODO: This is mostly a placeholder for future functionality whereby
@@ -127,7 +113,7 @@ class c2c_BlogTime {
 	 *                    admin toolbar check? (e.g. when widget is displayed)
 	 */
 	public static function enqueue_js( $force = false ) {
-		if ( ! $force && ( ! is_admin_bar_showing() || self::is_wp_login() || ! self::show_in_toolbar_for_user() ) ) {
+		if ( ! $force && ( ! is_admin_bar_showing() || ! self::show_in_toolbar_for_user() ) ) {
 			return;
 		}
 
