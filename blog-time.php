@@ -113,7 +113,7 @@ class c2c_BlogTime {
 	 *                    admin toolbar check? (e.g. when widget is displayed)
 	 */
 	public static function enqueue_js( $force = false ) {
-		if ( ! $force && ( ! is_admin_bar_showing() || ! self::show_in_toolbar_for_user() ) ) {
+		if ( ! $force && ! self::show_in_toolbar_for_user() ) {
 			return;
 		}
 
