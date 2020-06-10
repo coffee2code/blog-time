@@ -120,7 +120,7 @@ class c2c_BlogTime {
 		wp_enqueue_style( __CLASS__, plugins_url( 'css/blog-time.css', __FILE__ ), array(), self::version() );
 
 		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'moment', plugins_url( 'js/moment.min.js', __FILE__ ), array(), '2.24.0', true );
+		wp_enqueue_script( 'moment', plugins_url( 'js/moment.min.js', __FILE__ ), array(), '2.26.0', true );
 		wp_enqueue_script( __CLASS__, plugins_url( 'js/blog-time.js', __FILE__ ), array( 'jquery', 'moment' ), self::version(), true );
 
 		$text = array(

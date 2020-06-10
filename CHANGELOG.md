@@ -1,6 +1,12 @@
 # Changelog
 
 ## _(in-progress)_
+* Change: Update Moment.js to v2.26.0
+    * 2.26.0: https://gist.github.com/marwahaha/0725c40740560854a849b096ea7b7590
+    * 2.25.3: https://github.com/moment/moment/blob/develop/CHANGELOG.md#2253
+    * 2.25.2: https://github.com/moment/moment/blob/develop/CHANGELOG.md#2252
+    * 2.25.1: https://github.com/moment/moment/blob/develop/CHANGELOG.md#2251
+    * 2.25.0: https://gist.github.com/ichernev/6148e64df2427e455b10ce6a18de1a65
 * Change: Remove `is_wp_login()` since it is no longer necessary
 * Change: Remove redundant check in `enqueue_js()` that is already performed in `show_in_toolbar_for_user()`
 * New: Add TODO.md and move existing TODO list from top of main plugin file into it
