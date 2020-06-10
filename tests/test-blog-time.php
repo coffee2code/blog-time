@@ -213,6 +213,14 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		}
 	}
 
+	public function test_get_time_format_with_default_time_format_and_momentjs_context() {
+		$this->assertEquals( 'h:mm A', c2c_BlogTime::get_time_format( '', 'momentjs' ) );
+	}
+
+	public function test_get_time_format_with_custom_time_format_and_momentjs_context() {
+		$this->assertEquals( 'HH:mm:ss z', c2c_BlogTime::get_time_format( 'H:i:s e', 'momentjs' ) );
+	}
+
 	public function test_get_time_format_filtered_via_c2c_blog_time_format() {
 		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
 

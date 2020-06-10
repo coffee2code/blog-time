@@ -14,6 +14,7 @@
 * Change: Update links to coffee2code.com to be HTTPS
 * Unit tests:
     * New: Add tests for `display_time()`
+    * Change: Add more tests for `get_time_format()`
     * Change: Use HTTPS for link to WP SVN repository in bin script for configuring unit tests (and delete commented-out code)
     * Change: Remove unnecessary unregistering of hooks in `tearDown()`
 
