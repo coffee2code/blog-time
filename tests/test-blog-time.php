@@ -237,6 +237,34 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 
 	/*
+	 * c2c_BlogTime::display_time()
+	 */
+
+
+	public function test_display_time() {
+		$this->assertEquals(
+			date_i18n( c2c_BlogTime::get_time_format(), strtotime( current_time( 'mysql' ) ) ),
+			c2c_BlogTime::display_time()
+		);
+	}
+
+	public function test_display_time_with_explicit_time_format() {
+		$time_format = 'm d, Y h:i';
+
+		$this->assertEquals(
+			date_i18n( c2c_BlogTime::get_time_format( $time_format ), strtotime( current_time( 'mysql' ) ) ),
+			c2c_BlogTime::display_time( $time_format )
+		);
+	}
+
+	public function test_display_time_with_non_time_format_string() {
+		$this->assertEquals(
+			'QQQQ',
+			c2c_BlogTime::display_time( 'QQQQ' )
+		);
+	}
+
+	/*
 	 * c2c_BlogTime::map_php_time_format_to_momentjs()
 	 */
 
