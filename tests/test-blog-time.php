@@ -221,6 +221,10 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertEquals( 'HH:mm:ss z', c2c_BlogTime::get_time_format( 'H:i:s e', 'momentjs' ) );
 	}
 
+	/*
+	 * filter: c2c_blog_time_format
+	 */
+
 	public function test_get_time_format_filtered_via_c2c_blog_time_format() {
 		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
 
