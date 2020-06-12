@@ -12,6 +12,7 @@
 * New: Add TODO.md and move existing TODO list from top of main plugin file into it
 * Change: Note compatibility through WP 5.4+
 * Change: Update links to coffee2code.com to be HTTPS
+* Change: Add an FAQ and tweak docs in readme.txt
 * Unit tests:
     * New: Add tests for `display_time()`
     * Change: Add more tests for `get_time_format()`

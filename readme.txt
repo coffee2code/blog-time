@@ -42,11 +42,15 @@ The widget and template tag allow you specify a time format directly. The defaul
 
 = Why is the time not changing in the sidebar widget? =
 
-The widget's "Use dynamic clock?" configuration setting may not be checked (which it is by default).
+The widget's "Use dynamic clock?" configuration setting may not be checked (which it is by default). Or JavaScript could be disabled in the browser.
 
 = The time matches my computer's time; how do I know this thing is working? =
 
 Your machine may well be synced with the server's clock. One test you can perform is to change the blog's time zone (under Settings -> General). The blog's time will then be set to a different hour, which should then be reflected by the widget.
+
+= Can the clock be enabled/disabled on a per-user basis? =
+
+Yes, but only programmatically at the moment. Check out the docs for the `c2c_blog_time_toolbar_widget_for_user` filter for more information and a code example.
 
 = How do I go back to having the legacy static timestamp as opposed to the dynamic clock? =
 
@@ -92,7 +96,7 @@ The plugin provides one template tag for use in your theme templates, functions.
 = Functions =
 
 * `<?php function c2c_blog_time( $time_format = '', $echo = true ) ?>`
-Gets the formatted time for the site.
+Gets and/or displays the formatted time for the site.
 
 = Arguments =
 
@@ -176,7 +180,7 @@ Example:
  * @return bool
  */
 function restrict_blog_time_widget_appearance( $show ) {
-	return 'boss' == get_current_user()->user_login;
+	return 'boss' === get_current_user()->user_login;
 }
 add_filter( 'c2c_blog_time_toolbar_widget_for_user', 'restrict_blog_time_widget_appearance' );
 `
