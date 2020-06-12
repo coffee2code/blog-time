@@ -1,6 +1,13 @@
 # Changelog
 
-## _(in-progress)_
+## 3.6.2 _(2020-06-11)_
+
+### Highlights:
+
+This minor release updates the Moment.js library, adds a TODO.md file, updates a few URLs to be HTTPS, expands unit testing, and notes compatibility through WP 5.4+.
+
+### Details:
+
 * Change: Update Moment.js to v2.26.0
     * 2.26.0: https://gist.github.com/marwahaha/0725c40740560854a849b096ea7b7590
     * 2.25.3: https://github.com/moment/moment/blob/develop/CHANGELOG.md#2253

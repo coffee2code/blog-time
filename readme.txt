@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 3.6.1
+Stable tag: 3.6.2
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
 
@@ -203,6 +203,25 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
+= 3.6.2 (2020-06-11) =
+* Change: Update Moment.js to v2.26.0
+    * 2.26.0: https://gist.github.com/marwahaha/0725c40740560854a849b096ea7b7590
+    * 2.25.3: https://github.com/moment/moment/blob/develop/CHANGELOG.md#2253
+    * 2.25.2: https://github.com/moment/moment/blob/develop/CHANGELOG.md#2252
+    * 2.25.1: https://github.com/moment/moment/blob/develop/CHANGELOG.md#2251
+    * 2.25.0: https://gist.github.com/ichernev/6148e64df2427e455b10ce6a18de1a65
+* Change: Remove `is_wp_login()` since it is no longer necessary
+* Change: Remove redundant check in `enqueue_js()` that is already performed in `show_in_toolbar_for_user()`
+* New: Add TODO.md and move existing TODO list from top of main plugin file into it
+* Change: Note compatibility through WP 5.4+
+* Change: Update links to coffee2code.com to be HTTPS
+* Change: Add an FAQ and tweak docs in readme.txt
+* Unit tests:
+    * New: Add tests for `display_time()`
+    * Change: Add more tests for `get_time_format()`
+    * Change: Use HTTPS for link to WP SVN repository in bin script for configuring unit tests (and delete commented-out code)
+    * Change: Remove unnecessary unregistering of hooks in `tearDown()`
+
 = 3.6.1 (2019-12-01) =
 * Change: Update unit test install script and bootstrap to use latest WP unit test repo
 * Change: Note compatibility through WP 5.3+
@@ -235,22 +254,13 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * Change: Update License URI to be HTTPS
 * Change: Split paragraph in README.md's "Support" section into two
 
-= 3.5.1 (2018-07-09) =
-* Change: Update Moment.js to v2.22.2
-* New: Add README.md
-* New: Add GitHub link to readme
-* New: Add LICENSE file
-* Change: Minor whitespace tweaks to unit test bootstrap
-* Change: Rename readme.txt section from 'Filters' to 'Hooks'
-* Change: Modify formatting of hook name in readme to prevent being uppercased when shown in the Plugin Directory
-* Change: Update installation instruction to prefer built-in installer over .zip file
-* Change: Note compatibility through WP 4.9+
-* Change: Update copyright date (2018)
-
 _Full changelog is available in [CHANGELOG.md](https://github.com/coffee2code/blog-time/blob/master/CHANGELOG.md)._
 
 
 == Upgrade Notice ==
+
+= 3.6.2 =
+Minor update: Updated the Moment.js library, added TODO.md file, updated a few URLs to be HTTPS, expanded unit testing, and noted compatibility through WP 5.4+.
 
 = 3.6.1 =
 Trivial update: modernized unit tests, noted compatibility through WP 5.3+, and updated copyright date (2020)
