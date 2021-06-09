@@ -83,6 +83,11 @@ function my_blog_time_format( $format ) {
 }
 `
 
+= Does this plugin include unit tests? =
+
+Yes.
+
+
 == Screenshots ==
 
 1. A screenshot of the blog time being displayed in the admin toolbar.
