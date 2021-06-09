@@ -167,7 +167,7 @@ class c2c_BlogTime {
 			'<input name="%s" type="text" id="%s" value="%s" class="short-text"><p class="description">%s</p>' . "\n",
 			esc_attr( self::$setting_name ),
 			esc_attr( self::$setting_name ),
-			esc_attr( self::get_time_format( '', 'nofilter' ) ),
+			esc_attr( self::get_time_format( '', 'raw' ) ),
 			sprintf(
 				__( 'Used by the <strong>Blog Time</strong> plugin. See <a href="%s">Documentation on date and time formatting</a> for formatting syntax.', 'blog-time' ),
 				'https://www.php.net/manual/en/datetime.format.php'
@@ -244,16 +244,28 @@ class c2c_BlogTime {
 	/**
 	 * Determines the time format string for the given context.
 	 *
+	 * Recognized contexts:
+	 * - default:  The default context. Returns the true blog time format with
+	 *             everything (default value, parameter, setting, filter) taken
+	 *             into account.
+	 * - nofilter: Takes default value, parameter, and setting into account, but
+	 *             does not pass the blog time format through any filters.
+	 * - raw:      Takes parameter and setting into account, but ignores default
+	 *             value and filter. If parameter is set, then returns that value.
+	 *             Else returns value of setting, even if empty.
+	 * - widget:   When time is being displayed within a widget. Functionally
+	 *             equivalent to 'default'.
+	 *
 	 * @since 3.5
-	 * @since 4.0 Add support for 'nofilter' context.
+	 * @since 4.0 Add support for 'nofilter' and 'raw' contexts.
 	 *
 	 * @param  string $time_format Optional. The format for the time string, if
 	 *                             being explicitly set. Default ''.
 	 * @param  string $context.    Optional. The context for the time being
 	 *                             displayed. Can be any custom value, but has
-	 *                             special handling for 'momentjs' or 'nofilter'.
-	 *                             Default 'default'.
-	 * @return string The time string.
+	 *                             special handling for 'momentjs' 'nofilter',.
+	 *                             or 'raw'. Default 'default'.
+	 * @return string The time format string.
 	 */
 	public static function get_time_format( $time_format = '', $context = 'default' ) {
 		if ( ! $context ) {
@@ -266,6 +278,11 @@ class c2c_BlogTime {
 		} else {
 			$explicit = false;
 			$time_format = get_option( self::$setting_name );
+		}
+
+		// Don't proceed any further if context is 'raw'.
+		if ( 'raw' === $context ) {
+			return $time_format;
 		}
 
 		// If no time format at this point, use default.
