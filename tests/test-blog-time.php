@@ -28,6 +28,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 			array( array( 'c', 'YYYY-MM-DDTHH:mm:ssZ' ) ),
 			array( array( 'r', 'ddd, DD MMM YYYY HH:mm:ss ZZ' ) ),
 			array( array( 'M js, Y', 'MMM Do, YYYY' ) ),
+			array( array( 'T', '[' . c2c_BlogTime::display_time( 'T' ) . ']' ) ),
 		);
 	}
 

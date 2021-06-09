@@ -265,7 +265,7 @@ class c2c_BlogTime {
 			'I' => '',
 			'O' => 'ZZ',
 			'P' => 'Z',
-			'T' => '',
+			'T' => '[' . self::display_time( 'T' ) . ']',
 			'Z' => '',
 			// Full date/time
 			'c' => 'YYYY-MM-DDTHH:mm:ssZ',
