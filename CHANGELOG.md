@@ -3,6 +3,7 @@
 ## _(in-progress)_
 * Fix: Add support for the 'T' timezone format character to the dynamic clock (support for which was removed from Moment.js awhile ago)
 * Change: Note compatibility through WP 5.7+
+* Change: Update URLs to PHP documentation for datetime formatting
 * Change: Update copyright date (2021)
 
 ## 3.6.2 _(2020-06-11)_

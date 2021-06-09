@@ -38,7 +38,7 @@ Links: [Plugin Homepage](https://coffee2code.com/wp-plugins/blog-time/) | [Plugi
 
 = How do I customize the format of the time string? =
 
-The widget and template tag allow you specify a time format directly. The default value for the time format, and the one used by the display of the blog time in the static admin widget, can be overridden by adding a filter to 'c2c_blog_time_format' and returning the desired time format. See https://php.net/date for more information regarding the time format.
+The widget and template tag allow you specify a time format directly. The default value for the time format, and the one used by the display of the blog time in the static admin widget, can be overridden by adding a filter to 'c2c_blog_time_format' and returning the desired time format. See https://www.php.net/manual/en/datetime.format.php for more information regarding the time format.
 
 = Why is the time not changing in the sidebar widget? =
 
@@ -73,7 +73,7 @@ add_filter( 'c2c_blog_time_format', 'my_blog_time_format' );
  * Returns a custom datetime format string for default use
  * by the Blog Time plugin.
  *
- * See https://php.net/date for more information regarding the time format.
+ * @see https://www.php.net/manual/en/datetime.format.php for more information regarding the time format.
  *
  * @param string $format Original format string (ignored)
  * @return string New format string
@@ -101,7 +101,7 @@ Gets and/or displays the formatted time for the site.
 = Arguments =
 
 * `$time_format` (string)
-Optional. PHP-style time format string. See https://php.net/date for more info. Default is '' (which, unless otherwise modified, uses the default time forat: 'g:i A').
+Optional. PHP-style time format string. See https://www.php.net/manual/en/datetime.format.php for more info. Default is '' (which, unless otherwise modified, uses the default time forat: 'g:i A').
 
 * `$echo` (bool)
 Optional. Echo the template info? Default is true.
