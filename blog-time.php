@@ -179,6 +179,11 @@ class c2c_BlogTime {
 			$time_format = apply_filters( 'c2c_blog_time_format', $time_format, $context );
 		}
 
+		// If no time format still, use default.
+		if ( ! $time_format || ! is_string( $time_format ) ) {
+			$time_format = self::$config['time_format'];
+		}
+
 		if ( 'momentjs' === $context ) {
 			$time_format = self::map_php_time_format_to_momentjs( $time_format );
 		}

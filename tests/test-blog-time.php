@@ -222,9 +222,11 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertEquals( 'HH:mm:ss z', c2c_BlogTime::get_time_format( 'H:i:s e', 'momentjs' ) );
 	}
 
+
 	/*
 	 * filter: c2c_blog_time_format
 	 */
+
 
 	public function test_get_time_format_filtered_via_c2c_blog_time_format() {
 		add_filter( 'c2c_blog_time_format', array( $this, 'filter_c2c_blog_time_format' ), 10, 2 );
@@ -246,6 +248,36 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 		$this->assertEquals( 'Y,m,dTH:i:s A', c2c_BlogTime::get_time_format( '', 'widget' ) );
 		$this->assertEquals( 'widget', $this->incoming_context );
+	}
+
+	public function test_get_time_format_returns_default_time_format_when_filter_c2c_blog_time_format_returns_empty_string() {
+		add_filter( 'c2c_blog_time_format', '__return_empty_string' );
+
+		$this->assertEquals( self::$default_time_format, c2c_BlogTime::get_time_format( '' ) );
+	}
+
+	public function test_get_time_format_returns_default_time_format_when_filter_c2c_blog_time_format_returns_empty_array() {
+		add_filter( 'c2c_blog_time_format', '__return_empty_array' );
+
+		$this->assertEquals( self::$default_time_format, c2c_BlogTime::get_time_format( '' ) );
+	}
+
+	public function test_get_time_format_returns_default_time_format_when_filter_c2c_blog_time_format_returns_boolean_true() {
+		add_filter( 'c2c_blog_time_format', '__return_true' );
+
+		$this->assertEquals( self::$default_time_format, c2c_BlogTime::get_time_format( '' ) );
+	}
+
+	public function test_get_time_format_returns_default_time_format_when_filter_c2c_blog_time_format_returns_boolean_false() {
+		add_filter( 'c2c_blog_time_format', '__return_false' );
+
+		$this->assertEquals( self::$default_time_format, c2c_BlogTime::get_time_format( '' ) );
+	}
+
+	public function test_get_time_format_returns_default_time_format_when_filter_c2c_blog_time_format_returns_null() {
+		add_filter( 'c2c_blog_time_format', '__return_null' );
+
+		$this->assertEquals( self::$default_time_format, c2c_BlogTime::get_time_format( '' ) );
 	}
 
 
