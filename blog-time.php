@@ -48,6 +48,15 @@ if ( ! class_exists( 'c2c_BlogTime' ) ) :
 class c2c_BlogTime {
 
 	/**
+	 * The name used for the plugin's setting.
+	 *
+	 * @ccess private
+	 * @since 4.0
+	 * @var string
+	 */
+	private static $setting_name = 'c2c_blog_time';
+
+	/**
 	 * Internally stored configuration settings.
 	 * @var array
 	 */
@@ -74,11 +83,96 @@ class c2c_BlogTime {
 			'time_format' => __( 'g:i A', 'blog-time' )
 		);
 
+		// Register hooks.
+		add_action( 'admin_init',                 array( __CLASS__, 'initialize_setting' ) );
 		add_action( 'admin_bar_menu',             array( __CLASS__, 'admin_bar_menu' ), 500 );
 		add_action( 'admin_enqueue_scripts',      array( __CLASS__, 'enqueue_js' ) );
 		add_action( 'wp_enqueue_scripts',         array( __CLASS__, 'enqueue_js' ) );
 		add_action( 'wp_ajax_report_time',        array( __CLASS__, 'report_time' ) );
 		add_action( 'wp_ajax_nopriv_report_time', array( __CLASS__, 'report_time' ) );
+	}
+
+	/**
+	 * Adds a 'Settings' link to the plugin action links.
+	 *
+	 * @since 4.0
+	 *
+	 * @param string[] $action_links An array of plugin action links.
+	 * @return array
+	 */
+	public static function plugin_action_links( $action_links ) {
+		$settings_link = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( admin_url( 'options-general.php' ) . '#c2c_blog_time' ),
+			__( 'Settings', 'blog-time' )
+		);
+		array_unshift( $action_links, $settings_link );
+
+		return $action_links;
+	}
+
+	/**
+	 * Initializes setting.
+	 *
+	 * @since 4.0
+	 */
+	public static function initialize_setting() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		register_setting( 'general', self::$setting_name );
+
+		add_filter(
+			function_exists( 'add_allowed_options' ) ? 'allowed_options' : 'whitelist_options',
+			array( __CLASS__, 'allowed_options' )
+		);
+
+		add_settings_field(
+			self::$setting_name,
+			__( 'Blog Time Format', 'blog-time' ),
+			array( __CLASS__, 'display_option' ),
+			'general'
+		);
+
+		// Add link to settings page from the plugin's action links on plugin page.
+		add_filter( 'plugin_action_links_blog-time/blog-time.php', array( __CLASS__, 'plugin_action_links' ) );
+	}
+
+	/**
+	 * Allows the plugin's option(s).
+	 *
+	 * @since 4.0
+	 *
+	 * @param array $options Array of options.
+	 * @return array The amended options array.
+	 */
+	public static function allowed_options( $options ) {
+		$added = array( self::$setting_name => array( self::$setting_name ) );
+
+		return function_exists( 'add_allowed_options' )
+			? add_allowed_options( $added, $options )
+			: add_option_whitelist( $added, $options );
+	}
+
+	/**
+	 * Outputs markup for the plugin setting on the Reading Settings page.
+	 *
+	 * @since 4.0
+	 *
+	 * @param array $args Arguments.
+	 */
+	public static function display_option( $args = array() ) {
+		printf(
+			'<input name="%s" type="text" id="%s" value="%s" class="short-text"><p class="description">%s</p>' . "\n",
+			esc_attr( self::$setting_name ),
+			esc_attr( self::$setting_name ),
+			esc_attr( self::get_time_format( '', 'nofilter' ) ),
+			sprintf(
+				__( 'Used by the <strong>Blog Time</strong> plugin. See <a href="%s">Documentation on date and time formatting</a> for formatting syntax.', 'blog-time' ),
+				'https://www.php.net/manual/en/datetime.format.php'
+			)
+		);
 	}
 
 	/**
@@ -151,9 +245,14 @@ class c2c_BlogTime {
 	 * Determines the time format string for the given context.
 	 *
 	 * @since 3.5
+	 * @since 4.0 Add support for 'nofilter' context.
 	 *
-	 * @param  string $time_format Optional. The format for the time string, if being explicitly set. Default ''.
-	 * @param  string $context.    Optional. The context for the time being displayed. Default 'default'.
+	 * @param  string $time_format Optional. The format for the time string, if
+	 *                             being explicitly set. Default ''.
+	 * @param  string $context.    Optional. The context for the time being
+	 *                             displayed. Can be any custom value, but has
+	 *                             special handling for 'momentjs' or 'nofilter'.
+	 *                             Default 'default'.
 	 * @return string The time string.
 	 */
 	public static function get_time_format( $time_format = '', $context = 'default' ) {
@@ -161,13 +260,28 @@ class c2c_BlogTime {
 			$context = 'default';
 		}
 
+		// If no time format has been explicitly specified, use setting value.
+		if ( $time_format ) {
+			$explicit = true;
+		} else {
+			$explicit = false;
+			$time_format = get_option( self::$setting_name );
+		}
+
+		// If no time format at this point, use default.
 		if ( ! $time_format ) {
+			$time_format = self::$config['time_format'];
+		}
+
+		// Filter blog time format unless context is 'nofilter'.
+		if ( ! $explicit && 'nofilter' !== $context ) {
 			$time_format = apply_filters_deprecated(
 				'blog_time_format',
-				array( self::$config['time_format'] ),
+				array( $time_format ),
 				'3.2',
 				'c2c_blog_time_format'
 			);
+
 			/**
 			 * Filters the time format string for a given context.
 			 *
@@ -184,6 +298,7 @@ class c2c_BlogTime {
 			$time_format = self::$config['time_format'];
 		}
 
+		// If the context is momentjs, then convert time format to Moment's format.
 		if ( 'momentjs' === $context ) {
 			$time_format = self::map_php_time_format_to_momentjs( $time_format );
 		}
