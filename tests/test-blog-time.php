@@ -421,6 +421,34 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	}
 
 	/*
+	 * plugin_action_links()
+	 */
+
+	public function test_plugin_action_links() {
+		$links = array(
+			'<a href="/test">Test</a>',
+		);
+
+		$expected = array_merge( array(
+			'<a href="http://example.org/wp-admin/options-general.php#c2c_blog_time">Settings</a>',
+		), $links );
+
+		$this->assertEquals( $expected, c2c_BlogTime::plugin_action_links( $links ) );
+	}
+
+	public function test_plugin_action_links_does_not_get_hooked_when_setting_is_not_initialized() {
+		$this->test_initialize_setting_does_not_register_setting_for_user_who_cannot_manage_options();
+
+		$this->assertEmpty( has_filter( 'plugin_action_links_blog-time/blog-time.php', array( 'c2c_BlogTime', 'plugin_action_links' ) ) );
+	}
+
+	public function test_plugin_action_links_gets_hooked_when_setting_is_initialized() {
+		$this->test_initialize_setting_registers_setting_for_user_who_can_manage_options();
+
+		$this->assertEquals( 10, has_filter( 'plugin_action_links_blog-time/blog-time.php', array( 'c2c_BlogTime', 'plugin_action_links' ) ) );
+	}
+
+	/*
 	 * initialize_setting()
 	 */
 
