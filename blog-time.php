@@ -217,12 +217,11 @@ class c2c_BlogTime {
 		wp_enqueue_script( 'moment', plugins_url( 'js/moment.min.js', __FILE__ ), array(), '2.26.0', true );
 		wp_enqueue_script( __CLASS__, plugins_url( 'js/blog-time.js', __FILE__ ), array( 'jquery', 'moment' ), self::version(), true );
 
-		$text = array(
+		wp_add_inline_script( __CLASS__, 'const ' . __CLASS__ . ' = ' . json_encode( array(
 			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
 			'time_format' => self::get_time_format( '', 'momentjs' ),
 			'utc_offset'  => self::display_time( 'O', 'utc-offset' ),
-		);
-		wp_localize_script( __CLASS__, __CLASS__, $text );
+		) ),  );
 	}
 
 	/**
