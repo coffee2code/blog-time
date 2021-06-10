@@ -12,6 +12,9 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	public function tearDown() {
 		parent::tearDown();
 
+		$this->unset_current_user();
+		unregister_setting( 'general', self::$setting_name );
+
 		$this->incoming_time_format = '';
 		$this->incoming_context = '';
 	}
@@ -40,6 +43,13 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	//
 	//
 
+
+	// Unsets current user globally. Taken from post.php test.
+	private function unset_current_user() {
+			global $current_user, $user_ID;
+
+			$current_user = $user_ID = null;
+	}
 
 	public function filter_c2c_blog_time_format( $format = '', $context = '' ) {
 		$this->incoming_time_format = $format;
