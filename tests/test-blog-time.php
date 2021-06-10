@@ -410,6 +410,23 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertFalse( c2c_BlogTime::show_in_toolbar_for_user() );
 	}
 
+	/*
+	 * initialize_setting()
+	 */
+
+	public function test_initialize_setting_does_not_register_setting_for_user_who_cannot_manage_options() {
+		c2c_BlogTime::initialize_setting();
+		$this->assertArrayNotHasKey( self::$setting_name, get_registered_settings() );
+	}
+
+	public function test_initialize_setting_registers_setting_for_user_who_can_manage_options() {
+		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $user_id );
+		c2c_BlogTime::initialize_setting();
+
+		$this->assertArrayHasKey( self::$setting_name, get_registered_settings() );
+	}
+
 
 	/*
 	 * TEST TODO:
