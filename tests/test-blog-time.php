@@ -350,6 +350,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		);
 	}
 
+
 	/*
 	 * c2c_BlogTime::map_php_time_format_to_momentjs()
 	 */
@@ -453,6 +454,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 	/*
 	 * plugin_action_links()
 	 */
+
 
 	public function test_plugin_action_links() {
 		$links = array(
