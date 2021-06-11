@@ -557,6 +557,19 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 
 	/*
+	 * allowed_options()
+	 */
+
+
+	public function test_allowed_options() {
+		$this->assertSame(
+			array( 'example' => array( 'sample' ), 'c2c_blog_time' => array( 'c2c_blog_time' ) ),
+			c2c_BlogTime::allowed_options( array( 'example' => array( 'sample' ) ) )
+		);
+	}
+
+
+	/*
 	 * TEST TODO:
 	 * - JS is enqueued
 	 * - CSS is enqueue
