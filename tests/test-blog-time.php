@@ -629,6 +629,36 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->expectOutputRegex( '~' . preg_quote( $expected ) . '~' );
 	}
 
+	public function test_display_option_with_no_saved_setting_value_and_filtered() {
+		$filtered_format = 'T s:i:h';
+		add_filter( 'c2c_blog_time_format', function ( $format ) use ( $filtered_format ) { return $filtered_format; } );
+
+		c2c_BlogTime::display_option();
+
+		$expected = '<input name="c2c_blog_time" type="text" id="c2c_blog_time" value="" class="short-text">' . "\n";
+		$expected .= '<p class="description">Used by the <strong>Blog Time</strong> plugin. See <a href="https://www.php.net/manual/en/datetime.format.php">Documentation on date and time formatting</a> for formatting syntax.</p>' . "\n";
+		$expected .= '<p class="description">Default (used when setting is blank): <code>' . self::$default_time_format . '</code></p>' . "\n";
+		$expected .= '<p><span class="c2c_blog_time notice notice-warning">The blog time format is currently configured via the \'c2c_blog_time_format\' filter, which takes precedence over this setting. The filtered blog time format value is: <code>' . $filtered_format . '</code></span></p>' . "\n";
+
+		$this->expectOutputRegex( '~' . preg_quote( $expected ) . '~' );
+	}
+
+	public function test_display_option_with_saved_setting_value_and_filtered() {
+		$filtered_format = 'T s:i:h';
+		add_filter( 'c2c_blog_time_format', function ( $format ) use ( $filtered_format ) { return $filtered_format; } );
+
+		$value = 'H:i:s T';
+		update_option( 'c2c_blog_time', $value );
+		c2c_BlogTime::display_option();
+
+		$expected = '<input name="c2c_blog_time" type="text" id="c2c_blog_time" value="' . $value . '" class="short-text">' . "\n";
+		$expected .= '<p class="description">Used by the <strong>Blog Time</strong> plugin. See <a href="https://www.php.net/manual/en/datetime.format.php">Documentation on date and time formatting</a> for formatting syntax.</p>' . "\n";
+		$expected .= '<p class="description">Default (used when setting is blank): <code>' . self::$default_time_format . '</code></p>' . "\n";
+		$expected .= '<p><span class="c2c_blog_time notice notice-warning">The blog time format is currently configured via the \'c2c_blog_time_format\' filter, which takes precedence over this setting. The filtered blog time format value is: <code>' . $filtered_format . '</code></span></p>' . "\n";
+
+		$this->expectOutputRegex( '~' . preg_quote( $expected ) . '~' );
+	}
+
 
 	/*
 	 * TEST TODO:

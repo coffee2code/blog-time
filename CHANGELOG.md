@@ -4,6 +4,8 @@
 * New: Add setting for configuring time format
     * New: Add "Blog Time Format" setting to the "General Settings" page.
     * New: Add link to setting from plugin's action links
+    * New: Show default time format when setting is blank
+    * New: Show inline notice below setting when time format is filtered, and indicate that it takes precedence over setting
     * New: Add `initialize_setting()`, `allowed_options()`, `display_option()`, `plugin_action_links()`, and `is_wp_55_or_later()`
 * Change: Use default time format if parameter or filter attempts to configure an empty string or non-string value
 * Fix: Add support for the 'T' timezone format character to the dynamic clock (support for which was removed from Moment.js awhile ago)

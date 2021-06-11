@@ -190,6 +190,21 @@ class c2c_BlogTime {
 				'<code>' . self::$config['time_format'] . '</code>'
 			)
 		);
+
+		// Provide a warning notice when setting value is being overridden via filter.
+		$setting_value = get_option( self::$setting_name );
+		if ( self::get_time_format() !== $setting_value ) {
+			printf(
+				'<p><span class="%s notice notice-warning">%s</span></p>' . "\n",
+				esc_attr(self::$setting_name ),
+				sprintf(
+					/* translators: 1: Filter name, 2: Filtered time format. */
+					__( 'The blog time format is currently configured via the %1$s filter, which takes precedence over this setting. The filtered blog time format value is: %2$s', 'blog-time' ),
+					"'c2c_blog_time_format'",
+					'<code>' . self::get_time_format() . '</code>'
+				)
+			);
+		}
 	}
 
 	/**
