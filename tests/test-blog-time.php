@@ -228,6 +228,10 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		}
 	}
 
+	public function test_get_time_format_with_default_time_format_and_default_context() {
+		$this->assertEquals( self::$default_time_format, c2c_BlogTime::get_time_format( '', 'default' ) );
+	}
+
 	public function test_get_time_format_with_setting_unset_and_raw_context() {
 		$this->assertEmpty( c2c_BlogTime::get_time_format( '', 'raw' ) );
 	}
