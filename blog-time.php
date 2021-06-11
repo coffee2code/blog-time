@@ -93,6 +93,17 @@ class c2c_BlogTime {
 	}
 
 	/**
+	 * Determines if the running WordPress is WP 5.5 or later.
+	 *
+	 * @since 4.0
+	 *
+	 * @return bool True if WP is 5.5 or later, else false.
+	 */
+	public static function is_wp_55_or_later() {
+		return version_compare( $GLOBALS['wp_version'], '5.5', '>=' );
+	}
+
+	/**
 	 * Adds a 'Settings' link to the plugin action links.
 	 *
 	 * @since 4.0
@@ -124,7 +135,7 @@ class c2c_BlogTime {
 		register_setting( 'general', self::$setting_name );
 
 		add_filter(
-			function_exists( 'add_allowed_options' ) ? 'allowed_options' : 'whitelist_options',
+			self::is_wp_55_or_later() ? 'allowed_options' : 'whitelist_options',
 			array( __CLASS__, 'allowed_options' )
 		);
 
@@ -150,7 +161,7 @@ class c2c_BlogTime {
 	public static function allowed_options( $options ) {
 		$added = array( self::$setting_name => array( self::$setting_name ) );
 
-		return function_exists( 'add_allowed_options' )
+		return self::is_wp_55_or_later()
 			? add_allowed_options( $added, $options )
 			: add_option_whitelist( $added, $options );
 	}

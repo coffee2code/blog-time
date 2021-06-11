@@ -423,6 +423,33 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->assertFalse( c2c_BlogTime::show_in_toolbar_for_user() );
 	}
 
+
+	/*
+	 * is_wp_55_or_later()
+	 */
+
+
+	public function test_is_wp_55_or_later_when_wp_is_lower() {
+		global $wp_version;
+		$orig_wp_verion = $wp_version;
+		$wp_version = '5.4.2';
+
+		$this->assertFalse( c2c_BlogTime::is_wp_55_or_later() );
+
+		$wp_version = $orig_wp_verion;
+	}
+
+	public function test_is_wp_55_or_later() {
+		global $wp_version;
+		$orig_wp_verion = $wp_version;
+		$wp_version = '5.5.0';
+
+		$this->assertTrue( c2c_BlogTime::is_wp_55_or_later() );
+
+		$wp_version = $orig_wp_verion;
+	}
+
+
 	/*
 	 * plugin_action_links()
 	 */
