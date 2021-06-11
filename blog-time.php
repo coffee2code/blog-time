@@ -175,7 +175,7 @@ class c2c_BlogTime {
 	 */
 	public static function display_option( $args = array() ) {
 		printf(
-			'<input name="%s" type="text" id="%s" value="%s" class="short-text">' . "\n" . '<p class="description">%s</p>' . "\n",
+			'<input name="%s" type="text" id="%s" value="%s" class="short-text">' . "\n" . '<p class="description">%s</p>' . "\n" . '<p class="description">%s</p>' . "\n",
 			esc_attr( self::$setting_name ),
 			esc_attr( self::$setting_name ),
 			esc_attr( self::get_time_format( '', 'raw' ) ),
@@ -183,6 +183,11 @@ class c2c_BlogTime {
 				/* translators: %s: URL to PHP documentation for data and time formatting. */
 				__( 'Used by the <strong>Blog Time</strong> plugin. See <a href="%s">Documentation on date and time formatting</a> for formatting syntax.', 'blog-time' ),
 				'https://www.php.net/manual/en/datetime.format.php'
+			),
+			sprintf(
+				/* translators: %s: Default blog time format. */
+				__( 'Default (used when setting is blank): %s', 'blog-time' ),
+				'<code>' . self::$config['time_format'] . '</code>'
 			)
 		);
 	}

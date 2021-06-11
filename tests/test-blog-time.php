@@ -612,6 +612,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 		$expected = '<input name="c2c_blog_time" type="text" id="c2c_blog_time" value="" class="short-text">' . "\n";
 		$expected .= '<p class="description">Used by the <strong>Blog Time</strong> plugin. See <a href="https://www.php.net/manual/en/datetime.format.php">Documentation on date and time formatting</a> for formatting syntax.</p>' . "\n";
+		$expected .= '<p class="description">Default (used when setting is blank): <code>' . self::$default_time_format . '</code></p>' . "\n";
 
 		$this->expectOutputRegex( '~' . preg_quote( $expected ) . '~' );
 	}
@@ -623,9 +624,11 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 		$expected = '<input name="c2c_blog_time" type="text" id="c2c_blog_time" value="' . $value . '" class="short-text">' . "\n";
 		$expected .= '<p class="description">Used by the <strong>Blog Time</strong> plugin. See <a href="https://www.php.net/manual/en/datetime.format.php">Documentation on date and time formatting</a> for formatting syntax.</p>' . "\n";
+		$expected .= '<p class="description">Default (used when setting is blank): <code>' . self::$default_time_format . '</code></p>' . "\n";
 
 		$this->expectOutputRegex( '~' . preg_quote( $expected ) . '~' );
 	}
+
 
 	/*
 	 * TEST TODO:
