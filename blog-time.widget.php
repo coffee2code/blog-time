@@ -62,7 +62,7 @@ class c2c_BlogTimeWidget extends c2c_Widget_013 {
 				'default' => 'g:i A',
 				'label'   => __( 'Time format', 'blog-time' ),
 				'help'    => sprintf( __( 'PHP-style time format string. See %s for more info.', 'blog-time' ),
-							'<a href="https://php.net/date" title="">https://php.net/date</a>' ),
+							'<a href="https://www.php.net/manual/en/datetime.format.php" title="">https://www.php.net/manual/en/datetime.format.php</a>' ),
 			),
 			'dynamic' => array(
 				'input'   => 'checkbox',
