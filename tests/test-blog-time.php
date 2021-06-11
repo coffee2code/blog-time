@@ -17,6 +17,9 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 		$this->incoming_time_format = '';
 		$this->incoming_context = '';
+
+		unset( $GLOBALS['wp_settings_fields'] );
+		unset( $GLOBALS['wp_registered_settings'] );
 	}
 
 
@@ -463,6 +466,93 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		c2c_BlogTime::initialize_setting();
 
 		$this->assertArrayHasKey( self::$setting_name, get_registered_settings() );
+	}
+
+	public function test_does_not_hook_allowed_options_for_unauthorized_user_for_post_WP55() {
+		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		wp_set_current_user( $user_id );
+
+		global $wp_version;
+		$orig_wp_verion = $wp_version;
+		$wp_version = '5.5';
+
+		c2c_BlogTime::initialize_setting();
+
+		$this->assertFalse( has_filter( 'allowed_options', array( 'c2c_BlogTime', 'allowed_options' ) ) );
+
+		$wp_version = $orig_wp_verion;
+	}
+
+	public function test_hooks_allowed_options_for_authorized_user_for_post_WP55() {
+		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $user_id );
+
+		global $wp_version;
+		$orig_wp_verion = $wp_version;
+		$wp_version = '5.5';
+
+		c2c_BlogTime::initialize_setting();
+
+		$this->assertEquals( 10, has_filter( 'allowed_options', array( 'c2c_BlogTime', 'allowed_options' ) ) );
+
+		$wp_version = $orig_wp_verion;
+	}
+
+	public function test_does_not_hook_whitelist_options_for_unauthorized_user_for_pre_WP55() {
+		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		wp_set_current_user( $user_id );
+
+		global $wp_version;
+		$orig_wp_verion = $wp_version;
+		$wp_version = '5.4.2';
+
+		c2c_BlogTime::initialize_setting();
+
+		$this->assertFalse( has_filter( 'whitelist_options', array( 'c2c_BlogTime', 'allowed_options' ) ) );
+
+		$wp_version = $orig_wp_verion;
+	}
+
+	public function test_hooks_whitelist_options_for_authorized_user_for_pre_WP55() {
+		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $user_id );
+
+		global $wp_version;
+		$orig_wp_verion = $wp_version;
+		$wp_version = '5.4.2';
+
+		c2c_BlogTime::initialize_setting();
+
+		$this->assertEquals( 10, has_filter( 'whitelist_options', array( 'c2c_BlogTime', 'allowed_options' ) ) );
+
+		$wp_version = $orig_wp_verion;
+	}
+
+	public function test_does_not_add_setting_field_for_unauthorized_user() {
+		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		wp_set_current_user( $user_id );
+		c2c_BlogTime::initialize_setting();
+
+		$this->assertFalse( isset( $GLOBALS['wp_settings_fields'] ) );
+	}
+
+	public function test_adds_setting_field_for_authorized_user() {
+		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $user_id );
+		c2c_BlogTime::initialize_setting();
+
+		$expected = array( 'general' => array(
+			'default' => array(
+				'c2c_blog_time' => array(
+					'id'       => 'c2c_blog_time',
+					'title'    => 'Blog Time Format',
+					'callback' => array( 'c2c_BlogTime', 'display_option' ),
+					'args'     => array(),
+				),
+			),
+		) );
+
+		$this->assertSame( $expected, $GLOBALS['wp_settings_fields'] );
 	}
 
 
