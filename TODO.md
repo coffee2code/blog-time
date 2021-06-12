@@ -7,5 +7,8 @@ The following list comprises ideas, suggestions, and known issues, all of which 
 * Add support for per-user setting for controlling admin toolbar widget (and if not shown, don't enqueue JS or CSS)
 * Allow user to specify Moment.js-style time format string. (Perhaps by prepending "momentjs:" to it.)
 * Expose REST API endpoint for blog time and use it instead of admin-ajax
+* Move away from Moment.js to something like date-fns since Moment has been placed into maintenance mode.
+* Add help panel tab with time format tokens so users aren't forced to go to php.net
+* Remove long-deprecated `'blog_time_format'` filter
 
 Feel free to make your own suggestions or champion for something already on the list (via the [plugin's support forum on WordPress.org](https://wordpress.org/support/plugin/blog-time/) or on [GitHub](https://github.com/coffee2code/blog-time/) as an issue or PR).
