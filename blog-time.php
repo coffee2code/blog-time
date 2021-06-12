@@ -368,11 +368,18 @@ class c2c_BlogTime {
 	}
 
 	/**
-	 * Echoes the blog time and exists (for use as AJAX responder).
+	 * Echoes the blog time and optionally exits (for use as AJAX responder).
+	 *
+	 * @since 4.0 Added `$exit` arg.
+	 *
+	 * @param bool $exit Optional. Exit after echoing time? Default true.
 	 */
-	public static function report_time() {
+	public static function report_time( $exit = true ) {
 		echo self::display_time( '', 'ajax' );
-		exit();
+
+		if ( $exit ) {
+			exit;
+		}
 	}
 
 	/**
