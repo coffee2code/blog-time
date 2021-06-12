@@ -330,13 +330,6 @@ class c2c_BlogTime {
 
 		// Filter blog time format unless context is 'nofilter'.
 		if ( ! $explicit && 'nofilter' !== $context ) {
-			$time_format = apply_filters_deprecated(
-				'blog_time_format',
-				array( $time_format ),
-				'3.2',
-				'c2c_blog_time_format'
-			);
-
 			/**
 			 * Filters the time format string for a given context.
 			 *
