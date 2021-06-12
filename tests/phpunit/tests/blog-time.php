@@ -508,6 +508,27 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 
 	/*
+	 * report_time()
+	 */
+
+	// Note: This essentially obtains the formatted time via two separate
+	// function calls which are then compared, so depending on the time
+	// format in use (such as seconds, which isn't the current default) or
+	// the actual moment of invocation, the test could fail if the time/date
+	// happens to change in the microseconds between function calls.
+	public function test_report_time() {
+		$this->expectOutputRegex( '~^' . preg_quote( c2c_BlogTime::display_time( '', 'default' ) ) . '$~', c2c_BlogTime::report_time( false ) );
+	}
+
+	public function test_report_time_with_custom_format() {
+		$format = 'H:i:s A F';
+		add_filter( 'c2c_blog_time_format', function ( $f ) use ( $format ) { return $format; } );
+
+		$this->expectOutputRegex( '~^' . preg_quote( c2c_BlogTime::display_time( $format ) ) . '$~', c2c_BlogTime::report_time( false ) );
+	}
+
+
+	/*
 	 * is_wp_55_or_later()
 	 */
 
