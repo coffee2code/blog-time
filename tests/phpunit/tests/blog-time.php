@@ -20,6 +20,17 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 		unset( $GLOBALS['wp_settings_fields'] );
 		unset( $GLOBALS['wp_registered_settings'] );
+
+		unset( $GLOBALS['wp_styles']);
+		$GLOBALS['wp_styles'] = new WP_Styles;
+
+		unset( $GLOBALS['wp_scripts'] );
+		$GLOBALS['wp_scripts'] = new WP_Scripts;
+
+		wp_dequeue_style( 'c2c_BlogTime' );
+		wp_dequeue_script( 'jquery' );
+		wp_dequeue_script( 'moment' );
+		wp_dequeue_script( 'c2c_BlogTime' );
 	}
 
 
@@ -426,6 +437,73 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		add_filter( 'c2c_blog_time_toolbar_widget_for_user', '__return_false' );
 
 		$this->assertFalse( c2c_BlogTime::show_in_toolbar_for_user() );
+	}
+
+
+	/*
+	 * enqueue_js()
+	 */
+
+	public function test_enqueue_js_when_admin_bar_is_showing( $momentjs_time_format = 'h:mm A' ) {
+		$this->test_show_in_toolbar_for_user();
+
+		c2c_BlogTime::enqueue_js();
+
+		$this->assertTrue( wp_style_is( 'c2c_BlogTime', 'enqueued' ) );
+		$this->assertTrue( wp_script_is( 'jquery', 'enqueued' ) );
+		$this->assertTrue( wp_script_is( 'moment', 'enqueued' ) );
+		$this->assertTrue( wp_script_is( 'c2c_BlogTime', 'enqueued' ) );
+
+		$inline_scripts = wp_scripts()->get_data( 'c2c_BlogTime', 'before' );
+
+		$this->assertIsArray( $inline_scripts );
+		$this->assertEquals( 2, count( $inline_scripts ) );
+		$this->assertEquals(
+			'const c2c_BlogTime = {"ajaxurl":"http:\/\/example.org\/wp-admin\/admin-ajax.php","time_format":"' . $momentjs_time_format . '","utc_offset":"+0000"}',
+			$inline_scripts[1]
+		);
+		$this->assertEmpty( wp_scripts()->get_data( 'c2c_BlogTime', 'after' ) );
+	}
+
+	public function test_enqueue_js_when_admin_bar_is_not_showing() {
+		$this->test_show_in_toolbar_for_user_when_admin_bar_not_showing();
+
+		c2c_BlogTime::enqueue_js();
+
+		$this->assertFalse( wp_style_is( 'c2c_BlogTime', 'enqueued' ) );
+		$this->assertFalse( wp_script_is( 'jquery', 'enqueued' ) );
+		$this->assertFalse( wp_script_is( 'moment', 'enqueued' ) );
+		$this->assertFalse( wp_script_is( 'c2c_BlogTime', 'enqueued' ) );
+
+		$this->assertEmpty( wp_scripts()->get_data( 'c2c_BlogTime', 'before' ) );
+		$this->assertEmpty( wp_scripts()->get_data( 'c2c_BlogTime', 'after' ) );
+	}
+
+	public function test_enqueue_js_when_admin_bar_is_not_showing_but_force_is_true() {
+		$this->test_show_in_toolbar_for_user_when_admin_bar_not_showing();
+
+		c2c_BlogTime::enqueue_js( true );
+
+		$this->assertTrue( wp_style_is( 'c2c_BlogTime', 'enqueued' ) );
+		$this->assertTrue( wp_script_is( 'jquery', 'enqueued' ) );
+		$this->assertTrue( wp_script_is( 'moment', 'enqueued' ) );
+		$this->assertTrue( wp_script_is( 'c2c_BlogTime', 'enqueued' ) );
+
+		$inline_scripts = wp_scripts()->get_data( 'c2c_BlogTime', 'before' );
+
+		$this->assertIsArray( $inline_scripts );
+		$this->assertEquals( 2, count( $inline_scripts ) );
+		$this->assertEquals(
+			'const c2c_BlogTime = {"ajaxurl":"http:\/\/example.org\/wp-admin\/admin-ajax.php","time_format":"h:mm A","utc_offset":"+0000"}',
+			$inline_scripts[1]
+		);
+		$this->assertEmpty( wp_scripts()->get_data( 'c2c_BlogTime', 'after' ) );
+	}
+
+	public function test_enqueue_js_added_inline_script_reflects_momentjs_formatted_current_blog_time_format() {
+		add_filter( 'c2c_blog_time_format', function ( $f ) { return 'H:i:s A F'; } );
+
+		$this->test_enqueue_js_when_admin_bar_is_showing( 'HH:mm:ss A MMMM' );
 	}
 
 
