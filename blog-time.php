@@ -253,7 +253,7 @@ class c2c_BlogTime {
 			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
 			'time_format' => self::get_time_format( '', 'momentjs' ),
 			'utc_offset'  => self::display_time( 'O', 'utc-offset' ),
-		) ),  );
+		) ), 'before' );
 	}
 
 	/**
