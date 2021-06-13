@@ -18,6 +18,7 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		$this->incoming_time_format = '';
 		$this->incoming_context = '';
 
+		unset( $GLOBALS['wp_admin_bar'] );
 		unset( $GLOBALS['wp_settings_fields'] );
 		unset( $GLOBALS['wp_registered_settings'] );
 
@@ -504,6 +505,64 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		add_filter( 'c2c_blog_time_format', function ( $f ) { return 'H:i:s A F'; } );
 
 		$this->test_enqueue_js_when_admin_bar_is_showing( 'HH:mm:ss A MMMM' );
+	}
+
+
+	/*
+	 * admin_bar_menu()
+	 */
+
+
+	public function test_admin_bar_menu_renders() {
+		global $wp_admin_bar;
+
+		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $user_id );
+		add_filter( 'show_admin_bar', '__return_true' );
+		_wp_admin_bar_init();
+
+		//do_action( 'admin_bar_menu' );
+		//c2c_BlogTime::admin_bar_menu();
+
+		ob_start();
+
+		// Reproduce necessary parts of `wp_admin_bar_render()`, which only
+		// renders once.
+		do_action_ref_array( 'admin_bar_menu', array( &$wp_admin_bar ) );
+		do_action( 'wp_before_admin_bar_render' );
+		$wp_admin_bar->render();
+		do_action( 'wp_after_admin_bar_render' );
+
+		$output = ob_get_contents();
+
+		ob_end_clean();
+
+		$this->assertGreaterThan( 0, strpos( $output, '<span class="c2c-blog-time-widget">' ) );
+	}
+
+	// Note: This essentially obtains the formatted time via two separate
+	// function calls which are then compared, so depending on the time
+	// format in use (such as seconds, which isn't the current default) or
+	// the actual moment of invocation, the test could fail if the time/date
+	// happens to change in the microseconds between function calls.
+	public function test_admin_bar_menu() {
+		global $wp_admin_bar;
+
+		require_once ABSPATH . WPINC . '/class-wp-admin-bar.php';
+		$wp_admin_bar = new WP_Admin_Bar;
+
+		$expected = (object) array(
+			'id'     => 'c2c-blog-time',
+			'parent' => 'top-secondary',
+			'title'  => c2c_BlogTime::add_widget(),
+			'meta'   => array( 'class' => '', 'title' => __( 'Current blog time', 'blog-time' ) ),
+			'href'   => false,
+			'group'  => false,
+		);
+
+		c2c_BlogTime::admin_bar_menu();
+
+		$this->assertEquals( $expected, $wp_admin_bar->get_node( 'c2c-blog-time' ) );
 	}
 
 

@@ -24,7 +24,7 @@
         * Change: Move `tests/*.php` into `tests/phpunit/tests/`
         * Change: Remove 'test-' prefix from unit test files
         * Change: Rename `phpunit.xml` to `phpunit.xml.dist` per best practices
-    * New: Add tests for `enqueue_js()`, `report_time()`
+    * New: Add tests for `enqueue_js()`, `report_time()`, `admin_bar_menu()`
 * New: Add a few more possible TODO items
 
 ## 3.6.2 _(2020-06-11)_
