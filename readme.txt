@@ -12,9 +12,9 @@ Display the time according to your blog via an admin toolbar widget, a sidebar w
 
 == Description ==
 
-This plugin adds a dynamic, functional clock to the the admin bar (at top of all admin pages) to show the server time for the blog. The clock automatically updates as time passes, as you would expect of a digital clock.
+This plugin adds a dynamic, functional clock to the admin bar (at top of all admin pages) to show the server time for the blog. The clock automatically updates as time passes, as you would expect of a digital clock.
 
-This plugin also supports a static mode which puts a timestamp string at the top of all admin pages instead of the dynamic clock. This static admin time widget is AJAX-ified so that if you click the timestamp, it updates in place (without a page reload) to show the new current server time.
+This plugin also supports a static mode which puts a timestamp string at the top of all admin pages instead of the dynamic clock. This static admin time widget can be clicked to update the time in-place (without a page reload) to show the new current server time.
 
 Also provided is a "Blog Time" widget providing the same functionality as the admin widget, but for your sidebars. You may also utilize the plugin's functionality directly within a theme template via use of the template tag `c2c_blog_time()`.
 
@@ -31,14 +31,14 @@ Links: [Plugin Homepage](https://coffee2code.com/wp-plugins/blog-time/) | [Plugi
 
 1. Install via the built-in WordPress plugin installer or download and unzip `blog-time.zip` inside the plugins directory for your site (typically `wp-content/plugins/`)
 1. Activate the plugin through the 'Plugins' admin menu in WordPress
-1. Optionally use the 'Blog Time' widget or the template tag `c2c_blog_time()` in a theme template file to display the blog's time at the time of the page's rendering.
+1. Optional: Use the 'Blog Time' widget or the template tag `c2c_blog_time()` in a theme template file to display the blog's time at the time of the page's rendering.
 
 
 == Frequently Asked Questions ==
 
 = How do I customize the format of the time string? =
 
-The widget and template tag allow you specify a time format directly. The default value for the time format, and the one used by the display of the blog time in the static admin widget, can be overridden by adding a filter to 'c2c_blog_time_format' and returning the desired time format. See https://www.php.net/manual/en/datetime.format.php for more information regarding the time format.
+The widget and template tag allow you specify a time format directly. The default value for the time format, and the one used by the display of the blog time in the static admin widget, can be overridden by hooking the ``c2c_blog_time_format`` filter and returning the desired time format. See https://www.php.net/manual/en/datetime.format.php for more information regarding the time format.
 
 = Why is the time not changing in the sidebar widget? =
 
@@ -50,11 +50,11 @@ Your machine may well be synced with the server's clock. One test you can perfor
 
 = Can the clock be enabled/disabled on a per-user basis? =
 
-Yes, but only programmatically at the moment. Check out the docs for the `c2c_blog_time_toolbar_widget_for_user` filter for more information and a code example.
+Yes, but only programmatically at the moment. Check out the docs for the `'c2c_blog_time_toolbar_widget_for_user'` filter for more information and a code example.
 
 = How do I go back to having the legacy static timestamp as opposed to the dynamic clock? =
 
-See the Filters section for the `c2c_blog_time_active_clock` filter, which includes an example line of code you'll need to add to your theme.
+See the Filters section for the `'c2c_blog_time_active_clock'` filter, which includes an example line of code you'll need to add to your theme.
 
 = How can I show the blog's date instead of the time? =
 
@@ -101,7 +101,7 @@ The plugin provides one template tag for use in your theme templates, functions.
 = Functions =
 
 * `<?php function c2c_blog_time( $time_format = '', $echo = true ) ?>`
-Gets and/or displays the formatted time for the site.
+Returns and/or displays the formatted time for the site.
 
 = Arguments =
 
@@ -128,7 +128,7 @@ The plugin exposes four filters for hooking. Code using these filters should ide
 
 **c2c_blog_time (filter)**
 
-The 'c2c_blog_time' hook allows you to use an alternative approach to safely invoke `c2c_blog_time()` in such a way that if the plugin were deactivated or deleted, then your calls to the function won't cause errors in your site.
+The `'c2c_blog_time'` hook allows you to use an alternative approach to safely invoke `c2c_blog_time()` in such a way that if the plugin were deactivated or deleted, then your calls to the function won't cause errors in your site.
 
 Arguments:
 
@@ -146,7 +146,7 @@ Do:
 
 **c2c_blog_time_format (filter)**
 
-The 'c2c_blog_time_format' hook allows you to customize the default format for the blog time. By default this is 'g:i A' (though this may be different if modified by localization).
+The `'c2c_blog_time_format'` hook allows you to customize the default format for the blog time. By default this is 'g:i A' (though this may be different if modified by localization).
 
 Arguments:
 
@@ -169,7 +169,7 @@ add_filter( 'c2c_blog_time_format', 'change_blog_time_format' );
 
 **c2c_blog_time_toolbar_widget_for_user (filter)**
 
-The 'c2c_blog_time_toolbar_widget_for_user' hook allows you to control if the admin toolbar clock widget should be shown, on a per-user basis. By default the admin toolbar clock is shown to everyone who can see the admin toolbar.
+The `c2c_blog_time_toolbar_widget_for_user` hook allows you to control if the admin toolbar clock widget should be shown, on a per-user basis. By default the admin toolbar clock is shown to everyone who can see the admin toolbar.
 
 Arguments:
 
@@ -192,7 +192,7 @@ add_filter( 'c2c_blog_time_toolbar_widget_for_user', 'restrict_blog_time_widget_
 
 **c2c_blog_time_active_clock (filter)**
 
-The 'c2c_blog_time_active_clock' hook returns the boolean value indicating if the Javascript-powered dynamic clock introduced in v2.0 should be enabled or if instead the v1.x era behavior of a static timestamp that can be clicked to update the timestamp via AJAX should be enabled. By default the dynamic clock is enabled.
+The `'c2c_blog_time_active_clock'` hook returns the boolean value indicating if the Javascript-powered dynamic clock introduced in v2.0 should be enabled or if instead the v1.x era behavior of a static timestamp that can be clicked to update the timestamp via AJAX should be enabled. By default the dynamic clock is enabled.
 
 Arguments:
 

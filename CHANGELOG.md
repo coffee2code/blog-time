@@ -13,6 +13,7 @@
 * Change: Switch to use of `wp_add_inline_script()` instead of `wp_localize_script()`
 * Change: Add optional `$exit` arg to `report_time()` to allow not exiting after outputting the time
 * Change: Improve some inline documentation
+* Change: Improve documentation and formatting in readme.txt
 * Change: Note compatibility through WP 5.7+
 * Change: Update URLs to PHP documentation for datetime formatting
 * Change: Update copyright date (2021)
