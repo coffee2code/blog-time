@@ -17,3 +17,15 @@
 .c2c-blog-time-widget-display a:visited {
 	color: inherit !important;
 }
+
+/*
+ * Admin styles
+ */
+
+.wp-admin .form-table p.blog-time-info {
+	margin: 1em 0;
+}
+
+.wp-admin .blog-time-info .notice {
+	padding: 4px 12px;
+}

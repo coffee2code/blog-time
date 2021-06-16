@@ -175,7 +175,7 @@ class c2c_BlogTime {
 	 */
 	public static function display_option( $args = array() ) {
 		printf(
-			'<input name="%s" type="text" id="%s" value="%s" class="short-text">' . "\n" . '<p class="description">%s</p>' . "\n" . '<p class="description">%s</p>' . "\n",
+			'<input name="%s" type="text" id="%s" value="%s" class="short-text">' . "\n" . '<p class="description">%s</p>' . "\n" . '<p class="blog-time-info">%s</p>' . "\n",
 			esc_attr( self::$setting_name ),
 			esc_attr( self::$setting_name ),
 			esc_attr( self::get_time_format( '', 'raw' ) ),
@@ -195,7 +195,7 @@ class c2c_BlogTime {
 		$setting_value = get_option( self::$setting_name );
 		if ( self::get_time_format() !== $setting_value ) {
 			printf(
-				'<p><span class="%s notice notice-warning">%s</span></p>' . "\n",
+				'<p class="blog-time-info"><span class="%s notice notice-warning">%s</span></p>' . "\n",
 				esc_attr(self::$setting_name ),
 				sprintf(
 					/* translators: 1: Filter name, 2: Filtered time format. */
