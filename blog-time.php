@@ -204,7 +204,7 @@ class c2c_BlogTime {
 				esc_attr(self::$setting_name ),
 				sprintf(
 					/* translators: 1: Filter name, 2: Filtered time format. */
-					__( 'The blog time format is currently configured via the %1$s filter, which takes precedence over this setting. The filtered blog time format value is: %2$s', 'blog-time' ),
+					__( 'The blog time format is currently configured via the %1$s filter, which takes precedence over this setting. The filtered blog time format value is %2$s (which may differ, depending on the logic used in the filter callback).', 'blog-time' ),
 					"'c2c_blog_time_format'",
 					'<code>' . $time_format . '</code>'
 				)
