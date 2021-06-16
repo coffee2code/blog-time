@@ -200,7 +200,7 @@ class c2c_BlogTime {
 			// setting is changed, the notice will then appear, which might be surprising since there was no mention
 			// of a filter being used just prior.
 			printf(
-				'<p class="blog-time-info"><span class="%s notice notice-warning">%s</span></p>' . "\n",
+				'<p class="%s blog-time-info notice notice-warning">%s</p>' . "\n",
 				esc_attr(self::$setting_name ),
 				sprintf(
 					/* translators: 1: Filter name, 2: Filtered time format. */

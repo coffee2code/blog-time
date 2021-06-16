@@ -26,6 +26,6 @@
 	margin: 1em 0;
 }
 
-.wp-admin .blog-time-info .notice {
+.wp-admin p.blog-time-info.notice {
 	padding: 4px 12px;
 }
