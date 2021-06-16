@@ -192,8 +192,13 @@ class c2c_BlogTime {
 		);
 
 		// Provide a warning notice when setting value is being overridden via filter.
-		$setting_value = get_option( self::$setting_name );
-		if ( self::get_time_format() !== $setting_value ) {
+		$time_format =self::get_time_format();
+		if ( self::get_time_format( '', 'nofilter' ) !== $time_format ) {
+			// Note: If a filter callback sets time format to the default (or to the setting value if one is set),
+			// then this warning will not appear. That's fine since the interface conveys the time format in use,
+			// just not technically accurate by implying the default/setting value is being used. If the default or
+			// setting is changed, the notice will then appear, which might be surprising since there was no mention
+			// of a filter being used just prior.
 			printf(
 				'<p class="blog-time-info"><span class="%s notice notice-warning">%s</span></p>' . "\n",
 				esc_attr(self::$setting_name ),
@@ -201,7 +206,7 @@ class c2c_BlogTime {
 					/* translators: 1: Filter name, 2: Filtered time format. */
 					__( 'The blog time format is currently configured via the %1$s filter, which takes precedence over this setting. The filtered blog time format value is: %2$s', 'blog-time' ),
 					"'c2c_blog_time_format'",
-					'<code>' . self::get_time_format() . '</code>'
+					'<code>' . $time_format . '</code>'
 				)
 			);
 		}
