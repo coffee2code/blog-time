@@ -49,9 +49,9 @@ The default value for the time format, and the one used by the display of the bl
 
 The widget's "Use dynamic clock?" configuration setting may not be checked (which it is by default). Or JavaScript could be disabled in the browser.
 
-= The time matches my computer's time; how do I know this thing is working? =
+= How do I know if this thing is working if the time matches my computer's time? =
 
-Your machine may well be synced with the server's clock. One test you can perform is to change the blog's time zone (under Settings -> General). The blog's time will then be set to a different hour, which should then be reflected by the widget.
+Your machine may well be synced with the server's clock. One test you can perform is to change the blog's time zone (under Settings -> General). The blog's time will then be set to a different hour, which should then be reflected by the widget. Remember to change the time zone back to its proper value!
 
 = Can the clock be enabled/disabled on a per-user basis? =
 
