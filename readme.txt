@@ -31,6 +31,7 @@ Links: [Plugin Homepage](https://coffee2code.com/wp-plugins/blog-time/) | [Plugi
 
 1. Install via the built-in WordPress plugin installer or download and unzip `blog-time.zip` inside the plugins directory for your site (typically `wp-content/plugins/`)
 1. Activate the plugin through the 'Plugins' admin menu in WordPress
+1. Optional: Customize the time format used for displaying the time via the "Blog Time Format" setting found in Settings -> General.
 1. Optional: Use the 'Blog Time' widget or the template tag `c2c_blog_time()` in a theme template file to display the blog's time at the time of the page's rendering.
 
 
@@ -38,7 +39,11 @@ Links: [Plugin Homepage](https://coffee2code.com/wp-plugins/blog-time/) | [Plugi
 
 = How do I customize the format of the time string? =
 
-The widget and template tag allow you specify a time format directly. The default value for the time format, and the one used by the display of the blog time in the static admin widget, can be overridden by hooking the ``c2c_blog_time_format`` filter and returning the desired time format. See https://www.php.net/manual/en/datetime.format.php for more information regarding the time format.
+Under the site's general admin settings -- at Settings -> General -- you'll find a "Blog Time Format" setting that accepts any valid PHP time format token. See https://www.php.net/manual/en/datetime.format.php for more information regarding valid time format tokens.
+
+The widget and template tag also allow you to specify a time format directly.
+
+The default value for the time format, and the one used by the display of the blog time in the static admin widget, can be overridden by hooking the ``c2c_blog_time_format`` filter and returning the desired time format. This takes precedence over the setting's value.
 
 = Why is the time not changing in the sidebar widget? =
 
@@ -58,30 +63,7 @@ See the Filters section for the `'c2c_blog_time_active_clock'` filter, which inc
 
 = How can I show the blog's date instead of the time? =
 
-You could do something like this:
-
-`
-/* Insert the following code in the active theme's functions.php or, even better,
-in a site-specific plugin. */
-
-// Disable dynamic clock since a clock is not being displayed.
-add_filter( 'c2c_blog_time_active_clock', '__return_false' );
-// Change the datetime format string used by the plugin.
-add_filter( 'c2c_blog_time_format', 'my_blog_time_format' );
-
-/**
- * Returns a custom datetime format string for default use
- * by the Blog Time plugin.
- *
- * @see https://www.php.net/manual/en/datetime.format.php for more information regarding the time format.
- *
- * @param string $format Original format string (ignored)
- * @return string New format string
- */
-function my_blog_time_format( $format ) {
-	return 'M d, Y';
-}
-`
+Via Settings -> General, you can set the "Blog Time Format" value to something like `M d, Y`, which results in a time format like "Jun 21, 2021". See https://www.php.net/manual/en/datetime.format.php for other month, day, and year time format tokens.
 
 = Does this plugin include unit tests? =
 

@@ -9,7 +9,8 @@ This plugin is available in the WordPress Plugin Directory: https://wordpress.or
 
 1. Install via the built-in WordPress plugin installer. Or install the plugin code inside the plugins directory for your site (typically `/wp-content/plugins/`).
 2. Activate the plugin through the 'Plugins' admin menu in WordPress
-3. Optionally use the 'Blog Time' widget or the template tag `c2c_blog_time()` in a theme template file to display the blog's time at the time of the page's rendering.
+3. Optionally customize the time format used for displaying the time via the "Blog Time Format" setting found in Settings -> General.
+4. Optionally use the 'Blog Time' widget or the template tag `c2c_blog_time()` in a theme template file to display the blog's time at the time of the page's rendering.
 
 
 ## Additional Documentation
