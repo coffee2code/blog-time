@@ -9,6 +9,11 @@
     * New: Add `initialize_setting()`, `allowed_options()`, `display_option()`, `plugin_action_links()`, and `is_wp_55_or_later()`
 * Change: Use default time format if parameter or filter attempts to configure an empty string or non-string value
 * Fix: Add support for the 'T' timezone format character to the dynamic clock (support for which was removed from Moment.js awhile ago)
+* Change: Update bundled Moment.js to v2.29.1
+    * 2.29.1: https://gist.github.com/marwahaha/cc478ba01a1292ab4bd4e861d164d99b
+    * 2.29.0: https://gist.github.com/marwahaha/b0111718641a6461800066549957ec14
+    * 2.28.0: https://gist.github.com/marwahaha/028fd6c2b2470b2804857cfd63c0e94f
+    * 2.27.0: https://gist.github.com/marwahaha/5100c9c2f42019067b1f6cefc333daa7
 * Removed: Dropped support for long-deprecated `'blog_time_format'` filter. Use `'c2c_blog_time_format'` instead.
 * Change: Switch to use of `wp_add_inline_script()` instead of `wp_localize_script()`
 * Change: Add optional `$exit` arg to `report_time()` to allow not exiting after outputting the time
