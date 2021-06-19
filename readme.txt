@@ -72,8 +72,9 @@ Yes.
 
 == Screenshots ==
 
-1. A screenshot of the blog time being displayed in the admin toolbar.
-2. A screenshot of the 'Blog Time' widget.
+1. The blog time being displayed in the admin toolbar.
+2. The "Blog Time" widget.
+3. The "Blog Time Format" setting found on Settings -> General.
 
 
 == Template Tags ==

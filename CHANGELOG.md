@@ -7,6 +7,7 @@
     * New: Show default time format when setting is blank
     * New: Show inline notice below setting when time format is filtered, and indicate that it takes precedence over setting
     * New: Add `initialize_setting()`, `allowed_options()`, `display_option()`, `plugin_action_links()`, and `is_wp_55_or_later()`
+    * New: Add new screenshot
 * Change: Use default time format if parameter or filter attempts to configure an empty string or non-string value
 * Fix: Add support for the 'T' timezone format character to the dynamic clock (support for which was removed from Moment.js awhile ago)
 * Change: Update bundled Moment.js to v2.29.1
