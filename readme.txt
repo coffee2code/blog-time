@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 3.6.2
+Stable tag: 4.0
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
 
@@ -191,6 +191,46 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
+= 4.0 (2021-06-19) =
+Highlights:
+
+This recommended release introduces a setting for configuring the blog time format, adds support for the 'T' timezone format token, updates the bundled Moment.js library, improves documentation, restructures unit test files, notes compatibility through 5.7+, and incorporates numerous behind-the-scenes tweaks.
+
+Details:
+
+* New: Add setting for configuring time format
+    * New: Add "Blog Time Format" setting to the "General Settings" page.
+    * New: Add link to setting from plugin's action links
+    * New: Show default time format when setting is blank
+    * New: Show inline notice below setting when time format is filtered, and indicate that it takes precedence over setting
+    * New: Add `initialize_setting()`, `allowed_options()`, `display_option()`, `plugin_action_links()`, and `is_wp_55_or_later()`
+    * New: Add new screenshot
+* Change: Use default time format if parameter or filter attempts to configure an empty string or non-string value
+* Fix: Add support for the 'T' timezone format character to the dynamic clock (support for which was removed from Moment.js awhile ago)
+* Change: Update bundled Moment.js to v2.29.1
+    * 2.29.1: https://gist.github.com/marwahaha/cc478ba01a1292ab4bd4e861d164d99b
+    * 2.29.0: https://gist.github.com/marwahaha/b0111718641a6461800066549957ec14
+    * 2.28.0: https://gist.github.com/marwahaha/028fd6c2b2470b2804857cfd63c0e94f
+    * 2.27.0: https://gist.github.com/marwahaha/5100c9c2f42019067b1f6cefc333daa7
+* Removed: Dropped support for long-deprecated `'blog_time_format'` filter. Use `'c2c_blog_time_format'` instead.
+* Change: Switch to use of `wp_add_inline_script()` instead of `wp_localize_script()`
+* Change: Add optional `$exit` arg to `report_time()` to allow not exiting after outputting the time
+* Change: Improve some inline documentation
+* Change: Improve documentation and formatting in readme.txt
+* Change: Note compatibility through WP 5.7+
+* Change: Update URLs to PHP documentation for datetime formatting
+* Change: Update copyright date (2021)
+* Unit tests:
+    * Change: Restructure unit test directories and files into `tests/` top-level directory
+        * Change: Move `bin/` into `tests/`
+        * Change: Move `tests/bootstrap.php` into `tests/phpunit/`
+        * Change: In bootstrap, store path to plugin file constant so its value can be used within that file and in test file
+        * Change: Move `tests/*.php` into `tests/phpunit/tests/`
+        * Change: Remove 'test-' prefix from unit test files
+        * Change: Rename `phpunit.xml` to `phpunit.xml.dist` per best practices
+    * New: Add tests for `enqueue_js()`, `report_time()`, `admin_bar_menu()`
+* New: Add a few more possible TODO items
+
 = 3.6.2 (2020-06-11) =
 * Change: Update Moment.js to v2.26.0
     * 2.26.0: https://gist.github.com/marwahaha/0725c40740560854a849b096ea7b7590
@@ -215,37 +255,13 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 * Change: Note compatibility through WP 5.3+
 * Change: Update copyright date (2020)
 
-= 3.6 (2019-04-02) =
-* Change: Use minimized version of Moment.js library to reduce resource usage
-* Change: Update Moment.js to v2.24.0
-* Change: Change handle for enqueuing Moment.js to allow only one copy of the library being enqueued now that WP packages the library
-* Change: Remove `set_js_ajaxurl()` and localize `ajaxurl` alongside other variables instead of outputting it directly
-* Change: Initialize plugin on `plugins_loaded` action instead of on load
-* Change: Merge `do_init()` into `init()`
-* Change: Update widget framework to 013
-    * Add `get_config()` as a getter for config array
-* Change: Update widget to 008
-    * Update to use v013 of the widget framework
-* Change: Cast return value of `c2c_blog_time_toolbar_widget_for_user` and `c2c_blog_time_active_clock` filters as boolean
-* Change: Ensure widget markup uses double-quotes rather than single-quotes for class attribute values
-* Unit tests:
-    * Add unit test for `add_widget()`
-    * Add unit tests for `show_in_toolbar_for_user()`
-    * Add unit test for `c2c_blog_time_active_clock` filter
-    * Add unit test for `c2c_blog_time_toolbar_widget_for_user` filter
-    * Add unit tests for hooking of various actions
-* New: Add CHANGELOG.md file and move all but most recent changelog entries into it
-* New: Add inline documentation for hooks
-* Change: Use `apply_filters_deprecated()` when using the deprecated filter
-* Change: Note compatibility through WP 5.1+
-* Change: Update copyright date (2019)
-* Change: Update License URI to be HTTPS
-* Change: Split paragraph in README.md's "Support" section into two
-
 _Full changelog is available in [CHANGELOG.md](https://github.com/coffee2code/blog-time/blob/master/CHANGELOG.md)._
 
 
 == Upgrade Notice ==
+
+= 4.0 =
+Recommended update: ntroduced setting for configuring blog time format, added support for 'T' timezone format token, updated bundled Moment.js library, improved documentation, restructured unit test files, noted compatibility through 5.7+, and incorporated numerous behind-the-scenes tweaks.
 
 = 3.6.2 =
 Minor update: Updated the Moment.js library, added TODO.md file, updated a few URLs to be HTTPS, expanded unit testing, and noted compatibility through WP 5.4+.

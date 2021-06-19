@@ -1,6 +1,13 @@
 # Changelog
 
-## _(in-progress)_
+## 4.0 _(2021-06-19)_
+
+### Highlights:
+
+This recommended release introduces a setting for configuring the blog time format, adds support for the 'T' timezone format token, updates the bundled Moment.js library, improves documentation, restructures unit test files, notes compatibility through 5.7+, and incorporates numerous behind-the-scenes tweaks.
+
+### Details:
+
 * New: Add setting for configuring time format
     * New: Add "Blog Time Format" setting to the "General Settings" page.
     * New: Add link to setting from plugin's action links
