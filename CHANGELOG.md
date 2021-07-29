@@ -1,6 +1,7 @@
 # Changelog
 
 ## _(in-progress)_
+* Fix: Ensure inline script is only output once per pageload to prevent issue when blog time appears on page multiple times, which resulted in all acting as if static
 * Change: Note compatibility through WP 5.8+
 
 ## 4.0 _(2021-06-19)_

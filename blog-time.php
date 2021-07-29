@@ -63,6 +63,15 @@ class c2c_BlogTime {
 	private static $config = array();
 
 	/**
+	 * Internally used flag to indicate if inline JS script has been added.
+	 *
+	 * @access private
+	 * @since 4.0.1
+	 * @var bool
+	 */
+	private static $added_inline = false;
+
+	/**
 	 * Returns version of the plugin.
 	 *
 	 * @since 3.0
@@ -254,11 +263,14 @@ class c2c_BlogTime {
 		wp_enqueue_script( 'moment', plugins_url( 'js/moment.min.js', __FILE__ ), array(), '2.29.1', true );
 		wp_enqueue_script( __CLASS__, plugins_url( 'js/blog-time.js', __FILE__ ), array( 'jquery', 'moment' ), self::version(), true );
 
-		wp_add_inline_script( __CLASS__, 'const ' . __CLASS__ . ' = ' . json_encode( array(
-			'ajaxurl'     => admin_url( 'admin-ajax.php' ),
-			'time_format' => self::get_time_format( '', 'momentjs' ),
-			'utc_offset'  => self::display_time( 'O', 'utc-offset' ),
-		) ), 'before' );
+		if ( ! self::$added_inline ) {
+			wp_add_inline_script( __CLASS__, 'const ' . __CLASS__ . ' = ' . json_encode( array(
+				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
+				'time_format' => self::get_time_format( '', 'momentjs' ),
+				'utc_offset'  => self::display_time( 'O', 'utc-offset' ),
+			) ), 'before' );
+			self::$added_inline = true;
+		}
 	}
 
 	/**
