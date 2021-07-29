@@ -32,6 +32,8 @@ class Blog_Time_Test extends WP_UnitTestCase {
 		wp_dequeue_script( 'jquery' );
 		wp_dequeue_script( 'moment' );
 		wp_dequeue_script( 'c2c_BlogTime' );
+
+		c2c_BlogTime::reset();
 	}
 
 
@@ -145,6 +147,17 @@ class Blog_Time_Test extends WP_UnitTestCase {
 
 	public function test_widget_made_available() {
 		$this->assertContains( 'c2c_BlogTimeWidget', array_keys( $GLOBALS['wp_widget_factory']->widgets ) );
+	}
+
+
+	/*
+	 * reset()
+	 */
+
+
+	// Function resets private memoized variables, so not much to test other than no errors happen.
+	public function test_reset() {
+		$this->assertEmpty( c2c_BlogTime::reset() );
 	}
 
 

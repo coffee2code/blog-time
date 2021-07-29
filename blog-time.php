@@ -88,9 +88,7 @@ class c2c_BlogTime {
 		// Load textdomain.
 		load_plugin_textdomain( 'blog-time' );
 
-		self::$config = array(
-			'time_format' => __( 'g:i A', 'blog-time' )
-		);
+		self::reset();
 
 		// Register hooks.
 		add_action( 'admin_init',                 array( __CLASS__, 'initialize_setting' ) );
@@ -99,6 +97,21 @@ class c2c_BlogTime {
 		add_action( 'wp_enqueue_scripts',         array( __CLASS__, 'enqueue_js' ) );
 		add_action( 'wp_ajax_report_time',        array( __CLASS__, 'report_time' ) );
 		add_action( 'wp_ajax_nopriv_report_time', array( __CLASS__, 'report_time' ) );
+	}
+
+	/**
+	 * Resets the class.
+	 *
+	 * Primarily restores memoization variables to default values.
+	 *
+	 * @since 4.0.1
+	 */
+	public static function reset() {
+		self::$config = array(
+			'time_format' => __( 'g:i A', 'blog-time' )
+		);
+
+		self::$added_inline = false;
 	}
 
 	/**
