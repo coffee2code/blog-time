@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Blog Time
- * Version:     4.0
+ * Version:     4.0.1
  * Plugin URI:  https://coffee2code.com/wp-plugins/blog-time/
  * Author:      Scott Reilly
  * Author URI:  https://coffee2code.com/
@@ -18,7 +18,7 @@
  *
  * @package Blog_Time
  * @author  Scott Reilly
- * @version 4.0
+ * @version 4.0.1
  */
 
 /*
@@ -77,7 +77,7 @@ class c2c_BlogTime {
 	 * @since 3.0
 	 */
 	public static function version() {
-		return '4.0';
+		return '4.0.1';
 	}
 
 	/**

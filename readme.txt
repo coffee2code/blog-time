@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 4.0
+Stable tag: 4.0.1
 
 Display the time according to your blog via an admin toolbar widget, a sidebar widget, and/or a template tag.
 
@@ -191,6 +191,11 @@ add_filter( 'c2c_blog_time_active_clock', '__return_false' );
 
 == Changelog ==
 
+= 4.0.1 (2021-07-29) =
+* Fix: Ensure inline script is only output once per pageload to prevent issue when blog time appears on page multiple times, which resulted in all acting as if static
+* New: Add `reset()` to restore memoized class variables to default values
+* Change: Note compatibility through WP 5.8+
+
 = 4.0 (2021-06-19) =
 Highlights:
 
@@ -250,18 +255,16 @@ Details:
     * Change: Use HTTPS for link to WP SVN repository in bin script for configuring unit tests (and delete commented-out code)
     * Change: Remove unnecessary unregistering of hooks in `tearDown()`
 
-= 3.6.1 (2019-12-01) =
-* Change: Update unit test install script and bootstrap to use latest WP unit test repo
-* Change: Note compatibility through WP 5.3+
-* Change: Update copyright date (2020)
-
 _Full changelog is available in [CHANGELOG.md](https://github.com/coffee2code/blog-time/blob/master/CHANGELOG.md)._
 
 
 == Upgrade Notice ==
 
+= 4.0.1 =
+Recommended bugfix update: fixed bug that made all blog times static when more than one blog time was being shown on a page and also noted compatibility through 5.8+
+
 = 4.0 =
-Recommended update: ntroduced setting for configuring blog time format, added support for 'T' timezone format token, updated bundled Moment.js library, improved documentation, restructured unit test files, noted compatibility through 5.7+, and incorporated numerous behind-the-scenes tweaks.
+Recommended update: introduced setting for configuring blog time format, added support for 'T' timezone format token, updated bundled Moment.js library, improved documentation, restructured unit test files, noted compatibility through 5.7+, and incorporated numerous behind-the-scenes tweaks.
 
 = 3.6.2 =
 Minor update: Updated the Moment.js library, added TODO.md file, updated a few URLs to be HTTPS, expanded unit testing, and noted compatibility through WP 5.4+.
